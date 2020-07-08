@@ -2,7 +2,7 @@
 	"group": "atlascine",
 	"id": "media",
 	"label": "Media",
-	"relatedSchemas": ["atlascine_subtitle"],
+	"relatedSchemas": [],
 	"attributes": [
 		{
 			"type": "title",
