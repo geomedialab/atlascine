@@ -45,3 +45,14 @@ To update this you will need to do the following;
 Atlas style changes can be performed by adding style rules in the htdocs/css/atlas.css file. 
 
 *Note*: If the style rules are not being picked up, use the browser developer tools to inspect the element. It's possible a more specific css rule is over-riding your new rule.
+
+### Adding Videos and SRT Files:
+The template atlas comes with no Cinemap, media, or subtitle files. 
+
+Steps to Create Cinemap Documents:
+
+1. First create a new media document, fill in the form details, and save the document. This can be done in either the data browser tools page or on the editor module. 
+2. Next create a subtitle document for the media doc in step 1. Open that media document in the editor module, and click the 'add releated item' button and select the drop down option 'sub-title'. Next fill in the details for creating a new sub-title document and save.
+3. Lastly create a new cinemap document through the editor module, and reference the media document you created in step 1. 
+
+Note: If you need a sample video and srt document, you can find one at this [URL](http://www.storiesinflight.com/js_videosub/)
