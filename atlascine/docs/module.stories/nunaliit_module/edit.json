@@ -1,6 +1,6 @@
 {
 	"defaultSchemaName": "atlascine_cinemap"
-	,"newDocumentSchemaNames": ["atlascine_cinemap", "atlascine_media"]
+	,"newDocumentSchemaNames": ["atlascine_cinemap", "atlascine_media", "atlascine_subtitle"]
 	,"enableAddFile": false
 	,"maxAudioRecordingLengthSeconds": 300
 	,"maxVideoRecordingLengthSeconds": 300
