@@ -2,14 +2,16 @@
 
 A repository containing an AtlasCine atlas template. It contains all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content. 
 
-## Steps to copy and run atlascine template:
+## Steps to copy and run the atlascine template:
 The following steps describe the process of copying the atlascine atlas template, configuring the atlas, and running it.
 
-1. Clone the repository to your system in a terminal using the `git clone https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git`.
-2. Enter Gitlab Username and Password.
-3. Copy the atlas template directory 'atlascine' contents to the location you want a new Nunaliit atlas.
-4. Run the `nunaliit config` command to condifure the atlas (e.g. CouchDb password).
-5. Run a `nunaliit update` & `nunaliit run` on your new atlas to apply the AtlasCine content changes. 
+1. Clone the repository to your system in a terminal using the `git clone https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git` and enter your gitlab username and password.
+2. Alternatively, you can also download this entire branch through the gitlab web interface.
+3. Copy the atlas template directory 'atlascine' contents to the location you want a new Nunaliit atlas to be.
+4. If you're renaming the atlas, rename the folder from 'atlascine' to 'your_atlas_name'.
+4. Run the `nunaliit config` command inside the atlas directory to configure the atlas (e.g. setting the CouchDb password, atlas name, port number, etc).
+5. Run a `nunaliit update` & `nunaliit run` on your new atlas. 
+6. Open a browser to localhost:<your_specified_port> (e.g. localhost:8080).
 
 *Note:* For the above steps to work properly, make sure you have the latest branch-for-atlascine Nunaliit build. Currently there is code unique to atlascine in this branch which is required to run this type of atlas.
 
