@@ -4,6 +4,7 @@
 		,"sourceModelId":"cineMapFilter"
 		,"containerClass": "nunaliit_module_title"
 		,"suppressAllChoices": true
+		,"suppressNoChoice": true
 	}
 	,{
 		"widgetType": "annotationEditorWidget"
@@ -11,7 +12,8 @@
 		,"containerId": "content"
 	}
 	,{
-		"widgetType": "transcriptWidget"
+		"_comment": "timeTable key appears to be required for widget to work"
+		,"widgetType": "transcriptWidget"
 		,"containerClass": "n2_content_text"
 		,"name": "trans1"
 		,"sourceModelId": "time"
