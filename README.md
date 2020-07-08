@@ -27,4 +27,19 @@ In this template's modules you may find in either/both of the en.html and the ut
 4. On disk replace the `insert_wiki_doc_id` values in the module's en.html and utilities.json files with the copied document id.
 5. Run an `nunaliit update`.
 
+### Updating the home page slides:
+The atlas template includes a home page with a working slide show, but with 3 dummy slides images with loren ipsum dummy text content. 
 
+To update this you will need to do the following;
+
+1. If you're adding new images to the page, add them to the htdocs directory. I recommend the htdocs/images directory (note: you should see 3 slides image files already in there).
+2. In the docs/module.home/introduction/content directory you will find the module's en.html file. Open this file for editting.
+3. In this file you will be able to replace the background-image url references to the dummy images (e.g. replace `<div class="jr_slideshow_slide" style="background-image:url('./images/slide1.jpg')">` with `<div class="jr_slideshow_slide" style="background-image:url('./images/my_new_slide.jpg')">`)
+4. Additionally you will be able to replace the text content found beneth the image you replaced in step 3. 
+
+*Tip:* For full width slide images, I commonly try to have images which are a minimum of 2000px * 800px in dimensions. Since this is a large image, which can effect load times, it may be worth applying an image compression to the image (note: be careful to note over-compress the images since this will produce pixlated results).
+
+### Updating web page styling:
+Atlas style changes can be performed by adding style rules in the htdocs/css/atlas.css file. 
+
+*Note*: If the style rules are not being picked up, use the browser developer tools to inspect the element. It's possible a more specific css rule is over-riding your new rule.
