@@ -1,0 +1,37 @@
+<div class="n2_documentDisplay">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_time_artifact">
+			<div class="title mdc-typography--headline6">
+				<div class="value n2s_localize">Time Artifact</div>
+				<div class="end"></div>
+			</div>
+			{{#atlascine_time_artifact}}
+				{{#if title}}
+					<div class="atlascine_time_artifact_title">
+						<div class="label n2s_localize mdc-typography--subtitle2">Title</div>
+						<div class="value">{{title}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_time_artifact}}
+			{{#atlascine_time_artifact}}
+				{{#if description}}
+					<div class="atlascine_time_artifact_description">
+						<div class="label n2s_localize mdc-typography--subtitle2">Description</div>
+						<div class="value n2s_preserveSpaces n2s_installMaxHeight" _maxheight="100">{{description}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_time_artifact}}
+			{{#atlascine_time_artifact}}
+				{{#date}}
+					<div class="atlascine_time_artifact_date">
+						<div class="label n2s_localize mdc-typography--subtitle2">Date</div>
+						<div class="value">{{date}}</div>
+						<div class="end"></div>
+					</div>
+				{{/date}}
+			{{/atlascine_time_artifact}}
+		</div>
+	</div>
+</div>

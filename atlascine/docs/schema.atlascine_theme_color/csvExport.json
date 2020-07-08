@@ -1,0 +1,12 @@
+[
+	{
+		"select": "atlascine_theme_color.title",
+		"label": "title",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_theme_color.description",
+		"label": "description",
+		"type": "text"
+	}
+]

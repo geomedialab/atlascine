@@ -1,0 +1,46 @@
+[
+	{
+		"_comment": "Load all documents from layer public"
+		,"modelType":"couchDb"
+		,"modelId": "couchDb"
+		,"selectors": [
+			{
+				"type":"couchDbLayer"
+				,"options": {
+					"layerId": "public"
+				}
+				,"name": {
+					"nunaliit_type": "localized"
+					,"en": "Public"
+				}
+				,"visibility": true
+			}
+		]
+	},
+	{
+		"_comment": "Load all atlascine_place documents"
+		,"modelType":"couchDb"
+		,"modelId": "atlascine_places"
+		,"selectors": [
+			{
+				"type":"couchDbSchema"
+				,"options": {
+					"schemaName": "atlascine_place"
+				}
+			}
+		]
+	},
+	{
+		"_comment": "Load all atlascine_cinemap documents"
+		,"modelType":"couchDb"
+		,"modelId": "atlascine_cinemaps"
+		,"selectors": [
+			{
+				"type":"couchDbSchema"
+				,"options": {
+					"schemaName": "atlascine_cinemap"
+				}
+			}
+		]
+	}
+]

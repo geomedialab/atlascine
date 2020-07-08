@@ -1,0 +1,17 @@
+[
+	{
+		"select": "atlascine_cinemap.title",
+		"label": "title",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_cinemap.description",
+		"label": "description",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_cinemap.media_doc_ref.doc",
+		"label": "media_doc_ref",
+		"type": "text"
+	}
+]

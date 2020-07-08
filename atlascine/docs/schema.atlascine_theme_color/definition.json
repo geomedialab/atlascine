@@ -1,0 +1,25 @@
+{
+	"group": "atlascine"
+	,"id": "theme_color"
+	,"label": "Theme_Color"
+	, "initialLayers" : []
+	, "relatedSchemas" : []
+	,"attributes": [
+		{
+			"type" : "title"
+			,"label" : "Theme_Color"
+		},
+		{
+			"type" : "string"
+			,"label" : "Title"
+			,"id" : "title"
+			,"placeholder" : "Title"
+		},
+		{
+			"type" : "string"
+			,"label" : "Description"
+			,"id" : "description"
+			,"placeholder" : "Description"
+		}
+	]
+}

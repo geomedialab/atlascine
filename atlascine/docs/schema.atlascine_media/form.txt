@@ -1,0 +1,24 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_media">
+			<div class="title">
+				<div class="value mdc-typography--headline6 n2s_localize">Media</div>
+				<div class="end"></div>
+			</div>
+{{#atlascine_media}}
+<div class="atlascine_media_caption">
+	<div class="value">
+		{{#:field}}caption,id=caption,textarea,label=Caption,placeholder=Caption{{/:field}}
+	</div>
+</div>
+{{/atlascine_media}}
+			{{#atlascine_media}}
+				<div class="atlascine_media_credit">
+					<div class="value">
+						{{#:field}}credit,id=credit,label=Credit,placeholder=Credit{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_media}}
+		</div>
+	</div>
+</div>

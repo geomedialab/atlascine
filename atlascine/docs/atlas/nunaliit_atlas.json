@@ -1,0 +1,95 @@
+{
+  "nunaliit_type": "atlas",
+  "nunaliit_navigation": {
+	"title":{
+		"nunaliit_type":"localized"
+		,"en":"Atlascine"
+		,"fr":"Atlascine"
+	}
+    ,"items":[
+		{
+			"title" : {
+					"nunaliit_type":"localized"
+					,"en": "Home"
+					,"fr": "Accueil"
+			}
+			,"module": "module.home"
+		},
+		{
+			"title": {
+				"nunaliit_type":"localized"
+				,"en": "Maps"
+				,"fr": "Plans"
+			}
+			,"module": "module.stories"
+			,"items":[
+				{
+					"title": {
+						"nunaliit_type": "localized"
+						,"en": "Stories"
+						,"fr": "Histoires"
+					},
+					"module": "module.stories"
+				}
+				,{
+					"title": {
+						"nunaliit_type": "localized"
+						,"en": "Editor"
+						,"fr": "Monteur"
+					},
+					"module": "module.editor"
+				}
+			]
+		},
+		{
+			"title" : {
+					"nunaliit_type":"localized"
+					,"en": "Tutorial"
+					,"fr": "Didacticiel"
+			}
+			,"module": "module.tutorial"
+		},
+		{
+			"title" : {
+					"nunaliit_type": "localized"
+					,"en": "About"
+					,"fr": "Sur"
+			}
+			,"module": "module.about"
+		}
+	]
+  },
+  "default_module": "module.home",
+  "nunaliit_metadata": {
+    "license": "",
+    "creator": {
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "",
+        "telephone": "",
+        "email": ""
+      },
+      "@type": "Organization",
+      "name": "",
+      "url": ""
+    },
+    "dateCreated": "",
+    "keywords": [
+    ],
+    "temporalCoverage": "",
+    "@type": "Dataset",
+    "name": "",
+    "description": "",
+    "spatialCoverage": {
+      "geo": {
+        "@type": "GeoShape",
+        "box": ""
+      },
+      "@type": "Place"
+    },
+    "@context": {
+      "@vocab": "http://schema.org/"
+    },
+    "url": ""
+  }
+}

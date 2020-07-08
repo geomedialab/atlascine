@@ -1,0 +1,61 @@
+{
+	"nunaliit_type":"navigation"
+	,"title":{
+		"nunaliit_type":"localized"
+		,"en":"Atlascine"
+		,"fr":"Atlascine"
+	}
+    ,"items":[
+			{
+				"title" : {
+						"nunaliit_type":"localized"
+						,"en": "Home"
+						,"fr": "Accueil"
+				}
+				,"module": "module.home"
+			},
+
+		{
+			"title": {
+				"nunaliit_type":"localized"
+				,"en": "Maps"
+				,"fr": "Plans"
+			}
+			,"module": "module.stories"
+			,"items":[
+				{
+					"title": {
+						"nunaliit_type": "localized"
+						,"en": "Stories"
+						,"fr": "Histoires"
+					},
+					"module": "module.stories"
+				}
+				,{
+					"title": {
+						"nunaliit_type": "localized"
+						,"en": "Editor"
+						,"fr": "Monteur"
+					},
+					"module": "module.editor"
+				}
+			]
+		},
+		{
+			"title" : {
+					"nunaliit_type":"localized"
+					,"en": "Tutorial"
+					,"fr": "Didacticiel"
+			}
+			,"module": "module.tutorial"
+		},
+		{
+			"title" : {
+					"nunaliit_type": "localized"
+					,"en": "About"
+					,"fr": "Sur"
+			}
+			,"module": "module.about"
+		}
+	]
+}

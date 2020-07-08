@@ -1,0 +1,4 @@
+<span class="atlascine_subtitle_brief">
+	<span class="n2s_localize atlascine_subtitle_brief_decoration">Subtitle (</span>
+	<span class="atlascine_subtitle_brief_decoration">)</span>
+</span>

@@ -1,0 +1,14 @@
+{
+	"nunaliit_type":"help"
+	,"title": {
+		"nunaliit_type":"localized"
+		,"en":"Help"
+		,"fr":"Aide"
+	}
+	,"type":"html"
+	,"content":{
+		"nunaliit_type":"localized"
+		,"en":"<b>Site under development<br>For how to use the platform, refer to the Tutorial page.<br>Contact us by writing to <i>sebastien.caquard@concordia.ca<i/></b>"
+		,"fr":"<b>Site en construction. Pour toute question, contactez sebastien.caquard@concordia.ca</b>"
+	}
+}

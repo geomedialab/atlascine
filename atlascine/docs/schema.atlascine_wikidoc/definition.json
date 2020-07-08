@@ -1,0 +1,24 @@
+{
+	"id": "wikidoc"
+	,"group": "atlascine"
+	,"label": "Wiki Document"
+	,"relatedSchemas": []
+	,"initialLayers": []
+	,"attributes":[
+		{
+			"type":"string"
+			,"id":"title"
+			,"label":"Title"
+			,"includedInBrief":true
+			,"excludedFromDisplay":true
+		}
+		,{
+			"type":"localized"
+			,"id":"content"
+			,"label":""
+			,"includedInBrief":false
+			,"textarea": true
+			,"wikiTransform":true
+		}
+	]
+}

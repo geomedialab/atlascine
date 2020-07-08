@@ -1,0 +1,9 @@
+<span class="atlascine_place_brief">
+	<span class="n2s_localize atlascine_place_brief_decoration">Place (</span>
+	{{#atlascine_place}}
+		{{#if name}}
+			<span class="atlascine_place_name">{{name}}</span>
+		{{/if}}
+	{{/atlascine_place}}
+	<span class="atlascine_place_brief_decoration">)</span>
+</span>

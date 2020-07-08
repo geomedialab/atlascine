@@ -1,0 +1,16 @@
+[
+	{
+		"select": "atlascine_subtitle.language",
+		"label": "language",
+		"type": "json"
+	},
+	{
+		"select": "atlascine_subtitle.linkedMediaDocId.doc",
+		"label": "linkedMediaDocId",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_subtitle.null",
+		"type": "json"
+	}
+]

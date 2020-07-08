@@ -1,0 +1,15 @@
+<div class="n2_documentDisplay">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_wikidoc">
+			{{#atlascine_wikidoc}}
+				{{#if content}}
+					<div class="atlascine_wikidoc_content">
+						<div class="label n2s_localize mdc-typography--subtitle2"></div>
+						<div class="value n2s_wikiTransform">{{#:localize}}content{{/:localize}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_wikidoc}}
+		</div>
+	</div>
+</div>

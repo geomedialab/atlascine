@@ -1,0 +1,24 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_theme_color">
+			<div class="title">
+				<div class="value mdc-typography--headline6 n2s_localize">Theme_Color</div>
+				<div class="end"></div>
+			</div>
+			{{#atlascine_theme_color}}
+				<div class="atlascine_theme_color_title">
+					<div class="value">
+						{{#:field}}title,id=title,label=Title,placeholder=Title{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_theme_color}}
+			{{#atlascine_theme_color}}
+				<div class="atlascine_theme_color_description">
+					<div class="value">
+						{{#:field}}description,id=description,label=Description,placeholder=Description{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_theme_color}}
+		</div>
+	</div>
+</div>

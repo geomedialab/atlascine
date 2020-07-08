@@ -1,0 +1,35 @@
+{
+	"id": "subtitle",
+	"group": "atlascine"
+	,"label": "Subtitle"
+	,"relatedSchemas": []
+	,"initialLayers": []
+	,"attributes": [
+		{
+			"type":"selection"
+			,"id":"language"
+			,"label":"Language"
+			,"options":[
+				{
+					"label": "English"
+					,"value": "en"
+				}
+				,{
+					"label": "French"
+					,"value": "fr"
+				}
+			]
+		},
+	    {
+		    "type" : "reference"
+		    ,"id" : "linkedMediaDocId"
+		    ,"label": "Linked Media Document"
+		    ,"searchFunction" : "getDocumentFromSchema('atlascine_media')"
+        }
+		,{
+			"type": "file",
+			"label": "Subtitle File",
+			"uploadOptional": false
+		}
+	]
+}

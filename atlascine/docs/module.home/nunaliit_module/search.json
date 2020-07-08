@@ -1,0 +1,7 @@
+{
+	"disabled": false
+	,"constraint" : {
+		"type" : "model"
+		,"sourceModelIds" : ["atlascine_cinemaps"]
+	}
+}

@@ -1,0 +1,21 @@
+[
+	{
+		"utilityType": "assignLayerOnDocumentCreation"
+		,"layerId": "public"
+		,"onlyWithGeometries": true
+	},
+	{
+		"utilityType": "cinemaSelectionRedirector"
+		,"name": "trans1"
+	},
+	{
+		"utilityType": "tagUtility"
+		, "name" : "tagUtility"
+		, "sourceModelId": "cineMapFilter"
+	},
+	{
+		"utilityType": "placeUtility"
+		, "name" : "placeUtility"
+		, "sourceModelId": "atlascine_places"
+	}
+]

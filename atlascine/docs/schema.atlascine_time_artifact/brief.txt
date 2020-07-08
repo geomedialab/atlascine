@@ -1,0 +1,9 @@
+<span class="atlascine_time_artifact_brief">
+	<span class="n2s_localize atlascine_time_artifact_brief_decoration">Time Artifact (</span>
+	{{#atlascine_time_artifact}}
+		{{#if title}}
+			<span class="atlascine_time_artifact_title">{{title}}</span>
+		{{/if}}
+	{{/atlascine_time_artifact}}
+	<span class="atlascine_time_artifact_brief_decoration">)</span>
+</span>

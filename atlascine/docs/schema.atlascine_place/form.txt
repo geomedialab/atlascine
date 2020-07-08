@@ -1,0 +1,16 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_place">
+			{{#atlascine_place}}
+				<div class="atlascine_place_name">
+					<div class="value">
+						{{#:field}}name,id=name,label=Name{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_place}}
+			<div class="nunaliit_geom">
+				<div class="value">{{#:field}}nunaliit_geom,geometry,label=WKT%20Geometry{{/:field}}</div>
+			</div>
+		</div>
+	</div>
+</div>

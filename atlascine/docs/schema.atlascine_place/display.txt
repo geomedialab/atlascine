@@ -1,0 +1,22 @@
+<div class="n2_documentDisplay">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_place">
+			{{#atlascine_place}}
+				{{#if name}}
+					<div class="atlascine_place_name">
+						<div class="label n2s_localize mdc-typography--subtitle2">Name</div>
+						<div class="value">{{name}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_place}}
+			{{#nunaliit_geom}}
+				<div class="nunaliit_geom">
+					<div class="label n2s_localize mdc-typography--subtitle2">WKT Geometry</div>
+					<div class="value">{{wkt}}</div>
+					<div class="end"></div>
+				</div>
+			{{/nunaliit_geom}}
+		</div>
+	</div>
+</div>

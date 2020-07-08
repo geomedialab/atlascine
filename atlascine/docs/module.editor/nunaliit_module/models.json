@@ -1,0 +1,30 @@
+[
+	{
+		"modelType":"couchDb"
+		,"modelId": "documentModel"
+		,"selectors": [
+			{
+				"type":"couchDbLayer"
+				,"options": {
+					"layerId": "public"
+				}
+				,"name": {
+					"nunaliit_type": "localized"
+					,"en": "Public"
+				}
+				,"visibility": true
+			}
+			,{
+				"type":"couchDbLayer"
+				,"options": {
+					"layerId": "approved"
+				}
+				,"name": {
+					"nunaliit_type": "localized"
+					,"en": "Approved"
+				}
+				,"visibility": true
+			}
+		]
+	}
+]

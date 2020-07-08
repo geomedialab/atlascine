@@ -1,0 +1,12 @@
+[
+	{
+		"select": "atlascine_wikidoc.title",
+		"label": "title",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_wikidoc.content",
+		"label": "content",
+		"type": "json"
+	}
+]

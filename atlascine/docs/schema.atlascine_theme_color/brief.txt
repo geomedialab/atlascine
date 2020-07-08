@@ -1,0 +1,4 @@
+<span class="atlascine_theme_color_brief">
+	<span class="n2s_localize atlascine_theme_color_brief_decoration">Theme_Color (</span>
+	<span class="atlascine_theme_color_brief_decoration">)</span>
+</span>

@@ -1,0 +1,183 @@
+/*
+	This is a CSS file designed to hold declarations specific
+	for this atlas.
+*/
+.mejs__controls{
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    opacity: 1;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.35));
+}
+
+.nunaliit_content .n2timeline {
+    display : none;
+}
+
+.ol-control.ol-timeline {
+    display : none;
+}
+.n2_scripteditor_sidebar{
+	
+	display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    top: 0;
+    float: left;
+    bottom: 0;
+    width: 210px;
+    background-color: #DDDDDD;
+    font-family: OpenSans;
+    box-sizing: border-box;
+}
+.n2_scripteditor_sidebar_header {
+	background-color: #AAAAAA;
+    height: 70px;
+    box-sizing: border-box;
+    padding: 12px 10px;
+    font-family: PTSansNarrow;
+    font-size: 15px;
+    width: 210px;
+}
+
+.n2_scriptEditor_script_content {
+    position: relative;
+    margin: 0 0 50px 210px;
+    padding: 50px 50px 0 30px;
+    line-height: 210%;
+    font-family: "Times New Roman", Times, serif;
+    white-space: pre-wrap;
+    font-size: 17px;
+    min-width: 568px;
+    max-width: 1024px;
+    word-wrap: break-word;
+    height: 100%;
+    /* float: right; */
+    overflow: hidden;
+    /* white-space: nowrap; */
+    width: 100px;
+}
+
+.cls-context-menu-link {
+    display:block;
+    padding:20px;
+    background:#ECECEC;
+}
+
+.transcript-context-menu { position:absolute; display:block; }
+.transcript-context-menu-hide { position:absolute; display:none; }
+
+
+.transcript-context-menu ul {
+    list-style:none;
+    margin:0; padding:0;
+    background:white;
+}
+
+.transcript-context-menu { border:solid 1px #CCC;}
+.transcript-context-menu li { border-bottom:solid 1px #CCC; }
+.transcript-context-menu li:last-child { border:none; }
+.transcript-context-menu li  {
+    display:block;
+    padding:5px 10px; 
+    text-decoration:none;
+    color:blue;
+}
+.transcript-context-menu li:hover {
+    background:blue;
+    color:#FFF;
+}
+.mdc-card__media.mdc-card__media--square {
+	width:110px;
+}
+.mdc-card__primary-action {
+	display: flex;
+	flex-direction: row;
+}
+.n2card__primary {
+	padding-left: 15px;
+	width: 200px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/* -------------------- Homepage Style Rules for JR Slider ------------------ */
+.nunaliit_module_module_056home #jr_slideshow {
+	height: 800px;
+}
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_container:not(.active):not(.last-active) {
+	top:unset;
+	right:unset;
+	background-color: unset;
+	background-image: unset;
+	border:unset;
+	padding:0px;
+	position:absolute;
+	z-index: 0;
+	display: block;
+}
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_container .jr_slideshow_slide {
+	position: absolute;
+   	width: 100%;
+   	height: 600px;
+   	background-color: #000000;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_slide .jr_slideshow_slidetext {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 20%;
+	min-width: 300px;
+	background-color: rgba(255,255,255,0.8);
+	padding: 20px;
+	border-radius: 2px;
+	z-index:2;
+}
+
+/* Remove underline beneath hyperlinks */
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_slide .jr_slideshow_slidetext a{
+	text-decoration: none;
+}
+
+/* Note: button z-index is +1 above the jr_slideshow_slidetext div, in order for it to be clickable */
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_button{
+	padding:5px;
+	background-color: #3465a4;
+	border-radius:2px;
+	border: 1px solid #204a87;
+	color: #FFFFFF;
+	z-index:3;
+}
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_button:hover{
+	background-color: #4e9a06;
+	border: 1px solid #3e7a06;
+	transition: 0.3s;
+}
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_slide .jr_slideshow_slidetext p {
+	padding-top: 7px;
+}
+
+/* #overview_content = wrapper for overview text content beneath jr_slider */
+.nunaliit_module_module_056home #main {
+	padding: 15px 40px 15px 40px;
+}
+
+/* Remove standard padding rules for pages, in order to allow jr_slider to fit 100% of screen size */
+.nunaliit_module_module_056home .n2_content_text,
+.nunaliit_module_module_056home .n2ModuleIntro {
+	padding:0px !important;
+}
+
+.nunaliit_module_module_056home div#overview_content {
+    margin: 10px;
+}
+

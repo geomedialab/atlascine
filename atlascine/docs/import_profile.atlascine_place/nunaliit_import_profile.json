@@ -1,0 +1,18 @@
+{
+       "nunaliit_type": "import_profile",
+       "id": "atlascine_place",
+       "label": {
+           "nunaliit_type": "localized",
+           "en": "Atlascine Place"
+       },
+       "type": "geojson",
+       "options": {
+           "idAttribute": "id"
+       },
+       "operations": [
+           "copyAllAndFixNames(atlascine_place)"
+       ],
+       "schemaName": "atlascine_place",
+       "layerName": "public"
+}
+

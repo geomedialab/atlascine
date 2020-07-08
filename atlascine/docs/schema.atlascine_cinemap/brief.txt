@@ -1,0 +1,9 @@
+<span class="atlascine_cinemap_brief">
+	<span class="n2s_localize atlascine_cinemap_brief_decoration">Cinemap (</span>
+	{{#atlascine_cinemap}}
+		{{#if title}}
+			<span class="atlascine_cinemap_title">{{title}}</span>
+		{{/if}}
+	{{/atlascine_cinemap}}
+	<span class="atlascine_cinemap_brief_decoration">)</span>
+</span>

@@ -1,0 +1,33 @@
+{
+	"id": "cinemap",
+	"group": "atlascine",
+	"label": "Cinemap",
+	"relatedSchemas": [],
+	"initialLayers": [],
+	"attributes": [
+		{
+			"type": "title",
+			"label": "Cinemap"
+		},
+		{
+			"type": "string",
+			"label": "Title",
+			"id": "title",
+			"includedInBrief": true,
+			"placeholder": "Title"
+		},
+		{
+			"type": "string",
+			"label": "Description",
+			"id": "description",
+			"textarea": true,
+			"placeholder": "Description"
+		},
+		{
+			"type": "reference",
+			"label": "Media Document",
+			"id": "media_doc_ref",
+		    "searchFunction" : "getDocumentFromSchema('atlascine_media')"
+		}
+	]
+}

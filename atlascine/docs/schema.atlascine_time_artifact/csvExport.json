@@ -1,0 +1,17 @@
+[
+	{
+		"select": "atlascine_time_artifact.title",
+		"label": "title",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_time_artifact.description",
+		"label": "description",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_time_artifact.date.date",
+		"label": "date",
+		"type": "text"
+	}
+]

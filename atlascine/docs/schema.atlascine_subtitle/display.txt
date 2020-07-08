@@ -1,0 +1,43 @@
+<div class="n2_documentDisplay">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_subtitle">
+			{{#atlascine_subtitle}}
+				{{#if language}}
+					<div class="atlascine_subtitle_language">
+						<div class="label n2s_localize mdc-typography--subtitle2">Language</div>
+						<div class="value n2s_select" n2-choice="{{language}}">
+							<span class="n2s_choice n2s_localize" n2-choice="en">English</span>
+							<span class="n2s_choice n2s_localize" n2-choice="fr">French</span>
+							<span class="n2s_choiceDefault">{{language}}</span>
+						</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_subtitle}}
+			{{#atlascine_subtitle}}
+				{{#linkedMediaDocId}}
+					<div class="atlascine_subtitle_linkedMediaDocId">
+						<div class="label n2s_localize mdc-typography--subtitle2">Linked Media Document</div>
+						<div class="value"><a href="#" class="n2s_referenceLink">{{doc}}</a></div>
+						<div class="end"></div>
+					</div>
+				{{/linkedMediaDocId}}
+			{{/atlascine_subtitle}}
+			{{#nunaliit_attachments}}
+				{{#files}}
+					{{#:iterate}}
+						{{#value}}
+							{{^source}}
+								{{#attachmentName}}
+									<div class="n2_mediaView">
+										<div class="n2s_insertMediaView" nunaliit-attachment="{{.}}"></div>
+									</div>
+								{{/attachmentName}}
+							{{/source}}
+						{{/value}}
+					{{/:iterate}}
+				{{/files}}
+			{{/nunaliit_attachments}}
+		</div>
+	</div>
+</div>

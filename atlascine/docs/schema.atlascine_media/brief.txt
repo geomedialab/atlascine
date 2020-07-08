@@ -1,0 +1,14 @@
+<span class="atlascine_media_brief">
+	<span class="n2s_localize atlascine_media_brief_decoration">Media (</span>
+	{{#atlascine_media}}
+		{{#if caption}}
+			<span class="atlascine_media_caption">{{caption}}</span>
+		{{/if}}
+	{{/atlascine_media}}
+	{{#atlascine_media}}
+		{{#if credit}}
+			<span class="atlascine_media_credit"> {{credit}}</span>
+		{{/if}}
+	{{/atlascine_media}}
+	<span class="atlascine_media_brief_decoration">)</span>
+</span>

@@ -1,0 +1,31 @@
+{
+	"group": "atlascine",
+	"id": "time_artifact",
+	"label": "Time Artifact",
+	"attributes": [
+		{
+			"type": "title",
+			"label": "Time Artifact"
+		},
+		{
+			"type": "string",
+			"label": "Title",
+			"id": "title",
+			"includedInBrief": true,
+			"placeholder": "Title"
+		},
+		{
+			"type": "string",
+			"label": "Description",
+			"id": "description",
+			"textarea": true,
+			"maxHeight":100,
+			"placeholder": "Description"
+		},
+		{
+			"type": "date",
+			"label": "Date",
+			"id": "date"
+      }
+   ]
+}

@@ -1,0 +1,12 @@
+[
+	{
+		"select": "atlascine_place.name",
+		"label": "name",
+		"type": "text"
+	},
+	{
+		"select": "nunaliit_geom.wkt",
+		"label": "nunaliit_geom",
+		"type": "text"
+	}
+]

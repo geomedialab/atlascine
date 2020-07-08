@@ -1,0 +1,33 @@
+{
+	"group": "atlascine",
+	"id": "media",
+	"label": "Media",
+	"relatedSchemas": ["atlascine_subtitle"],
+	"attributes": [
+		{
+			"type": "title",
+			"label": "Media"
+		},
+		{
+			"type": "string",
+			"label": "Caption",
+			"id": "caption",
+			"textarea": true,
+			"includedInBrief": true,
+			"placeholder": "Caption"
+		},
+		{
+			"type": "string",
+			"label": "Credit",
+			"id": "credit",
+			"includedInBrief": true,
+			"placeholder": "Credit"
+		},
+		{
+			"type": "file",
+			"label": "Audio/Video File",
+			"uploadOptional": false
+		}
+	]
+}
+ 

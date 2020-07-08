@@ -1,0 +1,31 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_cinemap">
+			<div class="title">
+				<div class="value mdc-typography--headline6 n2s_localize">Cinemap</div>
+				<div class="end"></div>
+			</div>
+			{{#atlascine_cinemap}}
+				<div class="atlascine_cinemap_title">
+					<div class="value">
+						{{#:field}}title,id=title,label=Title,placeholder=Title{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_cinemap}}
+{{#atlascine_cinemap}}
+<div class="atlascine_cinemap_description">
+	<div class="value">
+		{{#:field}}description,id=description,textarea,label=Description,placeholder=Description{{/:field}}
+	</div>
+</div>
+{{/atlascine_cinemap}}
+			{{#atlascine_cinemap}}
+				<div class="atlascine_cinemap_media_doc_ref">
+					<div class="value">
+						{{#:field}}media_doc_ref,id=media_doc_ref,label=Media%20Document,reference{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_cinemap}}
+		</div>
+	</div>
+</div>

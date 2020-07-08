@@ -1,0 +1,20 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_wikidoc">
+			{{#atlascine_wikidoc}}
+				<div class="atlascine_wikidoc_title">
+					<div class="value">
+						{{#:field}}title,id=title,label=Title{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_wikidoc}}
+{{#atlascine_wikidoc}}
+<div class="atlascine_wikidoc_content">
+	<div class="value">
+		{{#:field}}content,id=content,textarea,label=,localized,wikiTransform{{/:field}}
+	</div>
+</div>
+{{/atlascine_wikidoc}}
+		</div>
+	</div>
+</div>

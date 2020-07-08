@@ -1,0 +1,31 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_time_artifact">
+			<div class="title">
+				<div class="value mdc-typography--headline6 n2s_localize">Time Artifact</div>
+				<div class="end"></div>
+			</div>
+			{{#atlascine_time_artifact}}
+				<div class="atlascine_time_artifact_title">
+					<div class="value">
+						{{#:field}}title,id=title,label=Title,placeholder=Title{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_time_artifact}}
+{{#atlascine_time_artifact}}
+<div class="atlascine_time_artifact_description">
+	<div class="value">
+		{{#:field}}description,id=description,textarea,label=Description,placeholder=Description{{/:field}}
+	</div>
+</div>
+{{/atlascine_time_artifact}}
+			{{#atlascine_time_artifact}}
+				<div class="atlascine_time_artifact_date">
+					<div class="value">
+						{{#:field}}date,id=date,label=Date,date{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_time_artifact}}
+		</div>
+	</div>
+</div>

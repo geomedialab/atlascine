@@ -1,0 +1,9 @@
+<span class="atlascine_wikidoc_brief">
+	<span class="n2s_localize atlascine_wikidoc_brief_decoration">Wiki Document (</span>
+	{{#atlascine_wikidoc}}
+		{{#if title}}
+			<span class="atlascine_wikidoc_title">{{title}}</span>
+		{{/if}}
+	{{/atlascine_wikidoc}}
+	<span class="atlascine_wikidoc_brief_decoration">)</span>
+</span>

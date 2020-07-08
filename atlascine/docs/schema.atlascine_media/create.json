@@ -1,0 +1,11 @@
+{
+	"nunaliit_attachments": {
+		"nunaliit_type": "attachment_descriptions",
+		"files": {"media": {"data": {}}}
+	},
+	"nunaliit_schema": "atlascine_media",
+	"atlascine_media": {
+		"caption": "",
+		"credit": ""
+	}
+}

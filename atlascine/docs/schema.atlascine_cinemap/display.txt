@@ -1,0 +1,37 @@
+<div class="n2_documentDisplay">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_cinemap">
+			<div class="title mdc-typography--headline6">
+				<div class="value n2s_localize">Cinemap</div>
+				<div class="end"></div>
+			</div>
+			{{#atlascine_cinemap}}
+				{{#if title}}
+					<div class="atlascine_cinemap_title">
+						<div class="label n2s_localize mdc-typography--subtitle2">Title</div>
+						<div class="value">{{title}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_cinemap}}
+			{{#atlascine_cinemap}}
+				{{#if description}}
+					<div class="atlascine_cinemap_description">
+						<div class="label n2s_localize mdc-typography--subtitle2">Description</div>
+						<div class="value n2s_preserveSpaces">{{description}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_cinemap}}
+			{{#atlascine_cinemap}}
+				{{#media_doc_ref}}
+					<div class="atlascine_cinemap_media_doc_ref">
+						<div class="label n2s_localize mdc-typography--subtitle2">Media Document</div>
+						<div class="value"><a href="#" class="n2s_referenceLink">{{doc}}</a></div>
+						<div class="end"></div>
+					</div>
+				{{/media_doc_ref}}
+			{{/atlascine_cinemap}}
+		</div>
+	</div>
+</div>

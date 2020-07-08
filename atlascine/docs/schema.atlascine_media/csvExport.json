@@ -1,0 +1,16 @@
+[
+	{
+		"select": "atlascine_media.caption",
+		"label": "caption",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_media.credit",
+		"label": "credit",
+		"type": "text"
+	},
+	{
+		"select": "atlascine_media.null",
+		"type": "json"
+	}
+]

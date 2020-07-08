@@ -1,0 +1,19 @@
+{
+	"id": "place"
+	,"group": "atlascine"
+	,"label": "Place"
+	,"relatedSchemas": ["atlascine2_cinemap"]
+	,"initialLayers": []
+	,"attributes": [
+		{
+			"id": "name"
+			,"label": "Name"
+			,"type": "string"
+			,"includedInBrief": true
+		}
+		,{
+			"label": "WKT Geometry"
+			,"type": "geometry"
+		}
+	]
+}

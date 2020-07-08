@@ -1,0 +1,38 @@
+<div class="n2_documentForm">
+	<div class="n2_layoutFloat">
+		<div class="atlascine_subtitle">
+			{{#atlascine_subtitle}}
+				<div class="atlascine_subtitle_language">
+					<div class="value">
+						<div class="mdc-select mdc-select--outlined n2s_attachMDCSelect">
+							<div class="mdc-select__anchor">
+								<i class="mdc-select__dropdown-icon"></i>
+								<div class="mdc-select__selected-text"></div>
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch">
+										<label class="mdc-floating-label  n2s_localize">Language</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+							<div class="{{#:input}}language,select{{/:input}} mdc-select__menu mdc-menu mdc-menu-surface">
+								<ul class="mdc-list">
+									<li class="n2s_localize mdc-list-item" role="option" data-value="en">English</li>
+									<li class="n2s_localize mdc-list-item" role="option" data-value="fr">French</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			{{/atlascine_subtitle}}
+			{{#atlascine_subtitle}}
+				<div class="atlascine_subtitle_linkedMediaDocId">
+					<div class="value">
+						{{#:field}}linkedMediaDocId,id=linkedMediaDocId,label=Linked%20Media%20Document,reference,search=getDocumentFromSchema%28%27atlascine_media%27%29{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_subtitle}}
+		</div>
+	</div>
+</div>

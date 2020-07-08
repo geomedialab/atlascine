@@ -1,0 +1,29 @@
+[
+	{
+		"widgetType": "singleFilterSelectionWidget"
+		,"sourceModelId":"cineMapFilter"
+		,"containerClass": "nunaliit_module_title"
+		,"suppressAllChoices": true
+	}
+	,{
+		"widgetType": "annotationEditorWidget"
+		,"sourceModelId":"cineMapFilter"
+		,"containerId": "content"
+	}
+	,{
+		"widgetType": "transcriptWidget"
+		,"containerClass": "n2_content_text"
+		,"name": "trans1"
+		,"sourceModelId": "time"
+        ,"cinemapModelId": "atlascine_cinemaps"
+	    ,"subtitleModelId": "atlascine_subtitle"
+		,"timeTable":[
+			{
+				"videoStart": 0
+				,"videoEnd": 4311
+				,"timeStart": "2018-01-01"
+				,"timeEnd": "2018-12-31"
+			}
+		]
+	}
+]
