@@ -1,5 +1,5 @@
 {
 	"defaultSchemaName": "atlascine_place"
-	,"newDocumentSchemaNames": ["atlascine_cinemap", "atlascine_media", "atlascine_place"]
+	,"newDocumentSchemaNames": ["atlascine_cinemap", "atlascine_media", "atlascine_subtitle", "atlascine_place"]
 	,"enableAddFile": true
 }
