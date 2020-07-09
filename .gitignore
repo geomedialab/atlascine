@@ -1,0 +1,12 @@
+# Nunaliit directories to ignore
+################################
+
+/atlascine/media
+/atlascine/upgrade
+/atlascine/logs
+
+# Nunaliit sensitivity.properties
+#################################
+
+/atlascine/config/sensitive.properties
+
