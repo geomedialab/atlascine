@@ -60,6 +60,8 @@
 		"modelType": "cineMapFilter"
 		,"modelId": "cineMapFilter"
 		,"sourceModelId":"atlascine_cinemaps"
+		,"initialSelection": []
+		,"saveSelection": true
 	},
 	{
 		"modelType": "cineTimeIndexTransform"
