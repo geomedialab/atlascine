@@ -17,8 +17,8 @@
 		,"containerClass": "n2_content_text"
 		,"name": "trans1"
 		,"sourceModelId": "time"
-        ,"cinemapModelId": "atlascine_cinemaps"
-	    ,"subtitleModelId": "atlascine_subtitle"
+		,"cinemapModelId": "atlascine_cinemaps"
+		,"subtitleModelId": "atlascine_subtitle"
 		,"timeTable":[
 			{
 				"videoStart": 0
