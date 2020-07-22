@@ -22,7 +22,7 @@ The clone of the repository contains an the following structure.
 ```
 /atlas-template  
 ├── .gitignore
-├── atlascine <- this is directory containing the copy of the atlas cine template
+├── atlascine <- this directory contains the copy of the AtlasCine template
 └── README.md
 ```
 
@@ -49,12 +49,35 @@ Now that you have a forked repository with different branches, you will likely n
 Here is the workflow for this process through the terminal;
 1. To check the status of your current branch (i.e. see what's changed), type `git status` into the terminal.
 2. If things have change in any files you may want to commit those changes. 
-3. The first thing you need to do is stage your changes with the `git add <file-name-you-want-to-change>` e.g. `git add `
-4. Repeat step 3 for all related files changes.
+ * Note: You can see specifically see what's changed in a file with the `git diff <address-of-file-that-has-changed>` e.g. `git diff atlascine/htdocs/css/atlas.css`.
+3. The first thing you need to do is stage your changes with the `git add <file-name-you-want-to-change>` e.g. `git add atlascine/htdocs/css/atlas.css`
+4. Repeat step 3 for all related files changes. 
+ * Tip: It's usually better to have many smaller commits broken up into specific tasks, than one large commit containing all the changes. 
 5. After all the changes you want commited have been staged, you now can commit them, using the `git commit -m <commit message>` e.g. `git commit -m "Updated background colour of atlas nav-bar"`.
 6. Lastly you will need to push these committed changes to the GCRC Gitlab, using the `git push` command, and then providing your user credentials.
 
-Note: Alternativelly you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript.
+Note: Alternativelly you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to do stage/commit/push your changes.
+
+### Make a pull/merge request:
+Pull requests are a way for you to request changes you made to be incorporated in another repository (e.g. https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template)
+
+Steps to make a pull/merge request
+1. On the Gitlab site, go to your forked atlas-template repository.
+2. Select the branch of code you want merged
+3. Click the Blue 'Create merge request' button (top right corner).
+4. Make sure the from and into branches specified at the top of the merge request screen are correct 
+5. Provide a merge request title and description
+6. Click the Green 'Submit merge request' button at the bottom of the page to submit the request.
+7. If the request is approved, the 'from' repository will be merged into the 'into' repository.
+
+Workflow Example: 
+1. Identify an issue in the atlascine template. e.g. 'All atlas-templates should use red text for the nav-bar text'.
+2. Create a new issue (if it doesn't already exist) in the Atlascine/atlas-template branch.
+3. If you want to take on the issue, you could make a new branch on your forked repository for the specific issue.
+4. Make/stage/commit/push your changes to that new branch.
+5. Then lastly make the merge request through Gitlab.
+
+* Note: Successful Pull/Merge requests are commonly small changes often focused on a specific issue.
 
 ## Additional steps:
 Since this atlas is a template, dummy content is in place which will need to be updated with your original content.
