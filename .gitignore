@@ -1,7 +1,7 @@
 # Nunaliit directories to ignore
 ################################
 
-/atlascine/media
+/atlascine/media/*
 /atlascine/upgrade
 /atlascine/logs
 
