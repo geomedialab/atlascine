@@ -2,7 +2,7 @@
 
 A repository containing an AtlasCine atlas template. It contains all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content.
 
-The following instructions provide all of the informaiton you will likely need to fork this repository, clone it onto your own system, run the cloned atlas-template, create changes in your own code and stage, commit and push those changes to the GCRC Gitlab server, creating pull/merge requests, and syncing your downstream forked repositories with the upstream atlas-template.
+The following instructions provide all of the information you will likely need to fork this repository, clone it onto your own system, run the cloned atlas-template, create changes in your own code and stage, commit and push those changes to the GCRC Gitlab server, creating pull/merge requests, and syncing your downstream forked repositories with the upstream atlas-template.
 
 Although this readme file may look long, it only covers the basics of Git. If you're interested in learning more, github provides a useful resource on [collaborating with git](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests).
 
@@ -38,7 +38,7 @@ The clone of the repository contains an the following structure.
 *Note:* For the above steps to work properly, make sure you have the latest branch-for-atlascine Nunaliit build. Currently there is code unique to atlascine in this branch which is required to run this type of atlas.
 
 ## Create a branch in your forked repository:
-You will likely want to make multiple versions of your atlas-template which will likly be different. I would recommend you store these differences using git branches. 
+You will likely want to make multiple versions of your atlas-template which will be different. I would recommend you store these differences using git branches. 
 
 To create a new branch, do the following;
 1. In your atlas-template directory run the following command `git checkout -b your-new-branchname` e.g. `git checkout -b rwanda-atlas-template`.
@@ -58,10 +58,10 @@ Here is the workflow for this process through the terminal;
 3. The first thing you need to do is stage your changes with the `git add <file-name-you-want-to-change>` e.g. `git add atlascine/htdocs/css/atlas.css`
 4. Repeat step 3 for all related files changes. 
  * Tip: It's usually better to have many smaller commits broken up into specific tasks, than one large commit containing all the changes. 
-5. After all the changes you want commited have been staged, you now can commit them, using the `git commit -m <commit message>` e.g. `git commit -m "Updated background colour of atlas nav-bar"`.
+5. After all the changes you want committed have been staged, you now can commit them, using the `git commit -m <commit message>` e.g. `git commit -m "Updated background colour of atlas nav-bar"`.
 6. Lastly you will need to push these committed changes to the GCRC Gitlab, using the `git push` command, and then providing your user credentials.
 
-Note: Alternativelly you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to do stage/commit/push your changes.
+Note: Alternatively you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to do stage/commit/push your changes.
 
 ## Make a pull/merge request:
 Pull requests are a way for you to request changes you made to be incorporated in another repository (e.g. https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template)
@@ -123,9 +123,9 @@ To update this you will need to do the following;
 1. If you're adding new images to the page, add them to the htdocs directory. I recommend the htdocs/images directory (note: you should see 3 slides image files already in there).
 2. In the docs/module.home/introduction/content directory you will find the module's en.html file. Open this file for editting.
 3. In this file you will be able to replace the background-image url references to the dummy images (e.g. replace `<div class="jr_slideshow_slide" style="background-image:url('./images/slide1.jpg')">` with `<div class="jr_slideshow_slide" style="background-image:url('./images/my_new_slide.jpg')">`)
-4. Additionally you will be able to replace the text content found beneth the image you replaced in step 3. 
+4. Additionally you will be able to replace the text content found beneath the image you replaced in step 3. 
 
-*Tip:* For full width slide images, I commonly try to have images which are a minimum of 2000px * 800px in dimensions. Since this is a large image, which can effect load times, it may be worth applying an image compression to the image (note: be careful to note over-compress the images since this will produce pixlated results).
+*Tip:* For full width slide images, I commonly try to have images which are a minimum of 2000px * 800px in dimensions. Since this is a large image, which can effect load times, it may be worth applying an image compression to the image (note: be careful to note over-compress the images since this will produce pixelated results).
 
 ### Updating web page styling:
 Atlas style changes can be performed by adding style rules in the htdocs/css/atlas.css file. 
@@ -141,4 +141,4 @@ Steps to Create Cinemap Documents:
 2. Next create a new subtitle document and adding a reference to the media document in step 1. This can be done either in the data browser tools page or in the editor module.
 3. Lastly create a new cinemap document through the editor module, and reference the media document you created in step 1. 
 
-Note: If you need a sample video and srt document, you can find one at this [URL](http://www.storiesinflight.com/js_videosub/)
+Note: If you need a sample video and SRT document, you can find one at this [URL](http://www.storiesinflight.com/js_videosub/)
