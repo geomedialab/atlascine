@@ -1,0 +1,11 @@
+{
+	"defaultSchemaName": "atlascine2_cinemap"
+	,"newDocumentSchemaNames": ["atlascine2_cinemap", "atlascine2_media"]
+	,"enableAddFile": false
+	,"maxAudioRecordingLengthSeconds": 300
+	,"maxVideoRecordingLengthSeconds": 300
+	,"recordVideoSize": {
+		"width": 640
+		,"height": 480
+	}
+}

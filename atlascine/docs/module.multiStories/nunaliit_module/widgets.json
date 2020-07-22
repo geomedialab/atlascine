@@ -1,0 +1,17 @@
+[
+
+	{
+		"widgetType": "timeline"
+		,"sourceModelId": "time"
+	}
+	,{
+		"widgetType": "annotationEditorWidget"
+		,"sourceModelId":"cineMapFilter"
+		,"containerId": "content"
+	}
+	,{
+		"widgetType" :  "displaySearchResultsWidget"
+		, "sourceModelId" : "atlascine2_cinemaps"
+		 , "containerClass": "n2_content_text"
+	}
+]
