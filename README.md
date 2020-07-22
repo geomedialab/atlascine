@@ -1,6 +1,11 @@
 # Atlas Template
 
-A repository containing an AtlasCine atlas template. It contains all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content. 
+A repository containing an AtlasCine atlas template. It contains all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content.
+
+The following instructions provide all of the informaiton you will likely need to fork this repository, clone it onto your own system, run the cloned atlas-template, create changes in your own code and stage, commit and push those changes to the GCRC Gitlab server, creating pull/merge requests, and syncing your downstream forked repositories with the upstream atlas-template.
+
+Although this readme file may look long, it only covers the basics of Git. If you're interested in learning more, github provides a useful resource on [collaborating with git](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests).
+
 
 ## Steps to fork and run the atlascine template:
 The following steps describe the process of forking the atlascine atlas template, configuring the atlas, and running it.
@@ -32,7 +37,7 @@ The clone of the repository contains an the following structure.
 
 *Note:* For the above steps to work properly, make sure you have the latest branch-for-atlascine Nunaliit build. Currently there is code unique to atlascine in this branch which is required to run this type of atlas.
 
-### Create a branch in your forked repository:
+## Create a branch in your forked repository:
 You will likely want to make multiple versions of your atlas-template which will likly be different. I would recommend you store these differences using git branches. 
 
 To create a new branch, do the following;
@@ -43,7 +48,7 @@ To create a new branch, do the following;
  * Tip: if you just type `git push` you will get an error message that will provide you with this command for pushing the branch upstream to the GCRC Gitlab server.
 5. To switch to a different branch you can use the `git checkout <branch-name>` command. e.g. `git checkout master`
 
-### Commit and Push changes:
+## Commit and Push changes:
 Now that you have a forked repository with different branches, you will likely need to save the changes you made and store them on the GCRC Gitlab server.
 
 Here is the workflow for this process through the terminal;
@@ -58,7 +63,7 @@ Here is the workflow for this process through the terminal;
 
 Note: Alternativelly you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to do stage/commit/push your changes.
 
-### Make a pull/merge request:
+## Make a pull/merge request:
 Pull requests are a way for you to request changes you made to be incorporated in another repository (e.g. https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template)
 
 Steps to make a pull/merge request
