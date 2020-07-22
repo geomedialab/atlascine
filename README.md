@@ -79,6 +79,23 @@ Workflow Example:
 
 * Note: Successful Pull/Merge requests are commonly small changes often focused on a specific issue.
 
+## Syncing the original atlas-template repository with a branch:
+When new changes are made to the original atlas-template (upstream), you will likely want to merge them into your own branches. This can be performed with git's fetch and merge commands.
+
+Steps to create a new remote upstream repository (only needs to be performed once):
+1. If you haven't done this before, you will likely need to specify a new remote upstream repository.
+2. First check if an upstream repository exists or not, by running the following command `git remote -v`
+ * If you don't see a output lines for upstream fetching and pulling you will need to add it.
+3. Next add the remote upstream repository using the command `git remote add upstream https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git`
+4. Now type `git remote -v` again to confirm that two upstream lines have been added.
+
+Fetch changes from upstream:
+1. Now that upstream is defined, you can now fetch any changes in that repository with the `git fetch upstream` command.
+2. Provide your username and password.
+3. Checkout the branch you want to merge upstream changes to (e.g. `git checkout master`)
+4. Lastly perform a merge of the fetched changes into your current branch using the command `git merge upstream/master`
+5. Your branch should now be in-sync with the upstream branch.
+
 ## Additional steps:
 Since this atlas is a template, dummy content is in place which will need to be updated with your original content.
 
