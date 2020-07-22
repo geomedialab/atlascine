@@ -1,23 +1,24 @@
 # Atlas Template
 
-A repository containing an AtlasCine atlas template. It contains all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content.
+A repository for the AtlasCine atlas template, containing all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content.
 
-The following instructions provide all of the information you will likely need to fork this repository, clone it onto your own system, run the cloned atlas-template, create changes in your own code and stage, commit and push those changes to the GCRC Gitlab server, creating pull/merge requests, and syncing your downstream forked repositories with the upstream atlas-template.
+The following instructions provide all of the information you will likely need to fork this repository, clone it onto your own system, run the cloned atlas-template, create changes in your own code and stage/commit/push those changes to the GCRC Gitlab server, creating pull/merge requests, and syncing your downstream forked repositories with the upstream atlas-template.
 
 Although this readme file may look long, it only covers the basics of Git. If you're interested in learning more, github provides a useful resource on [collaborating with git](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests).
 
+----------------------------------------------------------------------------------------------------------------------------------
 
 ## Steps to fork and run the atlascine template:
 The following steps describe the process of forking the atlascine atlas template, configuring the atlas, and running it.
 
 ### Forking the atlas template repository to your own account:
-1. Fork the repository to your own account by clicking on the 'Fork' button (top right corner of the https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template).
+1. Fork the repository to your own account by clicking on the 'Fork' button in gitlab (top right corner of the https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template).
 2. You should see a list of accounts to fork the repository to, click the one with your user name.
-3. You should now see a fork in progress screen (this process may take a while to finish).
-4. Upon completion your browser should open to your newly forked repository. 
+3. Now a fork in progress screen will appear (this process may take a while to finish).
+4. Upon completion your browser should auto-open to your newly forked repository. 
 
 ### Clone your forked version of the repository to your system:
-1. From your forked atlas template page, click on the blue 'Clone' button and copy the url from the Clone with HTTP text box
+1. From your forked atlas template page, click on the blue 'Clone' button and copy the URL from the 'Clone with HTTP' text box
 2. On your local system, using a terminal type `git clone <your-forked-clone-url>`. e.g. `git clone https://gitlab.gcrc.carleton.ca/boikle/atlas-template.git`
 3. Enter your GCRC gitlab username and password.
 4. At this point you should now have a clone of the forked repository on your own system.
@@ -31,7 +32,7 @@ The clone of the repository contains an the following structure.
 └── README.md
 ```
 
-1. Within the atlascine sub-directory you will need to run the `nunaliit config` command to configure the atlas (e.g. setting the CouchDb password, atlas name, port number, etc). Note: The template doesn't have these values set initially so you will need to do so.
+1. Within the atlascine sub-directory you will need to run the `nunaliit config` command to configure the atlas (e.g. setting the CouchDb password, atlas name, port number, etc). Note: The template doesn't have all of these values set initially so you will need to do so before running the atlas.
 2. Next, within the atlascine sub-directory you will run the `nunaliit update` & `nunaliit run` commands. 
 3. Open a browser to `localhost:<your_specified_port>` (e.g. localhost:8080), and you should see the template running.
 
@@ -42,7 +43,7 @@ You will likely want to make multiple versions of your atlas-template which will
 
 To create a new branch, do the following;
 1. In your atlas-template directory run the following command `git checkout -b your-new-branchname` e.g. `git checkout -b rwanda-atlas-template`.
-2. Git should create this branch locally and switch your current branch to it. 
+2. Git should create this branch locally and switch your current branch to it automatically.
 3. To see what branch you're in, you can type the `git branch`, and the branch which is currently active will have an '*' beside it.
 4. (Optional) if you want to push this new branch to the GCRC gitlab server, you will need to push this change up, using the `git push --set-upstream origin <your-branch-name>` command and providing your username and password.
  * Tip: if you just type `git push` you will get an error message that will provide you with this command for pushing the branch upstream to the GCRC Gitlab server.
@@ -53,31 +54,31 @@ Now that you have a forked repository with different branches, you will likely n
 
 Here is the workflow for this process through the terminal;
 1. To check the status of your current branch (i.e. see what's changed), type `git status` into the terminal.
-2. If things have change in any files you may want to commit those changes. 
+2. If things have changed in any files you may want to commit those changes. 
  * Note: You can see specifically see what's changed in a file with the `git diff <address-of-file-that-has-changed>` e.g. `git diff atlascine/htdocs/css/atlas.css`.
-3. The first thing you need to do is stage your changes with the `git add <file-name-you-want-to-change>` e.g. `git add atlascine/htdocs/css/atlas.css`
+3. The first thing you'll need to do is stage your changes with the `git add <file-name-you-want-to-change>` e.g. `git add atlascine/htdocs/css/atlas.css`
 4. Repeat step 3 for all related files changes. 
- * Tip: It's usually better to have many smaller commits broken up into specific tasks, than one large commit containing all the changes. 
-5. After all the changes you want committed have been staged, you now can commit them, using the `git commit -m <commit message>` e.g. `git commit -m "Updated background colour of atlas nav-bar"`.
+ * Tip: It's usually better to have many smaller commits broken up into related tasks, than one large commit containing all the changes. 
+5. After your committed changes have been staged, you can now commit them, using the `git commit -m <commit message>` e.g. `git commit -m "Updated background colour of atlas nav-bar"`.
 6. Lastly you will need to push these committed changes to the GCRC Gitlab, using the `git push` command, and then providing your user credentials.
 
-Note: Alternatively you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to do stage/commit/push your changes.
+Note: Alternatively you could also do this work through an IDE. Visual Studio Code is a free and popular IDE for JavaScript, and offers an easy environment to stage/commit/push your changes.
 
 ## Make a pull/merge request:
-Pull requests are a way for you to request changes you made to be incorporated in another repository (e.g. https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template)
+Pull/Merge requests are a way for you to request changes you made in your branch to be incorporated in another repository (e.g. https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template)
 
 Steps to make a pull/merge request
 1. On the Gitlab site, go to your forked atlas-template repository.
 2. Select the branch of code you want merged
 3. Click the Blue 'Create merge request' button (top right corner).
-4. Make sure the from and into branches specified at the top of the merge request screen are correct 
-5. Provide a merge request title and description
+4. Make sure the 'from' and 'into' branches specified at the top of the merge request screen are correct.
+5. Provide a merge request title and description. Tip: Be specific in these details.
 6. Click the Green 'Submit merge request' button at the bottom of the page to submit the request.
 7. If the request is approved, the 'from' repository will be merged into the 'into' repository.
 
 Workflow Example: 
 1. Identify an issue in the atlascine template. e.g. 'All atlas-templates should use red text for the nav-bar text'.
-2. Create a new issue (if it doesn't already exist) in the Atlascine/atlas-template branch.
+2. Create a new issue (if it doesn't already exist) in the Atlascine/atlas-template branch Gitlab page.
 3. If you want to take on the issue, you could make a new branch on your forked repository for the specific issue.
 4. Make/stage/commit/push your changes to that new branch.
 5. Then lastly make the merge request through Gitlab.
@@ -90,16 +91,18 @@ When new changes are made to the original atlas-template (upstream), you will li
 Steps to create a new remote upstream repository (only needs to be performed once):
 1. If you haven't done this before, you will likely need to specify a new remote upstream repository.
 2. First check if an upstream repository exists or not, by running the following command `git remote -v`
- * If you don't see a output lines for upstream fetching and pulling you will need to add it.
+ * If you don't see output lines for upstream fetching and pulling you will need to add it.
 3. Next add the remote upstream repository using the command `git remote add upstream https://gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git`
-4. Now type `git remote -v` again to confirm that two upstream lines have been added.
+4. Now type `git remote -v` again, to confirm that two upstream lines have been added.
 
 Fetch changes from upstream:
-1. Now that upstream is defined, you can now fetch any changes in that repository with the `git fetch upstream` command.
+1. Now that the remote upstream is defined, you can now fetch any changes in that repository with the `git fetch upstream` command.
 2. Provide your username and password.
 3. Checkout the branch you want to merge upstream changes to (e.g. `git checkout master`)
 4. Lastly perform a merge of the fetched changes into your current branch using the command `git merge upstream/master`
 5. Your branch should now be in-sync with the upstream branch.
+
+----------------------------------------------------------------------------------------------------------------------------------
 
 ## Additional steps:
 Since this atlas is a template, dummy content is in place which will need to be updated with your original content.
