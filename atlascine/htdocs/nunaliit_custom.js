@@ -1706,6 +1706,7 @@
 			this._recomputeTransforms(removed);
 		},
 
+		// Clears the _n2CineIndex transformed object from document.
 		_clearN2Index : function(){
 			for(var docId in this.docInfosByDocId){
 				var docInfo = this.docInfosByDocId[docId];
@@ -1727,176 +1728,6 @@
 			var tagGroupsProfile = undefined;
 			var tagColorProfile = undefined;
 			var _scaleFactor, _timeOffset;
-			// Loop over the indices, computing a new index for each document
-
-			if ( !this._placeDocIdMap ){
-				var msg = {
-						type: 'PlaceUtility--getPlaceDocIdMap',
-						docId : undefined
-				};
-				_this.dispatchService.send(DH, msg);
-				return;
-			}
-
-			for(var indexId in this.cineIndexByDocId){
-				var indexDoc = this.cineIndexByDocId[indexId];
-				if (indexDoc.atlascine_cinemap.tagGroups){
-					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
-				}
-
-				if (indexDoc.atlascine_cinemap.tagColors){
-					tagColorProfile = indexDoc.atlascine_cinemap.tagColors;
-				}
-
-				if (indexDoc.atlascine_cinemap.settings){
-					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
-					var offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
-					_timeOffset = offsetInSetting ? offsetInSetting : 0.5;
-
-				} else {
-					indexDoc.atlascine_cinemap.settings = _this.__DEFAULT_TAGSETTINGS__;
-					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
-					_timeOffset = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
-				}
-
-				if( indexDoc
-					&& indexDoc.atlascine_cinemap
-					&& indexDoc.atlascine_cinemap.timeLinks ){
-					indexDoc.atlascine_cinemap.timeLinks.forEach(function(timeLink){
-						// Find referenced document
-
-						if ( !timeLink || !timeLink.starttime || !timeLink.endtime || !timeLink.tags){
-							return;
-						}
-
-						var referenceDocTags = timeLink.tags;
-						var placeTags = findPlaceDocTags (referenceDocTags);
-						if (placeTags){
-							placeTags.forEach(function(tag){
-								var placeName = tag.value;
-								var _name = placeName.trim().toLowerCase();
-								var referencedDoc= _this._placeDocIdMap[_name];
-
-								if ( ! referencedDoc){
-									//$n2.log('PlaceUtility returns void referencedDocId for: ', placeName);
-									return;
-								}
-
-								var referencedDocId = referencedDoc._id;
-								var referencedDocInfo = _this.docInfosByDocId[referencedDocId];
-								var start = undefined;
-								if( typeof(timeLink.starttime) === 'string' ){
-									start = TimestampToSeconds(timeLink.starttime);
-								}
-
-								var end = undefined;
-								if( typeof(timeLink.endtime) === 'string' ){
-									end = TimestampToSeconds(timeLink.endtime);
-								}
-
-								var tags = [];
-								if (referenceDocTags
-									&& Array.isArray(referenceDocTags)
-									&& referenceDocTags.length > 0){
-									for (var tag of referenceDocTags){
-										var tagVal = tag.value;
-										var tagsFromTagsGroup = findTagsIncluded(tagGroupsProfile, tagVal);
-										if (tagsFromTagsGroup.length == 0){
-											tagsFromTagsGroup.push(tagVal);
-										}
-										tags.push.apply(tags,tagsFromTagsGroup );
-									}
-									//$n2.log(referencedDocId + 'tags from calculating: ', tags);
-								}
-
-								// Compute effective start and end (intersection)
-								if( !currentInterval ){
-									start = undefined;
-									end = undefined;
-
-								} else if( end < currentInterval.min ){
-									start = undefined;
-									end = undefined;
-
-								} else if( typeof currentInterval.max === 'number'
-									&& start > currentInterval.max ){
-									start = undefined;
-									end = undefined;
-
-								} else {
-									if( start < currentInterval.min ){
-										start = currentInterval.min;
-									}
-
-									if( typeof currentInterval.max === 'number'
-										&& end > currentInterval.max - _timeOffset ){
-										end = currentInterval.max;
-									}
-								}
-
-								if( referencedDocInfo
-									&& typeof(start) === 'number'
-									&& typeof(end) === 'number'
-									&& Array.isArray(tags) ){
-
-									var color = findUniqueColorByTags(tagColorProfile, tags);
-									if(!color){
-										//$n2.log('CineTimeIndexTransform cannot find the valid color, not render for: ',
-										//	start + '>>>'+ end + ', ' + placeName ,  referenceDocTags);
-										color = '#e6e6e6';
-									}
-
-									if( !referencedDocInfo.newCineIndex ){
-										referencedDocInfo.newCineIndex = [];
-									}
-
-									var indexInfo = {};
-									indexInfo.origin = indexDoc._id;
-									indexInfo.start = start;
-									indexInfo.end = end;
-									indexInfo.tags = tags
-									indexInfo.color = color;
-									indexInfo.scaleFactor = _scaleFactor;
-									referencedDocInfo.newCineIndex.push(indexInfo);
-								}
-							});
-						}
-					});
-				}
-			}
-
-			// Detect which document changed and compute
-			// additions and updates
-			var added = []
-			,updated = []
-			,removed = []
-			;
-			for(var docId in this.docInfosByDocId){
-				var docInfo = this.docInfosByDocId[docId];
-
-				var modified = false;
-				if( !indicesAreEqual(docInfo.lastCineIndex, docInfo.newCineIndex) ){
-					modified = true;
-					docInfo.doc._n2CineIndex = docInfo.newCineIndex;
-				}
-				docInfo.lastCineIndex = docInfo.newCineIndex;
-				docInfo.newCineIndex = undefined;
-
-				// Added or updated?
-				if( !docInfo.published ){
-					// If not previously published, do it now
-					docInfo.published = true;
-					added.push(docInfo.doc);
-
-				} else if( modified ){
-					// If previously published and changed
-					updated.push(docInfo.doc);
-				}
-			}
-
-			// Report changes in visibility, if necessary
-
-			this._reportStateUpdate(added, updated, removed);
 
 			function findPlaceDocTags (tags){
 				var rst = undefined;
@@ -2007,34 +1838,201 @@
 				}
 				return true;
 			}
+
+			if (!this._placeDocIdMap) {
+				var msg = {
+					type: 'PlaceUtility--getPlaceDocIdMap',
+					docId : undefined
+				};
+				_this.dispatchService.send(DH, msg);
+				// Break out of method
+				return;
+			}
+
+			// Loop over the indices, computing a new index for each document
+			for(var indexId in this.cineIndexByDocId){
+				var indexDoc = this.cineIndexByDocId[indexId];
+
+				if (indexDoc.atlascine_cinemap.tagGroups){
+					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
+				}
+
+				if (indexDoc.atlascine_cinemap.tagColors){
+					tagColorProfile = indexDoc.atlascine_cinemap.tagColors;
+				}
+
+				if (indexDoc.atlascine_cinemap.settings){
+					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
+					var offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+					_timeOffset = offsetInSetting ? offsetInSetting : 0.5;
+
+				} else {
+					indexDoc.atlascine_cinemap.settings = _this.__DEFAULT_TAGSETTINGS__;
+					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
+					_timeOffset = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+				}
+
+				if (indexDoc
+					&& indexDoc.atlascine_cinemap
+					&& indexDoc.atlascine_cinemap.timeLinks) {
+					indexDoc.atlascine_cinemap.timeLinks.forEach(function(timeLink) {
+						// Find referenced document
+						if (!timeLink || !timeLink.starttime || !timeLink.endtime || !timeLink.tags) {
+							return;
+						}
+
+						var referenceDocTags = timeLink.tags;
+						var placeTags = findPlaceDocTags (referenceDocTags);
+						if (placeTags) {
+							placeTags.forEach(function(tag){
+								var placeName = tag.value;
+								var _name = placeName.trim().toLowerCase();
+								var referencedDoc = _this._placeDocIdMap[_name];
+
+								if (!referencedDoc) {
+									//$n2.log('PlaceUtility returns void referencedDocId for: ', placeName);
+									return;
+								}
+
+								var referencedDocId = referencedDoc._id;
+								var referencedDocInfo = _this.docInfosByDocId[referencedDocId];
+								var start = undefined;
+								if (typeof(timeLink.starttime) === 'string') {
+									start = TimestampToSeconds(timeLink.starttime);
+								}
+
+								var end = undefined;
+								if (typeof(timeLink.endtime) === 'string') {
+									end = TimestampToSeconds(timeLink.endtime);
+								}
+
+								var tags = [];
+								if (referenceDocTags
+									&& $n2.isArray(referenceDocTags)
+									&& referenceDocTags.length > 0) {
+									for (var tag of referenceDocTags) {
+										var tagVal = tag.value;
+										var tagsFromTagsGroup = findTagsIncluded(tagGroupsProfile, tagVal);
+										if (tagsFromTagsGroup.length == 0) {
+											tagsFromTagsGroup.push(tagVal);
+										}
+										tags.push.apply(tags,tagsFromTagsGroup);
+									}
+									//$n2.log(referencedDocId + 'tags from calculating: ', tags);
+								}
+
+								// Compute effective start and end (intersection)
+								if (!currentInterval) {
+									start = undefined;
+									end = undefined;
+
+								} else if (end < currentInterval.min) {
+									start = undefined;
+									end = undefined;
+
+								} else if (typeof currentInterval.max === 'number'
+									&& start > currentInterval.max) {
+									start = undefined;
+									end = undefined;
+
+								} else {
+									if (start < currentInterval.min) {
+										start = currentInterval.min;
+									}
+
+									if (typeof currentInterval.max === 'number'
+										&& end > currentInterval.max - _timeOffset) {
+										end = currentInterval.max;
+									}
+								}
+
+								if (referencedDocInfo
+									&& typeof(start) === 'number'
+									&& typeof(end) === 'number'
+									&& $n2.isArray(tags)) {
+
+									var color = findUniqueColorByTags(tagColorProfile, tags);
+									if (!color) {
+										//$n2.log('CineTimeIndexTransform cannot find the valid color, not render for: ',
+										//	start + '>>>'+ end + ', ' + placeName ,  referenceDocTags);
+										color = '#e6e6e6';
+									}
+
+									if (!referencedDocInfo.newCineIndex) {
+										referencedDocInfo.newCineIndex = [];
+									}
+
+									var indexInfo = {};
+									indexInfo.origin = indexDoc._id;
+									indexInfo.start = start;
+									indexInfo.end = end;
+									indexInfo.tags = tags
+									indexInfo.color = color;
+									indexInfo.scaleFactor = _scaleFactor;
+									referencedDocInfo.newCineIndex.push(indexInfo);
+								}
+							});
+						}
+					});
+				}
+			}
+
+			// Detect which document changed and compute
+			// additions and updates
+			var added = [], updated = [], removed = [];
+			for(var docId in this.docInfosByDocId){
+				var docInfo = this.docInfosByDocId[docId];
+
+				var modified = false;
+				// Update _n2CineIndex object, if it's different from the existing cine index value.
+				if (!indicesAreEqual(docInfo.lastCineIndex, docInfo.newCineIndex)) {
+					modified = true;
+					docInfo.doc._n2CineIndex = docInfo.newCineIndex;
+				}
+				docInfo.lastCineIndex = docInfo.newCineIndex;
+				docInfo.newCineIndex = undefined;
+
+				// Added or updated?
+				if (!docInfo.published) {
+					// If not previously published, do it now
+					docInfo.published = true;
+					added.push(docInfo.doc);
+
+				} else if (modified) {
+					// If previously published and changed
+					updated.push(docInfo.doc);
+				}
+			}
+
+			// Report changes in visibility, if necessary
+			this._reportStateUpdate(added, updated, removed);
 		},
 
 		_intervalUpdated: function(){
 			//var currentInterval = this.getInterval();
 			//$n2.log('CineIndexTransform Interval',currentInterval);
-
 			this._recomputeTransforms([]);
 		},
 
 		_reportStateUpdate: function(added, updated, removed){
 			var stateUpdate = {
-					added: added
-					,updated: updated
-					,removed: removed
-					,loading: this.modelIsLoading
+				added: added
+				,updated: updated
+				,removed: removed
+				,loading: this.modelIsLoading
 			};
 
-			if( this.dispatchService ){
+			if (this.dispatchService) {
 				this.dispatchService.send(DH,{
 					type: 'modelStateUpdated'
-						,modelId: this.modelId
-						,state: stateUpdate
+					,modelId: this.modelId
+					,state: stateUpdate
 				});
 			}
 		}
 	});
 
-	//	++++++++++++++++++++++++++++++++++++++++++++++
+	// ++++++++++++++++++++++++++++++++++++++++++++++
 	var CineMapFilter = $n2.Class('CineMapFilter',$n2.modelFilter.SelectableDocumentFilter,{
 
 		currentChoices: null,
@@ -2059,7 +2057,6 @@
 				var f = function(m, addr, dispatcher){
 					_this._handleLayerFilterEvents(m, addr, dispatcher);
 				};
-
 				//this.dispatchService.register(DH,'documentContent',f);
 			}
 		},
@@ -2069,10 +2066,10 @@
 		_computeAvailableChoicesFromDocs: function(docs, callbackFn){
 			var choiceLabelsById = {};
 			docs.forEach(function(doc){
-				if( doc
-					&& doc.atlascine_cinemap ){
+				if (doc
+					&& doc.atlascine_cinemap) {
 					var label = doc.atlascine_cinemap.title;
-					if( !label ){
+					if (!label) {
 						label = doc._id;
 					}
 
@@ -2081,7 +2078,7 @@
 			});
 
 			var availableChoices = [];
-			for(var id in choiceLabelsById){
+			for (var id in choiceLabelsById) {
 				var label = choiceLabelsById[id];
 				availableChoices.push({
 					id: id
@@ -2090,11 +2087,11 @@
 			}
 
 			availableChoices.sort(function(a,b){
-				if( a.label < b.label ){
+				if (a.label < b.label) {
 					return -1;
 				}
 
-				if( a.label > b.label ){
+				if (a.label > b.label) {
 					return 1;
 				}
 
@@ -2110,9 +2107,8 @@
 		},
 
 		_isDocVisible: function(doc, selectedChoiceIdMap){
-			if( doc
-				&& doc.atlascine_cinemap ){
-				if( selectedChoiceIdMap[doc._id] ){
+			if (selectedChoiceIdMap[doc._id]) {
+				if (doc && doc.atlascine_cinemap) {
 					return true;
 				}
 			}
