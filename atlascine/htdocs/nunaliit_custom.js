@@ -1,8 +1,10 @@
-;(function($,$n2){
+;(function($,$n2) {
 
-	if( typeof(window.nunaliit_custom) === 'undefined' ) window.nunaliit_custom = {};
+	if (typeof(window.nunaliit_custom) === 'undefined' ) {
+		window.nunaliit_custom = {};
+	}
 
-	var	_loc = function(str,args){ return $n2.loc(str,'cineAtlas',args); };
+	var	_loc = function(str,args) { return $n2.loc(str,'cineAtlas',args); };
 	var DH = 'atlascine';
 
 	const THEME = 'classic';
@@ -25,11 +27,11 @@
 
 		modelIsLoading: null,
 
-		dataDocInfosByDocId : null,
+		dataDocInfosByDocId: null,
 
 		docInfosByDocId: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				modelId: undefined
 				,dispatchService: undefined
@@ -51,8 +53,8 @@
 			this.colorArr = COLORS[THEME];
 
 			// Register to events
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 
@@ -65,26 +67,26 @@
 					,modelId: this.sourceModelId
 				};
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
 			$n2.log(this._classname,this);
 		},
 
-		_handle: function(m, addr, dispatcher){
-			if( 'modelGetInfo' === m.type ){
-				if( this.modelId === m.modelId ){
+		_handle: function(m, addr, dispatcher) {
+			if ('modelGetInfo' === m.type) {
+				if (this.modelId === m.modelId) {
 					m.modelInfo = this._getModelInfo();
 				}
 
-			} else if( 'modelGetState' === m.type ){
-				if( this.modelId === m.modelId ){
+			} else if ('modelGetState' === m.type) {
+				if (this.modelId === m.modelId) {
 					var added = [];
-					for(var docId in this.docInfosByDocId){
+					for (var docId in this.docInfosByDocId) {
 						var docInfo = this.docInfosByDocId[docId];
 						var doc = docInfo.doc;
-						if( docInfo.isDonut && doc ){
+						if (docInfo.isDonut && doc) {
 							added.push(doc);
 						}
 					}
@@ -97,56 +99,57 @@
 					};
 				}
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
 		},
 
-		_sourceModelUpdated: function(sourceState){
+		_sourceModelUpdated: function(sourceState) {
 			var i, e, doc, docId, docInfo;
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
 			// Loop through all removed documents
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
 					docInfo = this.datadocInfosByDocId[docId];
 
-					if (docInfo.isIndex){
-						//if cinemap is removed; a new cinemap should be added at the same time above
+					if (docInfo.isIndex) {
+						//if cinemap is removed; a new cinemap should be added
+						//at the same time above
 						this._recomputeTransforms(doc, true);
 					}
 
-					if( docInfo ){
-						if(docInfo.linkingDonutsId){
-							for(var donutDocId of docInfo.linkingDonutsId){
+					if (docInfo) {
+						if(docInfo.linkingDonutsId) {
+							for (var donutDocId of docInfo.linkingDonutsId) {
 								var donutDoc = this.docInfosByDocId[donutDocId];
 								this.removedDonutsByDocId[donutDocId]= donutDoc;
 								delete this.docInfosByDocId[donutDocId];
 							}
 						}
-						delete this.datadocInfosByDocId[docId];
 
+						delete this.datadocInfosByDocId[docId];
 						//removed.push(doc);
 					}
 				}
 			}
 
 			// Loop through all added documents
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
 					docInfo = createDocInfo(doc);
 					// Save info
-					if (docInfo.isIndex){
+					if (docInfo.isIndex) {
 						//break;
 					}
 					this.datadocInfosByDocId[docId] = docInfo;
@@ -155,12 +158,12 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
 					docInfo = this.datadocInfosByDocId[docId];
-					if( !docInfo ) {
+					if (!docInfo ) {
 						docInfo = createDocInfo(doc);
 						this.datadocInfosByDocId[docId] = docInfo;
 
@@ -176,12 +179,12 @@
 		},
 
 		//Abstract function
-		_recomputeTransforms : function(){
+		_recomputeTransforms: function() {
 			throw new Error('_recomputeTransform need to be implemented for'
 				+ 'sourceDoc ==> donut doc transformation');
 		},
 
-		_reportStateUpdate: function(added, updated, removed){
+		_reportStateUpdate: function(added, updated, removed) {
 			var stateUpdate = {
 				added: added
 				,updated: updated
@@ -189,7 +192,7 @@
 				,loading: this.modelIsLoading
 			};
 
-			if( this.dispatchService ){
+			if (this.dispatchService) {
 				this.dispatchService.send(DH,{
 					type: 'modelStateUpdated'
 					,modelId: this.modelId
@@ -230,7 +233,7 @@
 
 		_placeDocInfoByDocId: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				modelId: undefined
 				,dispatchService: undefined
@@ -256,8 +259,8 @@
 			this._placeDocInfoByDocId = {};
 
 			// Register to events
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 
@@ -275,7 +278,7 @@
 				};
 
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
@@ -283,19 +286,19 @@
 			$n2.log(this._classname,this);
 		},
 
-		_handle: function(m, addr, dispatcher){
-			if( 'modelGetInfo' === m.type ){
-				if( this.modelId === m.modelId ){
+		_handle: function(m, addr, dispatcher) {
+			if ('modelGetInfo' === m.type) {
+				if (this.modelId === m.modelId) {
 					m.modelInfo = this._getModelInfo();
 				}
 
-			} else if( 'modelGetState' === m.type ){
-				if( this.modelId === m.modelId ){
+			} else if ('modelGetState' === m.type) {
+				if (this.modelId === m.modelId) {
 					var added = [];
-					for(var docId in this.docInfosByDocId){
+					for (var docId in this.docInfosByDocId) {
 						var docInfo = this.docInfosByDocId[docId];
 						var doc = docInfo.doc;
-						if( docInfo.isDonut && doc ){
+						if (docInfo.isDonut && doc) {
 							added.push(doc);
 						}
 					}
@@ -308,46 +311,47 @@
 					};
 				}
 
-			} else if ( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 				}
 
-			} else if ( 'searchResultsForDisplayWidget' === m.type){
+			} else if ('searchResultsForDisplayWidget' === m.type) {
 				this._searchResults = m.results;
 				this._recalculateDonuts ();
 
-			} else if ( 'PlaceUtility--replyPlaceDocIdMap' === m.type){
+			} else if ('PlaceUtility--replyPlaceDocIdMap' === m.type) {
 				this._placeDocIdMap = m.map;
-				if (this._placeDocIdMap){
+				if (this._placeDocIdMap) {
 					this._recalculateDonuts ();
 				}
 
-			} else if ( 'PlaceUtility--updatePlaceDocIdMap' === m.type){
+			} else if ('PlaceUtility--updatePlaceDocIdMap' === m.type) {
 				this._placeDocIdMap = m.map;
-				if (this._placeDocIdMap && Object.keys(this._placeDocIdMap).length !== 0 ){
+				if (this._placeDocIdMap && Object.keys(this._placeDocIdMap).length !== 0) {
 					this._recalculateDonuts ();
 				}
 			}
 		},
 
-		_recalculateDonuts: function(){
+		_recalculateDonuts: function() {
+			var ele;
 			var _this = this;
 			this.pendingDonutsByDocId = {};
 			this.removedDonutsByDocId = {};
 
-			if ( !this._placeDocIdMap ){
+			if (!this._placeDocIdMap) {
 				var msg = {
-						type: 'PlaceUtility--getPlaceDocIdMap',
-						docId : undefined
+					type: 'PlaceUtility--getPlaceDocIdMap',
+					docId: undefined
 				};
 				_this.dispatchService.send(DH, msg);
 				return;
 			}
 
 			this.removedDonutsByDocId = this.docInfosByDocId;
-			if ( !this._searchResults ){
+			if (!this._searchResults) {
 				return;
 			}
 			var results = this._searchResults.slice(0);
@@ -360,28 +364,28 @@
 				var b_time = TimestampToSeconds( b_timeCode );
 				if (typeof a_time === 'undefined' ||
 					typeof b_time === 'undefined' ) 0;
-				if ( a_time < b_time) 1;
-				if( a_time > b_time ) -1;
+				if (a_time < b_time) 1;
+				if (a_time > b_time ) -1;
 
 				return 0;
 			});
 
 			var cinemapIdExisted = {};
 			var callbackRemaining = 0;
-			for (var i=0,e=results.length;i<e; i++){
+			for (var i=0,e=results.length;i<e; i++) {
 				var result = results[i].value;
 				var cinemapId = results[i].value.cinemapId;
 				var value = results[i].value.value;
 				var startTimeInMs = convertTimecodeToMs( result.starttime );
 				var places = results[i].value.places || [];
 
-				if (places.length > 0){
-					for (var j = 0,k=places.length; j<k; j++){
+				if (places.length > 0) {
+					for (var j = 0,k=places.length; j<k; j++) {
 						var pl = places[j];
 						var placeName = pl;
 						var _name = placeName.trim().toLowerCase();
 						var placeDoc= _this._placeDocIdMap[_name];
-						if ( ! placeDoc){
+						if (! placeDoc) {
 							//$n2.log('PlaceUtility returns void referencedDocId for: ', placeName);
 							continue;
 						}
@@ -390,27 +394,30 @@
 						var donutId = docId + '_donut_' + startTimeInMs + '_' + placeName;
 						var donutDocInfo = {
 							id: donutId
-							, sourceDoc: placeDoc
-							, published : false
-							, isDonut: true
+							,sourceDoc: placeDoc
+							,published: false
+							,isDonut: true
 						};
+
 						donutDocInfo.doc = {
 							_id:  donutId
 							,nunaliit_geom: placeDoc.nunaliit_geom
-							,nunaliit_layers : placeDoc.nunaliit_layers
-					}
-					var ldata_tmp = {
-							duration : 15,
+							,nunaliit_layers: placeDoc.nunaliit_layers
+						}
+
+						var ldata_tmp = {
+							duration: 15,
 							tags: [placeName, result.starttime, result.endtime],
 							scaleFactor: 1,
-							style : {
+							style: {
 								name: 'alpha',
-								fillColor : '#8b0000',
+								fillColor: '#8b0000',
 								opacity: 0.5
 							}
-					};
-					donutDocInfo.doc._ldata = ldata_tmp ;
-					_this.pendingDonutsByDocId[donutId] = donutDocInfo;
+						};
+
+						donutDocInfo.doc._ldata = ldata_tmp ;
+						_this.pendingDonutsByDocId[donutId] = donutDocInfo;
 
 					}
 				}
@@ -421,12 +428,12 @@
 			var updated = [];
 			_this.docInfosByDocId = {};
 			var pendingDonutDocsByDocId = {};
-			for (var ele in _this.pendingDonutsByDocId){
+			for (ele in _this.pendingDonutsByDocId) {
 				pendingDonutDocsByDocId[ele] = _this.pendingDonutsByDocId[ele].doc;
 			}
 
 			var removedDonutDocsByDocId = {};
-			for (var ele in _this.removedDonutsByDocId){
+			for (ele in _this.removedDonutsByDocId) {
 				removedDonutDocsByDocId[ele] = _this.removedDonutsByDocId[ele].doc;
 			}
 
@@ -434,8 +441,8 @@
 			_this.docInfosByDocId =  _this.pendingDonutsByDocId;
 
 			var updatedDonuts = [];
-			for( var ele in pendingDonutDocsByDocId){
-				if (removedDonutDocsByDocId[ele]){
+			for (ele in pendingDonutDocsByDocId) {
+				if (removedDonutDocsByDocId[ele]) {
 					updatedDonuts.push(pendingDonutDocsByDocId[ele]);
 					delete pendingDonutDocsByDocId[ele];
 					delete removedDonutDocsByDocId[ele];
@@ -452,7 +459,7 @@
 			//TODO generate donut for each place tag / K color / give start-end time to _data.tags
 		},
 
-		_getModelInfo: function(){
+		_getModelInfo: function() {
 			var modelInfo = {
 				modelId: this.modelId
 				,modelType: 'PopulatedPlaceTransform'
@@ -461,32 +468,32 @@
 			return modelInfo;
 		},
 
-		_sourceModelUpdated: function(sourceState){
+		_sourceModelUpdated: function(sourceState) {
 			var i, e, doc, docId, docInfo;
 			var _this = this;
 			this.pendingDonutsByDocId = {};
 			this.removedDonutsByDocId = {};
 
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
 			// Loop through all removed documents
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
 					docInfo = this._placeDocInfoByDocId[docId];
 
-					if (docInfo.isIndex){
+					if (docInfo.isIndex) {
 						//if cinemap is removed; a new cinemap should be added at the same time above
 						this._recomputeTransforms(doc, true);
 					}
 
-					if( docInfo ){
-						if(docInfo.linkingDonutsId){
-							for(var donutDocId of docInfo.linkingDonutsId){
+					if (docInfo) {
+						if(docInfo.linkingDonutsId) {
+							for (var donutDocId of docInfo.linkingDonutsId) {
 								var donutDoc = this._placeDocInfoByDocId[donutDocId];
 								this.removedDonutsByDocId[donutDocId]= donutDoc;
 								delete this._placeDocInfoByDocId[donutDocId];
@@ -499,26 +506,25 @@
 			}
 
 			// Loop through all added documents
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
 					docInfo = createDocInfo(doc);
 
 					// Save info
-					if (docInfo.isIndex){}
 					this._placeDocInfoByDocId[docId] = docInfo;
 					//this._recomputeTransforms(doc);
 				}
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
 					docInfo = this._placeDocInfoByDocId[docId];
-					if( !docInfo ) {
+					if (!docInfo ) {
 						docInfo = createDocInfo(doc);
 						this._placeDocInfoByDocId[docId] = docInfo;
 
@@ -536,11 +542,11 @@
 //				removed = [],
 //				updated = [];
 //			var pendingDonutDocsByDocId = {};
-//			for (var ele in _this.pendingDonutsByDocId){
+//			for (var ele in _this.pendingDonutsByDocId) {
 //				pendingDonutDocsByDocId[ele] = _this.pendingDonutsByDocId[ele].doc;
 //			}
 //			var removedDonutDocsByDocId = {};
-//			for (var ele in _this.removedDonutsByDocId){
+//			for (var ele in _this.removedDonutsByDocId) {
 //				removedDonutDocsByDocId[ele] = _this.removedDonutsByDocId[ele].doc;
 //			}
 //			//merge pending donuts docInfo into docInfosByDocId
@@ -548,8 +554,8 @@
 //
 //
 //			var updatedDonuts = [];
-//			for( var ele in pendingDonutDocsByDocId){
-//				if (removedDonutDocsByDocId[ele]){
+//			for (var ele in pendingDonutDocsByDocId) {
+//				if (removedDonutDocsByDocId[ele]) {
 //					updatedDonuts.push(pendingDonutDocsByDocId[ele]);
 //					delete pendingDonutDocsByDocId[ele];
 //					delete removedDonutDocsByDocId[ele];
@@ -566,12 +572,12 @@
 //
 //			this._reportStateUpdate(added, updated, removed);
 
-			function createDocInfo(doc){
+			function createDocInfo(doc) {
 				var docId = doc._id;
 				var docInfo = {
-						id : docId
+						id: docId
 						,sourceDoc: doc
-						,published : false
+						,published: false
 				}
 				//docInfo.doc = Object.assign({}, doc);
 
@@ -580,16 +586,16 @@
 				return docInfo;
 			}
 
-			function updateDocInfo(docInfo, doc){
+			function updateDocInfo(docInfo, doc) {
 				docInfo.sourceDoc = doc;
 				docInfo.doc = Object.assign({}, doc);
 
 				var oldDonutsId = docInfo.linkingDonutsId;
 				if (oldDonutsId
 					&& Array.isArray(oldDonutsId)
-					&& oldDonutsId.length > 0){
-					for (var olddonutId of oldDonutsId){
-						if (_this.docInfosByDocId[olddonutId]){
+					&& oldDonutsId.length > 0) {
+					for (var olddonutId of oldDonutsId) {
+						if (_this.docInfosByDocId[olddonutId]) {
 							_this.removedDonutsByDocId[olddonutId] = _this.docInfosByDocId[olddonutId];
 							delete _this.docInfosByDocId[olddonutId];
 						}
@@ -599,28 +605,28 @@
 
 				if (doc._n2CineIndex
 					&& Array.isArray(doc._n2CineIndex)
-					&& doc._n2CineIndex.length > 0){
+					&& doc._n2CineIndex.length > 0) {
 					docInfo.linkingDonutsId = [];
 				}
 				return docInfo;
 			}
 		},
 
-		_recomputeTransforms: function(doc, isClearance){
+		_recomputeTransforms: function(doc, isClearance) {
 			var _this = this;
 			var docId = doc._id;
 			var docInfo = this.docInfosByDocId[docId];
 			if (isClearance &&
-				docInfo.isIndex){
-				for (var id in this.docInfosByDocId){
+				docInfo.isIndex) {
+				for (var id in this.docInfosByDocId) {
 					docInfo = this.docInfosByDocId [id];
-					if (docInfo.linkingDonutsId){
+					if (docInfo.linkingDonutsId) {
 						var oldDonutsId = docInfo.linkingDonutsId;
 						if (oldDonutsId
-							&& Array.isArray(oldDonutsId)
-							&& oldDonutsId.length > 0){
-							for (var olddonutId of oldDonutsId){
-								if (_this.docInfosByDocId[olddonutId]){
+							&& $n2.isArray(oldDonutsId)
+							&& oldDonutsId.length > 0) {
+							for (var olddonutId of oldDonutsId) {
+								if (_this.docInfosByDocId[olddonutId]) {
 									_this.removedDonutsByDocId[olddonutId] = _this.docInfosByDocId[olddonutId];
 									delete _this.docInfosByDocId[olddonutId];
 								}
@@ -630,9 +636,9 @@
 					}
 				}
 
-			} else if(docInfo.linkingDonutsId){
+			} else if(docInfo.linkingDonutsId) {
 //				var locationColor = this.locationColorCacheByDocId [docId];
-//				if (!locationColor ){
+//				if (!locationColor) {
 //					locationColor = this.getNextColor();
 //					this.locationColorCacheByDocId [docId] = locationColor;
 //				}
@@ -642,7 +648,7 @@
 			//Object.assign(this.docInfosByDocId, pendingDonutsByDocId);
 		},
 
-		getNextColor:function(){
+		getNextColor:function() {
 			if (typeof this.color_available_idx === 'undefined') {
 				this.color_available_idx = -1;
 			}
@@ -651,7 +657,7 @@
 			return this.colorArr[ this.color_available_idx % col_len];
 		},
 
-		_populateDocInfosFromDoc: function(doc){
+		_populateDocInfosFromDoc: function(doc) {
 			var docId = doc._id;
 
 			var originalDocInfoWithDonutDocRefs = this.docInfosByDocId[docId];
@@ -663,14 +669,14 @@
 			var cineIndexArr = doc._n2CineIndex;
 
 			if (cineIndexArr
-				&& cineIndexArr.length >= 1){
-				for (var cidx of cineIndexArr){
+				&& cineIndexArr.length >= 1) {
+				for (var cidx of cineIndexArr) {
 					var donutId = docId + '_donut_'+cnt.toString(16)
 					var donutDocInfo = {
 						id: donutId
 						,sourceDoc: doc
-						,published : false
-						,isDonut : true
+						,published: false
+						,isDonut: true
 					}
 					originalDocInfoWithDonutDocRefs.linkingDonutsId.push(donutId);
 
@@ -680,14 +686,16 @@
 					var ldata_tmp = {
 						start: cidx.start,
 						tags: cidx.tags,
-						scaleFactor : cidx.scaleFactor
+						scaleFactor: cidx.scaleFactor
 					};
+
 					ldata_tmp.duration = Math.max(r - l, 0);
 					ldata_tmp.style = {
 							name: 'alpha',
 							fillColor: cidx.color,
 							opacity: 0.5
 					};
+
 					donutDocInfo.doc._ldata = ldata_tmp ;
 
 					// Remember start time given the doc id
@@ -699,7 +707,7 @@
 			}
 		},
 
-		_reportStateUpdate: function(added, updated, removed){
+		_reportStateUpdate: function(added, updated, removed) {
 			var stateUpdate = {
 				added: added
 				,updated: updated
@@ -707,7 +715,7 @@
 				,loading: this.modelIsLoading
 			};
 
-			if( this.dispatchService ){
+			if (this.dispatchService) {
 				this.dispatchService.send(DH,{
 					type: 'modelStateUpdated'
 					,modelId: this.modelId
@@ -717,7 +725,7 @@
 		}
 	});
 
-//	--------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 	/**
 	 * This is a document transform. This means that it is a document model that
 	 * changes documents visible to downstream models, widgets and canvas.
@@ -742,7 +750,7 @@
 
 		currentFilterSelection: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				modelId: undefined
 				,dispatchService: undefined
@@ -762,9 +770,10 @@
 			this.removedDonutsByDocId = {};
 			this.locationColorCacheByDocId = {};
 			this.colorArr = COLORS[THEME];
+
 			// Register to events
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 
@@ -775,32 +784,32 @@
 
 				// Initialize state
 				var m = {
-						type:'modelGetState'
-						,modelId: this.sourceModelId
+					type:'modelGetState'
+					,modelId: this.sourceModelId
 				};
 
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
 			$n2.log(this._classname,this);
 		},
 
-		_handle: function(m, addr, dispatcher){
+		_handle: function(m, addr, dispatcher) {
 			var docId, doc, docInfo;
-			if( 'modelGetInfo' === m.type ){
-				if( this.modelId === m.modelId ){
+			if ('modelGetInfo' === m.type) {
+				if (this.modelId === m.modelId) {
 					m.modelInfo = this._getModelInfo();
 				}
 
-			} else if( 'modelGetState' === m.type ){
-				if( this.modelId === m.modelId ){
+			} else if ('modelGetState' === m.type) {
+				if (this.modelId === m.modelId) {
 					var added = [];
-					for(docId in this.docInfosByDocId){
+					for (docId in this.docInfosByDocId) {
 						docInfo = this.docInfosByDocId[docId];
 						doc = docInfo.doc;
-						if( docInfo.isDonut && doc ){
+						if (docInfo.isDonut && doc) {
 							added.push(doc);
 						}
 					}
@@ -813,25 +822,25 @@
 					};
 				}
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 				}
 
-			} else if( 'cineStartTimeFromDocId' === m.type ) {
+			} else if ('cineStartTimeFromDocId' === m.type) {
 				docId = m.docId;
-				if( docId
-					&& this.startTimeByDocId ){
+				if (docId
+					&& this.startTimeByDocId) {
 					var startTime = this.startTimeByDocId[docId];
-					if( undefined !== startTime ){
+					if (undefined !== startTime) {
 						m.startTime = startTime;
 					}
 				}
 			}
 		},
 
-		_getModelInfo: function(){
+		_getModelInfo: function() {
 			var modelInfo = {
 				modelId: this.modelId
 				,modelType: 'PopulatedPlaceTransform'
@@ -841,53 +850,53 @@
 			return modelInfo;
 		},
 
-		_sourceModelUpdated: function(sourceState){
-			var i, e, doc, docId, docInfo;
+		_sourceModelUpdated: function(sourceState) {
+			var i, e, doc, docId, docInfo, ele;
 			var _this = this;
 			this.pendingDonutsByDocId = {};
 			this.removedDonutsByDocId = {};
 
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
 			// Loop through all removed documents
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
 					docInfo = this.docInfosByDocId[docId];
 
-					if (docInfo.isIndex){
+					if (docInfo.isIndex) {
 						//if cinemap is removed; a new cinemap should be added at the same time above
 						this._recomputeTransforms(doc, true);
 					}
 
-					if( docInfo ){
-						if(docInfo.linkingDonutsId){
-							for(var donutDocId of docInfo.linkingDonutsId){
+					if (docInfo) {
+						if (docInfo.linkingDonutsId) {
+							for (var donutDocId of docInfo.linkingDonutsId) {
 								var donutDoc = this.docInfosByDocId[donutDocId];
 								this.removedDonutsByDocId[donutDocId]= donutDoc;
 								delete this.docInfosByDocId[donutDocId];
 							}
 						}
-						delete this.docInfosByDocId[docId];
 
+						delete this.docInfosByDocId[docId];
 						//removed.push(doc);
 					}
 				}
 			}
 
 			// Loop through all added documents
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
 					docInfo = createDocInfo(doc);
 
 					// Save info
-					if (docInfo.isIndex){
+					if (docInfo.isIndex) {
 						//break;
 					}
 					this.docInfosByDocId[docId] = docInfo;
@@ -896,13 +905,13 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
 					docInfo = this.docInfosByDocId[docId];
 
-					if( !docInfo ) {
+					if (!docInfo ) {
 						docInfo = createDocInfo(doc);
 						this.docInfosByDocId[docId] = docInfo;
 
@@ -919,12 +928,12 @@
 				removed = [],
 				updated = [];
 			var pendingDonutDocsByDocId = {};
-			for (var ele in _this.pendingDonutsByDocId){
+			for (ele in _this.pendingDonutsByDocId) {
 				pendingDonutDocsByDocId[ele] = _this.pendingDonutsByDocId[ele].doc;
 			}
 
 			var removedDonutDocsByDocId = {};
-			for (var ele in _this.removedDonutsByDocId){
+			for (ele in _this.removedDonutsByDocId) {
 				removedDonutDocsByDocId[ele] = _this.removedDonutsByDocId[ele].doc;
 			}
 
@@ -932,8 +941,8 @@
 			$n2.extend(_this.docInfosByDocId, _this.pendingDonutsByDocId);
 
 			var updatedDonuts = [];
-			for( var ele in pendingDonutDocsByDocId){
-				if (removedDonutDocsByDocId[ele]){
+			for (ele in pendingDonutDocsByDocId) {
+				if (removedDonutDocsByDocId[ele]) {
 					updatedDonuts.push(pendingDonutDocsByDocId[ele]);
 					delete pendingDonutDocsByDocId[ele];
 					delete removedDonutDocsByDocId[ele];
@@ -948,16 +957,16 @@
 
 			this._reportStateUpdate(added, updated, removed);
 
-			function createDocInfo(doc){
+			function createDocInfo(doc) {
 				var docId = doc._id;
 				var docInfo = {
-					id : docId
+					id: docId
 					,sourceDoc: doc
-					,published : false
+					,published: false
 				}
 				docInfo.doc = Object.assign({}, doc);
 
-				if( doc.atlascine_cinemap ){
+				if (doc.atlascine_cinemap) {
 					docInfo.isIndex = true;
 
 				} else {
@@ -969,10 +978,10 @@
 				return docInfo;
 			}
 
-			function updateDocInfo(docInfo, doc){
+			function updateDocInfo(docInfo, doc) {
 				docInfo.sourceDoc = doc;
 				docInfo.doc = Object.assign({}, doc);
-				if( doc.atlascine_cinemap ){
+				if (doc.atlascine_cinemap) {
 					docInfo.isIndex = true;
 
 				} else {
@@ -982,9 +991,9 @@
 				var oldDonutsId = docInfo.linkingDonutsId;
 				if (oldDonutsId
 					&& Array.isArray(oldDonutsId)
-					&& oldDonutsId.length > 0){
-					for (var olddonutId of oldDonutsId){
-						if (_this.docInfosByDocId[olddonutId]){
+					&& oldDonutsId.length > 0) {
+					for (var olddonutId of oldDonutsId) {
+						if (_this.docInfosByDocId[olddonutId]) {
 							_this.removedDonutsByDocId[olddonutId] = _this.docInfosByDocId[olddonutId];
 							delete _this.docInfosByDocId[olddonutId];
 						}
@@ -994,28 +1003,28 @@
 
 				if (doc._n2CineIndex
 					&& Array.isArray(doc._n2CineIndex)
-					&& doc._n2CineIndex.length > 0){
+					&& doc._n2CineIndex.length > 0) {
 					docInfo.linkingDonutsId = [];
 				}
 				return docInfo;
 			}
 		},
 
-		_recomputeTransforms: function(doc, isClearance){
+		_recomputeTransforms: function(doc, isClearance) {
 			var _this = this;
 			var docId = doc._id;
 			var docInfo = this.docInfosByDocId[docId];
 			if (isClearance &&
-				docInfo.isIndex){
-				for (var id in this.docInfosByDocId){
+				docInfo.isIndex) {
+				for (var id in this.docInfosByDocId) {
 					docInfo = this.docInfosByDocId [id];
-					if (docInfo.linkingDonutsId){
+					if (docInfo.linkingDonutsId) {
 						var oldDonutsId = docInfo.linkingDonutsId;
 						if (oldDonutsId
 							&& Array.isArray(oldDonutsId)
-							&& oldDonutsId.length > 0){
-							for (var olddonutId of oldDonutsId){
-								if (_this.docInfosByDocId[olddonutId]){
+							&& oldDonutsId.length > 0) {
+							for (var olddonutId of oldDonutsId) {
+								if (_this.docInfosByDocId[olddonutId]) {
 									_this.removedDonutsByDocId[olddonutId] = _this.docInfosByDocId[olddonutId];
 									delete _this.docInfosByDocId[olddonutId];
 								}
@@ -1025,7 +1034,7 @@
 					}
 				}
 
-			} else if(docInfo.linkingDonutsId){
+			} else if(docInfo.linkingDonutsId) {
 				//generates donut doc file based on this single index file
 				this._populateDocInfosFromDoc(doc);
 			}
@@ -1033,7 +1042,7 @@
 			//Object.assign(this.docInfosByDocId, pendingDonutsByDocId);
 		},
 
-		getNextColor:function(){
+		getNextColor:function() {
 			if (typeof this.color_available_idx === 'undefined') {
 				this.color_available_idx = -1;
 			}
@@ -1043,7 +1052,7 @@
 			return this.colorArr[ this.color_available_idx % col_len];
 		},
 
-		_populateDocInfosFromDoc: function(doc){
+		_populateDocInfosFromDoc: function(doc) {
 			var docId = doc._id;
 			var originalDocInfoWithDonutDocRefs = this.docInfosByDocId[docId];
 
@@ -1054,27 +1063,28 @@
 			var cineIndexArr = doc._n2CineIndex;
 
 			if (cineIndexArr
-				&& cineIndexArr.length >= 1){
-				for (var cidx of cineIndexArr){
+				&& cineIndexArr.length >= 1) {
+				for (var cidx of cineIndexArr) {
 					var donutId = docId + '_donut_'+cnt.toString(16)
 					var donutDocInfo = {
 						id: donutId
 						,sourceDoc: doc
-						,published : false
-						,isDonut : true
+						,published: false
+						,isDonut: true
 					}
 					originalDocInfoWithDonutDocRefs.linkingDonutsId.push(donutId);
 
 					donutDocInfo.doc = {
-							nunaliit_geom: doc.nunaliit_geom
-							,nunaliit_layers : doc.nunaliit_layers
+						nunaliit_geom: doc.nunaliit_geom
+						,nunaliit_layers: doc.nunaliit_layers
 					};
+
 					donutDocInfo.doc._id = donutId;
 					var l = cidx.start, r = cidx.end;
 					var ldata_tmp = {
 						start: cidx.start,
 						tags: cidx.tags,
-						scaleFactor : cidx.scaleFactor
+						scaleFactor: cidx.scaleFactor
 					};
 
 					// 15 is the magic number for the ring to be drawn on map
@@ -1083,10 +1093,11 @@
 					var lowerBound = Math.ceil(Math.max( (r-l)*cidx.scaleFactor, 15) / cidx.scaleFactor);
 					ldata_tmp.duration = Math.max(r - l, lowerBound);
 					ldata_tmp.style = {
-							name: 'alpha',
-							fillColor: cidx.color,
-							opacity: 0.5
+						name: 'alpha',
+						fillColor: cidx.color,
+						opacity: 0.5
 					};
+
 					donutDocInfo.doc._ldata = ldata_tmp ;
 
 					// Remember start time given the doc id
@@ -1098,7 +1109,7 @@
 			}
 		},
 
-		_reportStateUpdate: function(added, updated, removed){
+		_reportStateUpdate: function(added, updated, removed) {
 			var stateUpdate = {
 				added: added
 				,updated: updated
@@ -1106,7 +1117,7 @@
 				,loading: this.modelIsLoading
 			};
 
-			if( this.dispatchService ){
+			if (this.dispatchService) {
 				this.dispatchService.send(DH,{
 					type: 'modelStateUpdated'
 					,modelId: this.modelId
@@ -1118,14 +1129,14 @@
 
 	// ============ LookAheadService ========================
 	function SplitSearchTerms(line) {
-		if( !line ) return null;
+		if (!line ) return null;
 
 		var map = $n2.couchUtils.extractSearchTerms(line, false);
 
 		var searchTerms = [];
-		for(var term in map){
+		for (var term in map) {
 			var folded = map[term].folded;
-			if( folded ) {
+			if (folded ) {
 				searchTerms.push(folded);
 			}
 		}
@@ -1170,7 +1181,7 @@
 			this.lookAheadCounter = 0;
 		},
 
-		setConstraint: function(constraint){
+		setConstraint: function(constraint) {
 			this.constraint = constraint;
 		},
 
@@ -1178,21 +1189,21 @@
 			var _this = this;
 
 			var words = this._retrievePrefix(prefix);
-			if( words ) {
+			if (words ) {
 				callback(prefix,words);
 				return;
 			}
 
 			// Figure out query view
 			var viewName = 'tags';
-			/*if( this.constraint ){
+			/*if (this.constraint) {
 				viewName = 'text-lookahead-constrained';
 			};*/
 
 			// Figure out start and end keys
 			var startKey = prefix;
 			var endKey = prefix + '\u9999';
-			if( this.constraint ){
+			if (this.constraint) {
 				startKey = [this.constraint, prefix, null];
 				endKey = [this.constraint, prefix + '\u9999', {}];
 			}
@@ -1211,7 +1222,7 @@
 					var rows = response.rows;
 
 					var words = [];
-					for(var i=0,e=rows.length; i<e; ++i) {
+					for (var i=0,e=rows.length; i<e; ++i) {
 						words.push(rows[i].key);
 					}
 
@@ -1222,14 +1233,14 @@
 						,full: response.all_rows
 					});
 
-					if( 0 == words.length ) {
+					if (0 == words.length ) {
 						callback(prefix,null);
 					} else {
 						callback(prefix,words);
 					}
 				}
 
-				,onError: function(){
+				,onError: function() {
 					callback(prefix,null);
 				}
 			});
@@ -1237,7 +1248,7 @@
 
 		queryTerms: function(terms,callback) {
 
-			if( null === terms
+			if (null === terms
 				|| 0 == terms.length ) {
 				callback(null);
 				return;
@@ -1246,11 +1257,11 @@
 			var index = terms.length - 1;
 			while( index >= 0 ) {
 				var lastTerm = terms[index];
-				if( '' === lastTerm ) {
+				if ('' === lastTerm ) {
 					--index;
 				} else {
 					var previousWords = null;
-					if( index > 0 ) {
+					if (index > 0 ) {
 						previousWords = terms.slice(0,index);
 					}
 					break;
@@ -1259,27 +1270,27 @@
 
 			lastTerm = lastTerm.toLowerCase();
 
-			if( !lastTerm ) {
+			if (!lastTerm ) {
 				callback(null);
 				return;
 			}
 
-			if( lastTerm.length < this.lookAheadPrefixMin ) {
+			if (lastTerm.length < this.lookAheadPrefixMin ) {
 				callback(null);
 				return;
 			}
 
 			var previousWordsString = '';
-			if( previousWords ) {
+			if (previousWords ) {
 				previousWordsString = previousWords.join(' ') + ' ';
 			}
 
-			this.queryPrefix(lastTerm,function(prefix,words){
-				if( null === words ) {
+			this.queryPrefix(lastTerm,function(prefix,words) {
+				if (null === words ) {
 					callback(null);
 				} else {
 					var results = [];
-					for(var i=0,e=words.length; i<e; ++i) {
+					for (var i=0,e=words.length; i<e; ++i) {
 						results.push( previousWordsString + words[i] );
 					}
 					callback(results);
@@ -1300,33 +1311,33 @@
 			var keysToDelete = [];
 			var cachedMap = this.lookAheadMap; // faster access
 			var limit = this.lookAheadCounter - this.lookAheadCacheSize;
-			for(var key in cachedMap) {
-				if( cachedMap[key].counter < limit ) {
+			for (var key in cachedMap) {
+				if (cachedMap[key].counter < limit ) {
 					keysToDelete.push(key);
 				}
 			}
 
-			for(var i=0,e=keysToDelete.length; i<e; ++i) {
+			for (var i=0,e=keysToDelete.length; i<e; ++i) {
 				delete cachedMap[keysToDelete[i]];
 			}
 		},
 
 		_retrievePrefix: function(prefix) {
 			// Do we have exact match in cache?
-			if( this.lookAheadMap[prefix] ) {
+			if (this.lookAheadMap[prefix] ) {
 				return this.lookAheadMap[prefix].words;
 			}
 
 			// Look for complete results from shorter prefix
 			var sub = prefix.substring(0,prefix.length-1);
 			while( sub.length >= this.lookAheadPrefixMin ) {
-				if( this.lookAheadMap[sub] && this.lookAheadMap[sub].full ) {
+				if (this.lookAheadMap[sub] && this.lookAheadMap[sub].full ) {
 					var cachedWords = this.lookAheadMap[sub].words;
 					var words = [];
-					for(var i=0,e=cachedWords.length; i<e; ++i) {
+					for (var i=0,e=cachedWords.length; i<e; ++i) {
 						var word = cachedWords[i];
-						if( word.length >= prefix.length ) {
-							if( word.substr(0,prefix.length) === prefix ) {
+						if (word.length >= prefix.length ) {
+							if (word.substr(0,prefix.length) === prefix ) {
 								words.push(word);
 							}
 						}
@@ -1350,21 +1361,21 @@
 		_jqAutoComplete: function(request, cb) {
 			var terms = SplitSearchTerms(request.term);
 			var callback = cb;
-//			var callback = function(res){
+//			var callback = function(res) {
 //				$n2.log('look ahead results',res);
 //				cb(res);
 //			}
 			this.queryTerms(terms, callback);
 		}
 	});
-//	--------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
-//	++++++++++++++++++++++++++++++++++++++++++++++
-//	Converts time stamp to seconds
+	// ++++++++++++++++++++++++++++++++++++++++++++++
+	// Converts time stamp to seconds
 	var reTimeCode = /([0-9][0-9]):([0-9][0-9]):([0-9][0-9])((\,|\.)[0-9]+)?/i;
 	var TimestampToSeconds = function(timestampStr) {
 		var tmpTimecode = timestampStr.replace(/^\s+|\s+$/g,'');
-		if( !tmpTimecode || tmpTimecode === '' ){
+		if (!tmpTimecode || tmpTimecode === '') {
 			return undefined;
 		}
 
@@ -1378,10 +1389,11 @@
 		return seconds;
 	};
 
-//	++++++++++++++++++++++++++++++++++++++++++++++
+	// ++++++++++++++++++++++++++++++++++++++++++++++
 	var CineTimeIndexTransform = $n2.Class('CineTimeIndexTransform',$n2.modelTime.TimeIntervalModel,{
 
 		sourceModelId: null,
+
 		cinemapModelId: null,
 
 		docInfosByDocId: null,
@@ -1390,7 +1402,7 @@
 
 		modelIsLoading: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				dispatchService: null
 				,modelId: null
@@ -1412,13 +1424,13 @@
 			this._placeDocIdMap = undefined;
 
 			this.__DEFAULT_TAGSETTINGS__ = {
-				globalScaleFactor : 1
-				,globalTimeOffset : 0.5
+				globalScaleFactor: 1
+				,globalTimeOffset: 0.5
 			};
 
 			// Register to events
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 				this.dispatchService.register(DH, 'modelGetInfo', f);
@@ -1433,7 +1445,7 @@
 					,modelId: this.sourceModelId
 				};
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
@@ -1441,54 +1453,58 @@
 			$n2.log('CineTimeIndexTransform',this);
 		},
 
-		_handle: function(m, addr, dispatcher){
-			if( 'modelGetInfo' === m.type ){
-				if( this.modelId === m.modelId ){
+		_handle: function(m, addr, dispatcher) {
+			if ('modelGetInfo' === m.type) {
+				if (this.modelId === m.modelId) {
 					m.modelInfo = this._getModelInfo();
 				}
 
-			} else if ('PlaceUtility--replyPlaceDocIdMap' === m.type){
+			} else if ('PlaceUtility--replyPlaceDocIdMap' === m.type) {
 				this._placeDocIdMap = m.map;
-				if (this._placeDocIdMap){
+				if (this._placeDocIdMap) {
 					this._recomputeTransforms ();
 				}
 
-			} else if('PlaceUtility--updatePlaceDocIdMap' === m.type){
+			} else if('PlaceUtility--updatePlaceDocIdMap' === m.type) {
 				this._placeDocIdMap = m.map;
-				if (this._placeDocIdMap){
+				if (this._placeDocIdMap) {
 					this._recomputeTransforms ();
 				}
 
-			} else if( 'modelGetState' === m.type ){
+			} else if ('modelGetState' === m.type) {
 				// Is this request intended for this time transform?
-				if( this.modelId === m.modelId ){
+				if (this.modelId === m.modelId) {
 					var added = [];
-					for(var docId in this.docInfosByDocId){
+					for (var docId in this.docInfosByDocId) {
 						var docInfo = this.docInfosByDocId[docId];
 						var doc = docInfo.doc;
 						added.push(doc);
 					}
 
 					m.state = {
-							added: added
-							,updated: []
-					,removed: []
-					,loading: this.modelIsLoading
+						added: added
+						,updated: []
+						,removed: []
+						,loading: this.modelIsLoading
 					};
 				}
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 
-				} else if(this.cinemapModelId === m.modelId){
+				} else if(this.cinemapModelId === m.modelId) {
 					this._cinemapUpdate(m.state, true);
 				}
 			}
 		},
 
-		_getModelInfo: function(){
+		/**
+		  * Create's an object with model info, and returns it
+		  * @return {object} info - An object containing the current model's info.
+		  */
+		_getModelInfo: function() {
 			var info = {
 				modelId: this.modelId
 				,modelType: 'cineTimeIndexTransform'
@@ -1496,31 +1512,98 @@
 			};
 
 			this._addModelInfoParameters(info);
-
 			return info;
 		},
 
-		_sourceModelUpdated: function(sourceState){
+		// Handle source model updates (add, update, and remove source states)
+		_sourceModelUpdated: function(sourceState) {
 			var i, e, doc, docId, docInfo;
 			var removed = [];
 
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			/**
+			  * Creates a new docInfo object
+			  * @param {object} doc - Nunaliit document object 
+			  * @return {object} docInfo - object containing relevant doc information;
+			  * docId, source, a copy of the document, and if it's published. 
+			  */
+			function createDocInfo(doc) {
+				var docId = doc._id;
+				if (doc.atlascine_cinemap) {
+					return null;
+				}
+				var docInfo = {
+					id: docId
+					,sourceDoc: doc
+					,published: false
+				};
+
+				docInfo.doc = {};
+				for (var key in doc) {
+					docInfo.doc[key] = doc[key];
+				}
+
+				// Is it a cine index?
+//				if (doc.atlascine_cinemap) {
+//					docInfo.isIndex = true;
+//				} else {
+//					docInfo.isIndex = false;
+//				};
+//
+//				if (doc.atlascine_theme_color) {
+//					docInfo.isTheme = true;
+//				} else {
+//					docInfo.isTheme = false;
+//				};
+				return docInfo;
+			}
+
+			/**
+			  * Updates docInfo object by, copying the contents from the doc into 
+			  * the current docInfo object, and then returning this updated docInfo.
+			  * @param {object} docInfo - Current docInfo object
+			  * @param {object} doc - Nunaliit document object
+			  * @return {object} docInfo - Updated docInfo object 
+			  */
+			function updateDocInfo(docInfo, doc) {
+				docInfo.sourceDoc = doc;
+
+				docInfo.doc = {};
+				for (var key in doc) {
+					docInfo.doc[key] = doc[key];
+				}
+
+				// Is it a cine index?
+//				if (doc.atlascine_cinemap) {
+//					docInfo.isIndex = true;
+//				} else {
+//					docInfo.isIndex = false;
+//				};
+//
+//				if (doc.atlascine_theme_color) {
+//					docInfo.isTheme = true;
+//				} else {
+//					docInfo.isTheme = false;
+//				};
+				return docInfo;
+			}
+
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
 			// Loop through all added documents
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
 					docInfo = createDocInfo(doc);
 
 					// Save info
-					if (docInfo){
+					if (docInfo) {
 						this.docInfosByDocId[docId] = docInfo;
 					}
-//					if( docInfo.isIndex ){
+//					if (docInfo.isIndex) {
 //						this.cineIndexByDocId[docId] = doc;
 //					};
 //					if (docInfo.isTheme) {
@@ -1530,21 +1613,21 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
 					docInfo = this.docInfosByDocId[docId];
-					if( !docInfo ) {
-						// Added
+					if (!docInfo ) {
+						// If updated document doesn't exist in collection add it.
 						docInfo = createDocInfo(doc);
 
 						// Save info
-						if (docInfo){
+						if (docInfo) {
 							this.docInfosByDocId[docId] = docInfo;
 						}
 
-//						if( docInfo.isIndex ){
+//						if (docInfo.isIndex) {
 //							this.cineIndexByDocId[docId] = doc;
 //						};
 //						if (docInfo.isTheme) {
@@ -1552,16 +1635,16 @@
 //						}
 
 					} else {
-						// Updated
+						// If updated document exists in collection, update it.
 						var newDocInfo = updateDocInfo(docInfo, doc);
 
 						this.docInfosByDocId[docId] = newDocInfo;
-//						if( newDocInfo.isIndex ){
+//						if (newDocInfo.isIndex) {
 //							this.cineIndexByDocId[docId] = doc;
 //						} else {
 //							delete this.cineIndexByDocId[docId];
 //						};
-//						if( newDocInfo.isTheme ){
+//						if (newDocInfo.isTheme) {
 //							this.cineThemeByDocId[docId] = doc;
 //						} else {
 //							delete this.cineThemeByDocId[docId];
@@ -1573,15 +1656,15 @@
 			}
 
 			// Loop through all removed documents
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
 					docInfo = this.docInfosByDocId[docId];
-					if( docInfo ){
+					if (docInfo) {
 						delete this.docInfosByDocId[docId];
 
-						if( docInfo.published ){
+						if (docInfo.published) {
 							removed.push(doc);
 						}
 					}
@@ -1591,94 +1674,40 @@
 
 			// Report changes in visibility
 			this._recomputeTransforms(removed);
-
-			function createDocInfo(doc){
-				var docId = doc._id;
-				if( doc.atlascine_cinemap ){
-					return null;
-				}
-				var docInfo = {
-					id: docId
-					,sourceDoc: doc
-					,published: false
-				};
-
-				docInfo.doc = {};
-				for(var key in doc){
-					docInfo.doc[key] = doc[key];
-				}
-
-				// Is it a cine index?
-//				if( doc.atlascine_cinemap ){
-//					docInfo.isIndex = true;
-//				} else {
-//					docInfo.isIndex = false;
-//				};
-//
-//				if( doc.atlascine_theme_color ){
-//					docInfo.isTheme = true;
-//				} else {
-//					docInfo.isTheme = false;
-//				};
-				return docInfo;
-			}
-
-			function updateDocInfo(docInfo, doc){
-				docInfo.sourceDoc = doc;
-
-				docInfo.doc = {};
-				for(var key in doc){
-					docInfo.doc[key] = doc[key];
-				}
-
-				// Is it a cine index?
-//				if( doc.atlascine_cinemap ){
-//					docInfo.isIndex = true;
-//				} else {
-//					docInfo.isIndex = false;
-//				};
-//
-//				if( doc.atlascine_theme_color ){
-//					docInfo.isTheme = true;
-//				} else {
-//					docInfo.isTheme = false;
-//				};
-				return docInfo;
-			}
 		},
 
-		_cinemapUpdate: function(sourceState, forceSingleCinemap){
+		_cinemapUpdate: function(sourceState, forceSingleCinemap) {
 			var i, e, doc, docId;
 			var removed = [];
 			var added = [];
 			var updated = [];
 			//this.cineIndexByDocId = {};
 
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						delete this.cineIndexByDocId[docId];
 						removed.push(doc);
 					}
 				}
 			}
 
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
-					if (forceSingleCinemap){
+					if (forceSingleCinemap) {
 						this.cineIndexByDocId = {};
 					}
 
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						this.cineIndexByDocId[docId] = doc;
 						added.push(doc);
 					}
@@ -1686,11 +1715,11 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						this.cineIndexByDocId[docId] = doc;
 						updated.push(doc);
 					}
@@ -1707,12 +1736,12 @@
 		},
 
 		// Clears the _n2CineIndex transformed object from document.
-		_clearN2Index : function(){
-			for(var docId in this.docInfosByDocId){
+		_clearN2Index: function() {
+			for (var docId in this.docInfosByDocId) {
 				var docInfo = this.docInfosByDocId[docId];
 
 				// Added or updated?
-				if( docInfo.published ){
+				if (docInfo.published) {
 					docInfo.newCineIndex = undefined;
 					docInfo.lastCineIndex = undefined;
 					// If not previously published, do it now
@@ -1722,18 +1751,18 @@
 			}
 		},
 
-		_recomputeTransforms: function(removed){
+		_recomputeTransforms: function(removed) {
 			var _this = this;
 			var currentInterval = this.getInterval();
 			var tagGroupsProfile = undefined;
 			var tagColorProfile = undefined;
 			var _scaleFactor, _timeOffset;
 
-			function findPlaceDocTags (tags){
+			function findPlaceDocTags (tags) {
 				var rst = undefined;
-				tags.forEach(function(tag){
-					if ('place' === tag.type || 'location' === tag.type){
-						if (!rst){
+				tags.forEach(function(tag) {
+					if ('place' === tag.type || 'location' === tag.type) {
+						if (!rst) {
 							rst = [];
 						}
 						rst.push(tag);
@@ -1742,29 +1771,29 @@
 				return rst;
 			}
 
-			function findTagsIncluded (tagsProfile, tag){
+			function findTagsIncluded (tagsProfile, tag) {
 				var rst = [];
-				if (tagsProfile){
+				if (tagsProfile) {
 					gen_path([], "", tagsProfile, rst, tag);
 				}
 				return rst;
 			}
 
-			function gen_path(path, curnode, tagsProfile, rst, tag){
+			function gen_path(path, curnode, tagsProfile, rst, tag) {
 				var innertag, newPath;
-				if ( curnode === tag ){
+				if (curnode === tag) {
 					rst.push.apply(rst, path);
 				}
 
-				if(tagsProfile && Array.isArray(tagsProfile)){
-					for (innertag of tagsProfile){
+				if(tagsProfile && Array.isArray(tagsProfile)) {
+					for (innertag of tagsProfile) {
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, null, rst, tag);
 					}
 
-				} else if (tagsProfile && typeof tagsProfile === 'object'){
-					for (innertag in tagsProfile){
+				} else if (tagsProfile && typeof tagsProfile === 'object') {
+					for (innertag in tagsProfile) {
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, tagsProfile[innertag], rst, tag);
@@ -1774,12 +1803,12 @@
 
 			function findUniqueColorByTags(colorProfile, tagsArr) {
 				var rst = undefined;
-				if (colorProfile){
-					for(var tag of tagsArr){
-						if ( tag in colorProfile
+				if (colorProfile) {
+					for (var tag of tagsArr) {
+						if (tag in colorProfile
 							&& colorProfile[tag]
 							&& typeof colorProfile[tag] === "string"
-							&& colorProfile[tag] !== ""){
+							&& colorProfile[tag] !== "") {
 							rst = colorProfile[tag];
 						}
 					}
@@ -1787,51 +1816,51 @@
 				return rst;
 			}
 
-			function indicesAreEqual(lastCineIndex, newCineIndex){
+			function indicesAreEqual(lastCineIndex, newCineIndex) {
 				var i, e;
-				if( !lastCineIndex && !newCineIndex ){
+				if (!lastCineIndex && !newCineIndex) {
 					// same
 					return true;
 				}
 
-				if( !lastCineIndex ){
+				if (!lastCineIndex) {
 					return false;
 				}
 
-				if( !newCineIndex ){
+				if (!newCineIndex) {
 					return false;
 				}
 
-				if( lastCineIndex.length != newCineIndex.length ){
+				if (lastCineIndex.length != newCineIndex.length) {
 					return false;
 				}
 
-				for(i=0, e=lastCineIndex.length; i<e; ++i){
+				for (i=0, e=lastCineIndex.length; i<e; ++i) {
 					var i1 = lastCineIndex[i];
 					var i2 = newCineIndex[i];
 
-					if( i1.start != i2.start ){
+					if (i1.start != i2.start) {
 						return false;
 					}
 
-					if( i1.end != i2.end ){
+					if (i1.end != i2.end) {
 						return false;
 					}
 
-					if( i1.origin !== i2.origin ){
+					if (i1.origin !== i2.origin) {
 						return false;
 					}
 
-					if (i1.color !== i2.color){
+					if (i1.color !== i2.color) {
 						return false;
 					}
 
-					if (i1.tags.length !== i2.tags.length){
+					if (i1.tags.length !== i2.tags.length) {
 						return false;
 					}
 
-					for (i = 0, e= i2.length; i<e; i++){
-						if (i2.tags[i] !== i1.tags[i]){
+					for (i = 0, e= i2.length; i<e; i++) {
+						if (i2.tags[i] !== i1.tags[i]) {
 							return false;
 						}
 					}
@@ -1842,7 +1871,7 @@
 			if (!this._placeDocIdMap) {
 				var msg = {
 					type: 'PlaceUtility--getPlaceDocIdMap',
-					docId : undefined
+					docId: undefined
 				};
 				_this.dispatchService.send(DH, msg);
 				// Break out of method
@@ -1850,21 +1879,21 @@
 			}
 
 			// Loop over the indices, computing a new index for each document
-			for(var indexId in this.cineIndexByDocId){
+			for (var indexId in this.cineIndexByDocId) {
 				var indexDoc = this.cineIndexByDocId[indexId];
 
-				if (indexDoc.atlascine_cinemap.tagGroups){
+				if (indexDoc.atlascine_cinemap.tagGroups) {
 					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
 				}
 
-				if (indexDoc.atlascine_cinemap.tagColors){
+				if (indexDoc.atlascine_cinemap.tagColors) {
 					tagColorProfile = indexDoc.atlascine_cinemap.tagColors;
 				}
 
-				if (indexDoc.atlascine_cinemap.settings){
+				if (indexDoc.atlascine_cinemap.settings) {
 					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
 					var offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
-					_timeOffset = offsetInSetting ? offsetInSetting : 0.5;
+					_timeOffset = offsetInSetting ? offsetInSetting: 0.5;
 
 				} else {
 					indexDoc.atlascine_cinemap.settings = _this.__DEFAULT_TAGSETTINGS__;
@@ -1884,7 +1913,7 @@
 						var referenceDocTags = timeLink.tags;
 						var placeTags = findPlaceDocTags (referenceDocTags);
 						if (placeTags) {
-							placeTags.forEach(function(tag){
+							placeTags.forEach(function(tag) {
 								var placeName = tag.value;
 								var _name = placeName.trim().toLowerCase();
 								var referencedDoc = _this._placeDocIdMap[_name];
@@ -1980,7 +2009,7 @@
 			// Detect which document changed and compute
 			// additions and updates
 			var added = [], updated = [], removed = [];
-			for(var docId in this.docInfosByDocId){
+			for (var docId in this.docInfosByDocId) {
 				var docInfo = this.docInfosByDocId[docId];
 
 				var modified = false;
@@ -2008,13 +2037,13 @@
 			this._reportStateUpdate(added, updated, removed);
 		},
 
-		_intervalUpdated: function(){
+		_intervalUpdated: function() {
 			//var currentInterval = this.getInterval();
 			//$n2.log('CineIndexTransform Interval',currentInterval);
 			this._recomputeTransforms([]);
 		},
 
-		_reportStateUpdate: function(added, updated, removed){
+		_reportStateUpdate: function(added, updated, removed) {
 			var stateUpdate = {
 				added: added
 				,updated: updated
@@ -2039,7 +2068,7 @@
 
 		currentCallback: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				modelId: null
 				,sourceModelId: null
@@ -2053,19 +2082,19 @@
 			this.currentChoices = [];
 			this.currentCallback = null;
 
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handleLayerFilterEvents(m, addr, dispatcher);
 				};
 				//this.dispatchService.register(DH,'documentContent',f);
 			}
 		},
 
-		_handleLayerFilterEvents: function(m, addr, dispatcher){},
+		_handleLayerFilterEvents: function(m, addr, dispatcher) {},
 
-		_computeAvailableChoicesFromDocs: function(docs, callbackFn){
+		_computeAvailableChoicesFromDocs: function(docs, callbackFn) {
 			var choiceLabelsById = {};
-			docs.forEach(function(doc){
+			docs.forEach(function(doc) {
 				if (doc
 					&& doc.atlascine_cinemap) {
 					var label = doc.atlascine_cinemap.title;
@@ -2086,7 +2115,7 @@
 				});
 			}
 
-			availableChoices.sort(function(a,b){
+			availableChoices.sort(function(a,b) {
 				if (a.label < b.label) {
 					return -1;
 				}
@@ -2106,7 +2135,7 @@
 			return null;
 		},
 
-		_isDocVisible: function(doc, selectedChoiceIdMap){
+		_isDocVisible: function(doc, selectedChoiceIdMap) {
 			if (selectedChoiceIdMap[doc._id]) {
 				if (doc && doc.atlascine_cinemap) {
 					return true;
@@ -2118,14 +2147,14 @@
 	});
 
 //	++++++++++++++++++++++++++++++++++++++++++++++
-	function handleModelEvents(m, addr, dispatcher){
+	function handleModelEvents(m, addr, dispatcher) {
 		var options, key, value;
-		if( 'modelCreate' === m.type ){
-			if( 'cineTimeIndexTransform' === m.modelType ){
+		if ('modelCreate' === m.type) {
+			if ('cineTimeIndexTransform' === m.modelType) {
 				options = {};
 
-				if( m.modelOptions ){
-					for(key in m.modelOptions){
+				if (m.modelOptions) {
+					for (key in m.modelOptions) {
 						value = m.modelOptions[key];
 						options[key] = value;
 					}
@@ -2133,8 +2162,8 @@
 
 				options.modelId = m.modelId;
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 					}
 				}
@@ -2143,10 +2172,10 @@
 
 				m.created = true;
 
-			} else if ( 'cineData2DonutTransform' === m.modelType ) {
+			} else if ('cineData2DonutTransform' === m.modelType ) {
 				options = {};
-				if( m.modelOptions ){
-					for(key in m.modelOptions){
+				if (m.modelOptions) {
+					for (key in m.modelOptions) {
 						value = m.modelOptions[key];
 						options[key] = value;
 					}
@@ -2154,8 +2183,8 @@
 
 				options.modelId = m.modelId;
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 					}
 				}
@@ -2164,10 +2193,10 @@
 
 				m.created = true;
 
-			} else if ( 'cineMapFilter' === m.modelType ) {
+			} else if ('cineMapFilter' === m.modelType ) {
 				options = {};
-				if( m.modelOptions ){
-					for(key in m.modelOptions){
+				if (m.modelOptions) {
+					for (key in m.modelOptions) {
 						value = m.modelOptions[key];
 						options[key] = value;
 					}
@@ -2175,8 +2204,8 @@
 
 				options.modelId = m.modelId;
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 					}
 				}
@@ -2184,10 +2213,10 @@
 				new CineMapFilter(options);
 				m.created = true;
 
-			} else if ( 'searchResult2DonutTransform' === m.modelType ){
+			} else if ('searchResult2DonutTransform' === m.modelType) {
 				options = {};
-				if( m.modelOptions ){
-					for(key in m.modelOptions){
+				if (m.modelOptions) {
+					for (key in m.modelOptions) {
 						value = m.modelOptions[key];
 						options[key] = value;
 					}
@@ -2195,8 +2224,8 @@
 
 				options.modelId = m.modelId;
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.requestService = m.config.directory.requestService;
 					}
@@ -2211,7 +2240,7 @@
 
 	var TagUtility = $n2.Class('TagUtility', {
 
-		name : null,
+		name: null,
 
 		dispatchService: null,
 
@@ -2225,7 +2254,7 @@
 
 		sourceModelId: undefined,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				name: undefined
 				,dispatchService: null
@@ -2248,14 +2277,14 @@
 			this.colorProfile = undefined;
 			this.tagsBysentenceSpanIds = {};
 
-			if( !this.dispatchService ){
+			if (!this.dispatchService) {
 				throw new Error('ColorUtility requires dispatchService');
 			}
 
-//			if( !this.eventService ){
+//			if (!this.eventService) {
 //				throw new Error('GetSelectionUtility requires eventService');
 //			};
-//			if( !this.atlasDb ){
+//			if (!this.atlasDb) {
 //				throw new Error('GetSelectionUtility requires atlasDb');
 //			};
 
@@ -2263,8 +2292,8 @@
 //			this.currentSelectionNumber = 0;
 //			this.currentFocusNumber = 0;
 
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 
@@ -2276,7 +2305,7 @@
 //			this.originalEventHandler = this.eventService.getHandler();
 //			this.eventService.register('userSelect');
 //			this.eventService.register('userFocusOn');
-//			this.eventService.setHandler(function(m, addr, dispatcher){
+//			this.eventService.setHandler(function(m, addr, dispatcher) {
 //				_this._handleEvent(m, addr, dispatcher);
 //			});
 
@@ -2285,40 +2314,40 @@
 					,modelId: this.sourceModelId
 				};
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			$n2.log(this._classname, this);
 		},
 
-		_handle: function(m, addr, dispatcher){
-			if( 'tagUtilityAvailable' === m.type ){
+		_handle: function(m, addr, dispatcher) {
+			if ('tagUtilityAvailable' === m.type) {
 				m.available = true;
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._cinemapUpdate(m.state);
 				}
 
-			} else if ( 'resetDisplayedSentences' === m.type ){
+			} else if ('resetDisplayedSentences' === m.type) {
 				this.tagsBySentenceSpanIds = m.data;
 				this._refresh();
 				this._reply()
 			}
 		},
 
-		_reply: function(nextStop){
+		_reply: function(nextStop) {
 			var _this = this;
-			if ( this.tagsBySentenceSpanIds ){
+			if (this.tagsBySentenceSpanIds) {
 				this.dispatchService.send(DH, {
-					type : 'replyColorForDisplayedSentences'
-					,data : _this.tagsBySentenceSpanIds
+					type: 'replyColorForDisplayedSentences'
+					,data: _this.tagsBySentenceSpanIds
 				});
 			}
 		},
 
-		_cinemapUpdate: function( sourceState ){
+		_cinemapUpdate: function( sourceState) {
 			var i, e, doc, docId;
 			var forceSingleCinemap = true;
 			var removed = [];
@@ -2328,16 +2357,16 @@
 			,cinemapUpdated = false;
 			//this.cineIndexByDocId = {};
 
-			if( typeof sourceState.loading === 'boolean'
-				&& this.modelIsLoading !== sourceState.loading ){
+			if (typeof sourceState.loading === 'boolean'
+				&& this.modelIsLoading !== sourceState.loading) {
 				this.modelIsLoading = sourceState.loading;
 			}
 
-			if( sourceState.removed ){
-				for(i=0, e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0, e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						delete this.cineIndexByDocId[docId];
 						cinemapChanged = true;
 						removed.push(doc);
@@ -2345,15 +2374,15 @@
 				}
 			}
 
-			if( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
-					if (forceSingleCinemap){
+					if (forceSingleCinemap) {
 						this.cineIndexByDocId = {};
 					}
 
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						cinemapChanged = true;
 						this.cineIndexByDocId[docId] = doc;
 						added.push(doc);
@@ -2362,11 +2391,11 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0,e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0,e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
-					if( doc.atlascine_cinemap ){
+					if (doc.atlascine_cinemap) {
 						cinemapUpdated = true;
 						this.cineIndexByDocId[docId] = doc;
 						updated.push(doc);
@@ -2374,39 +2403,35 @@
 				}
 			}
 
-			if ( cinemapChanged ){
+			if (cinemapChanged) {
 				this.tagsBySentenceSpanIds = null;
-			}
-
-			if ( cinemapUpdated ){
-
 			}
 
 			this._refresh();
 			this._reply();
 		},
 
-		_refresh: function (){
-			if ( !this.tagsBySentenceSpanIds ){
+		_refresh: function () {
+			if (!this.tagsBySentenceSpanIds) {
 				return;
 			}
 
-			for (var docId in this.cineIndexByDocId){
+			for (var docId in this.cineIndexByDocId) {
 				var indexDoc = this.cineIndexByDocId[docId];
 				var timeLinks = indexDoc.atlascine_cinemap.timeLinks;
 				var tagGroupsProfile = undefined;
 				var tagColorProfile = undefined;
-				if (indexDoc.atlascine_cinemap.tagGroups){
+				if (indexDoc.atlascine_cinemap.tagGroups) {
 					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
 				}
 
-				if (indexDoc.atlascine_cinemap.tagColors){
+				if (indexDoc.atlascine_cinemap.tagColors) {
 					tagColorProfile = indexDoc.atlascine_cinemap.tagColors;
-					if( !timeLinks ){
+					if (!timeLinks) {
 						return;
 					}
 
-					for ( var spanId in this.tagsBySentenceSpanIds ){
+					for (var spanId in this.tagsBySentenceSpanIds) {
 						var original = this.tagsBySentenceSpanIds [spanId];
 						var start = original.start;
 						var end = original.end;
@@ -2418,11 +2443,11 @@
 
 							if (referenceDocTags
 								&& Array.isArray(referenceDocTags)
-								&& referenceDocTags.length > 0){
-								for (var tag of referenceDocTags){
+								&& referenceDocTags.length > 0) {
+								for (var tag of referenceDocTags) {
 									var tagVal = tag.value;
 									var tagsFromTagsGroup = findTagsIncluded(tagGroupsProfile, tagVal);
-									if (tagsFromTagsGroup.length == 0){
+									if (tagsFromTagsGroup.length == 0) {
 										tagsFromTagsGroup.push(tagVal);
 									}
 									tags.push.apply(tags,tagsFromTagsGroup );
@@ -2433,7 +2458,7 @@
 						}
 
 						var color = findUniqueColorByTags(tagColorProfile, tags);
-						if ( atleastOne && !color ){
+						if (atleastOne && !color) {
 							color = '#e6e6e6';
 						}
 
@@ -2446,21 +2471,21 @@
 				}
 			}
 
-			function findTimeLink(timeLinks, startTime, endTime){
+			function findTimeLink(timeLinks, startTime, endTime) {
 				var result = [];
 				var timeLink;
 				var target_start = convertTimecodeToMs(startTime);
 				var target_end = convertTimecodeToMs(endTime);
-				if ( target_start && target_end ){
-					for (var i=0,e=timeLinks.length; i<e; i++){
+				if (target_start && target_end) {
+					for (var i=0,e=timeLinks.length; i<e; i++) {
 						try {
 							timeLink =timeLinks[i];
 							var start_in_ms = convertTimecodeToMs(timeLink.starttime);
 							var end_in_ms = convertTimecodeToMs(timeLink.endtime);
-							if( start_in_ms &&
+							if (start_in_ms &&
 								end_in_ms &&
 								start_in_ms === target_start &&
-								end_in_ms === target_end ){
+								end_in_ms === target_end) {
 								result.push(timeLink);
 							}
 
@@ -2475,29 +2500,30 @@
 				return result;
 			}
 
-			function findTagsIncluded (tagsProfile, tag){
+			function findTagsIncluded (tagsProfile, tag) {
 				var rst = [];
-				if (tagsProfile){
+				if (tagsProfile) {
 					gen_path([], "", tagsProfile, rst, tag);
 				}
 				return rst;
 			}
 
-			function gen_path(path, curnode, tagsProfile, rst, tag){
-				if ( curnode === tag ){
+			function gen_path(path, curnode, tagsProfile, rst, tag) {
+				var innertag, newPath;
+				if (curnode === tag) {
 					rst.push.apply(rst, path);
 				}
 
-				if(tagsProfile && Array.isArray(tagsProfile)){
-					for ( var innertag of tagsProfile){
-						var newPath = path.slice(0);
+				if(tagsProfile && Array.isArray(tagsProfile)) {
+					for (innertag of tagsProfile) {
+						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, null, rst, tag);
 					}
 
-				} else if (tagsProfile && typeof tagsProfile === 'object'){
-					for ( var innertag in tagsProfile){
-						var newPath = path.slice(0);
+				} else if (tagsProfile && typeof tagsProfile === 'object') {
+					for (innertag in tagsProfile) {
+						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, tagsProfile[innertag], rst, tag);
 					}
@@ -2506,12 +2532,12 @@
 
 			function findUniqueColorByTags(colorProfile, tagsArr) {
 				var rst = undefined;
-				if (colorProfile){
-					for(var tag of tagsArr){
-						if ( tag in colorProfile
+				if (colorProfile) {
+					for (var tag of tagsArr) {
+						if (tag in colorProfile
 							&& colorProfile[tag]
 							&& typeof colorProfile[tag] === "string"
-							&& colorProfile[tag] !== ""){
+							&& colorProfile[tag] !== "") {
 							rst = colorProfile[tag];
 						}
 					}
@@ -2522,17 +2548,17 @@
 
 		},
 
-		_sourceModelUpdated : function( sourceState ){
+		_sourceModelUpdated: function( sourceState) {
 
 		}
 
 	});
 
 	var reTimeCode_s = /([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})((\,|\.)([0-9]+))?\s*/i;
-	function convertTimecodeToMs (tmpTimecode){
+	function convertTimecodeToMs (tmpTimecode) {
 		var rst, matcher;
 		try {
-			if ( !tmpTimecode ){
+			if (!tmpTimecode) {
 				throw new Error('Error: timecode is null');
 			}
 			matcher = reTimeCode_s.exec(tmpTimecode);
@@ -2548,7 +2574,7 @@
 	// ColorUtility Class
 	var ColorUtility = $n2.Class('ColorUtility', {
 
-		name : null,
+		name: null,
 
 		dispatchService: null,
 
@@ -2562,7 +2588,7 @@
 
 		sourceModelId: undefined,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				name: undefined
 				,dispatchService: null
@@ -2584,14 +2610,14 @@
 			this.sourceModelId = opts.sourceModelId;
 			this.colorProfile = undefined;
 
-			if( !this.dispatchService ){
+			if (!this.dispatchService) {
 				throw new Error('ColorUtility requires dispatchService');
 			}
 
-//			if( !this.eventService ){
+//			if (!this.eventService) {
 //				throw new Error('GetSelectionUtility requires eventService');
 //			};
-//			if( !this.atlasDb ){
+//			if (!this.atlasDb) {
 //				throw new Error('GetSelectionUtility requires atlasDb');
 //			};
 
@@ -2599,8 +2625,8 @@
 //			this.currentSelectionNumber = 0;
 //			this.currentFocusNumber = 0;
 
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 				this.dispatchService.register(DH, 'colorUtilityAvailable', f);
@@ -2615,7 +2641,7 @@
 //			this.originalEventHandler = this.eventService.getHandler();
 //			this.eventService.register('userSelect');
 //			this.eventService.register('userFocusOn');
-//			this.eventService.setHandler(function(m, addr, dispatcher){
+//			this.eventService.setHandler(function(m, addr, dispatcher) {
 //				_this._handleEvent(m, addr, dispatcher);
 //			});
 
@@ -2624,59 +2650,59 @@
 				,modelId: this.sourceModelId
 			};
 			this.dispatchService.synchronousCall(DH, m);
-			if( m.state ){
+			if (m.state) {
 				this._sourceModelUpdated(m.state);
 			}
 			$n2.log(this._classname, this);
 		},
 
-		_handle: function(m, addr, dispatcher){
+		_handle: function(m, addr, dispatcher) {
 			var _this = this;
-			if( 'colorUtilityAvailable' === m.type ){
+			if ('colorUtilityAvailable' === m.type) {
 				m.available = true;
-			} else if( 'colorUtility--getColor' === m.type ){
+			} else if ('colorUtility--getColor' === m.type) {
 				// Does it come from one of our sources?
 				var target = m.target;
 				var unicode = m.unicode;
 				var rstcolor = _this._getColor(target);
-				if ( rstcolor ){
+				if (rstcolor) {
 					_this.dispatchService.send({
-						type : 'colorUtility--replyColor'
-						,unicode : unicode
+						type: 'colorUtility--replyColor'
+						,unicode: unicode
 						,color: rstcolor
 					});
 				}
 
-			} else if( 'colorUtility--setGroup' === m.type ){
+			} else if ('colorUtility--setGroup' === m.type) {
 				// Does it come from one of our sources?
 				var group = m.group;
 				m.color = _this._getSelection();
 
-			} else if( 'colorUtility--setGroupColorMapping' === m.type ){
+			} else if ('colorUtility--setGroupColorMapping' === m.type) {
 				// Does it come from one of our sources?
 				var mapping = m.mapping;
 				m.color = _this._getSelection();
 
-			} else if( 'colorUtility--colorProfileUpdate' === m.type ){
+			} else if ('colorUtility--colorProfileUpdate' === m.type) {
 				_this.colorProfile = m.colorProfile;
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
 		},
 
-		_getColor : function( tagsArr ){
+		_getColor: function( tagsArr) {
 			var colorProfile = this.colorProfile;
 			var rst = 'pink';
-//			if (colorProfile){
-//				for(var tag of tagsArr){
-//					if ( tag in colorProfile
+//			if (colorProfile) {
+//				for (var tag of tagsArr) {
+//					if (tag in colorProfile
 //						&& colorProfile[tag]
 //						&& typeof colorProfile[tag] === "string"
-//						&& colorProfile[tag] !== ""){
+//						&& colorProfile[tag] !== "") {
 //						rst = colorProfile[tag];
 //					}
 //				}
@@ -2684,7 +2710,7 @@
 			return rst;
 		},
 
-		_sourceModelUpdated : function( sourceState ){
+		_sourceModelUpdated: function( sourceState) {
 
 		}
 	});
@@ -2693,7 +2719,7 @@
 	// GetSelectionUtility Class
 	var GetSelectionUtility = $n2.Class('GetSelectionUtility', {
 
-		name : null,
+		name: null,
 
 		dispatchService: null,
 
@@ -2705,7 +2731,7 @@
 
 		showService: null,
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				name: undefined
 				,dispatchService: null
@@ -2725,18 +2751,18 @@
 			this.showService = opts.showService;
 
 
-			if ( typeof rangy === undefined){
+			if (typeof rangy === undefined) {
 				throw new Error('GetSelectionUtility requires rangy(1.3.0)');
 			}
 
-			if( !this.dispatchService ){
+			if (!this.dispatchService) {
 				throw new Error('GetSelectionUtility requires dispatchService');
 			}
 
-//			if( !this.eventService ){
+//			if (!this.eventService) {
 //				throw new Error('GetSelectionUtility requires eventService');
 //			};
-//			if( !this.atlasDb ){
+//			if (!this.atlasDb) {
 //				throw new Error('GetSelectionUtility requires atlasDb');
 //			};
 
@@ -2744,8 +2770,8 @@
 //			this.currentSelectionNumber = 0;
 //			this.currentFocusNumber = 0;
 
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 				this.dispatchService.register(DH, 'getSelectionUtilityAvailable', f);
@@ -2756,26 +2782,26 @@
 //			this.originalEventHandler = this.eventService.getHandler();
 //			this.eventService.register('userSelect');
 //			this.eventService.register('userFocusOn');
-//			this.eventService.setHandler(function(m, addr, dispatcher){
+//			this.eventService.setHandler(function(m, addr, dispatcher) {
 //				_this._handleEvent(m, addr, dispatcher);
 //			});
 			rangy.init();
 			$n2.log(this._classname, this);
 		},
 
-		_getSelection(){
+		_getSelection() {
 			var rangeSel =	rangy.getSelection().toHtml();
 			return $(rangeSel);
 		},
 
-		_handle(m, addr, dispatcher){
+		_handle(m, addr, dispatcher) {
 			var _this = this;
 
-			if( 'getSelectionUtilityAvailable' === m.type ){
+			if ('getSelectionUtilityAvailable' === m.type) {
 
 				m.available = true;
 
-			} else if( 'getSelectionUtility--getSelection' === m.type ){
+			} else if ('getSelectionUtility--getSelection' === m.type) {
 				// Does it come from one of our sources?
 				m.selection = _this._getSelection();
 			}
@@ -2786,7 +2812,7 @@
 	// PlaceUtility Class
 	var PlaceUtility = $n2.Class('PlaceUtility', {
 
-		initialize: function(opts_){
+		initialize: function(opts_) {
 			var opts = $n2.extend({
 				name: undefined
 				,dispatchService: null
@@ -2797,7 +2823,7 @@
 				,popupMaxLines: 12
 				,suppressEmptySelection: false
 				,forceEmptyFocus: false
-				, sourceModelId : undefined
+				, sourceModelId: undefined
 			},opts_);
 
 			var _this = this;
@@ -2811,12 +2837,12 @@
 			this.sourceModelId = opts.sourceModelId;
 			this._docIdByPlacename = undefined;
 
-			if( !this.dispatchService ){
+			if (!this.dispatchService) {
 				throw new Error('CinemaSelectionRedirector requires dispatchService');
 			}
 
-			if( this.dispatchService ){
-				var f = function(m, addr, dispatcher){
+			if (this.dispatchService) {
+				var f = function(m, addr, dispatcher) {
 					_this._handle(m, addr, dispatcher);
 				};
 				this.dispatchService.register(DH, 'PlaceUtility--getExistingPlaces', f);
@@ -2829,33 +2855,33 @@
 					,modelId: this.sourceModelId
 				};
 				this.dispatchService.synchronousCall(DH, m);
-				if( m.state ){
+				if (m.state) {
 					this._sourceModelUpdated(m.state);
 				}
 			}
 			$n2.log(this._classname, this);
 		},
 
-		_handle: function(m, addr, dispatcher){
+		_handle: function(m, addr, dispatcher) {
 			var _this = this;
-			if ( 'PlaceUtility--getExistingPlaces' === m.type ){
-				if (! _this._docIdByPlacename ){
+			if ('PlaceUtility--getExistingPlaces' === m.type) {
+				if (! _this._docIdByPlacename) {
 					return;
 				} else {
 					var exstPlaces = [];
-					for ( var place in this._docIdByPlacename ){
+					for (var place in this._docIdByPlacename) {
 						exstPlaces.push(place);
 					}
 					m.existingPlaces = exstPlaces;
 				}
 
-			} else if( 'modelStateUpdated' === m.type ){
+			} else if ('modelStateUpdated' === m.type) {
 				// Does it come from our source?
-				if( this.sourceModelId === m.modelId ){
+				if (this.sourceModelId === m.modelId) {
 					this._sourceModelUpdated(m.state);
 				}
 
-			} else if ( 'PlaceUtility--getPlaceDocIdMap' === m.type ){
+			} else if ('PlaceUtility--getPlaceDocIdMap' === m.type) {
 				var m = {
 					type: 'PlaceUtility--replyPlaceDocIdMap',
 					map: this._docIdByPlacename
@@ -2864,13 +2890,13 @@
 //				var placeName = m.place;
 //				var _name = placeName.trim().toLowerCase();
 //				var trgDocId= this._docIdByPlacename[_name];
-//				if ( trgDocId ){
+//				if (trgDocId) {
 //					m.docId = trgDocId;
 //				}
 			}
 		},
 
-		reportCinemapPlaceUpdate: function(){
+		reportCinemapPlaceUpdate: function() {
 			var m = {
 					type: 'PlaceUtility--updatePlaceDocIdMap'
 					,map: this._docIdByPlacename
@@ -2878,11 +2904,11 @@
 			this.dispatchService.send(DH, m);
 		},
 
-		_sourceModelUpdated : function( sourceState ){
+		_sourceModelUpdated: function( sourceState) {
 			var i, e, doc, docId, promise;
 			var _this = this;
-			if ( sourceState.added ){
-				for(i=0, e=sourceState.added.length; i<e; ++i){
+			if (sourceState.added) {
+				for (i=0, e=sourceState.added.length; i<e; ++i) {
 					doc = sourceState.added[i];
 					docId = doc._id;
 					promise = updateDocIdByPlacename(doc, 'ADD');
@@ -2891,8 +2917,8 @@
 			}
 
 			// Loop through all updated documents
-			if( sourceState.updated ){
-				for(i=0, e=sourceState.updated.length; i<e; ++i){
+			if (sourceState.updated) {
+				for (i=0, e=sourceState.updated.length; i<e; ++i) {
 					doc = sourceState.updated[i];
 					docId = doc._id;
 					promise = updateDocIdByPlacename(doc, 'UPDATE');
@@ -2901,8 +2927,8 @@
 			}
 
 			// Loop through all removed documents
-			if( sourceState.removed ){
-				for(i=0,e=sourceState.removed.length; i<e; ++i){
+			if (sourceState.removed) {
+				for (i=0,e=sourceState.removed.length; i<e; ++i) {
 					doc = sourceState.removed[i];
 					docId = doc._id;
 					promise = updateDocIdByPlacename(doc, 'REMOVE');
@@ -2911,12 +2937,13 @@
 			}
 
 			_this.reportCinemapPlaceUpdate ();
-			function updateDocIdByPlacename (doc, updateOp){
-				switch (updateOp){
+			function updateDocIdByPlacename (doc, updateOp) {
+				var placeAtt, name;
+				switch (updateOp) {
 				case 'ADD':
-					var placeAtt = doc.atlascine_place;
-					var name = placeAtt.name;
-					if (name){
+					placeAtt = doc.atlascine_place;
+					name = placeAtt.name;
+					if (name) {
 						name = name.trim().toLowerCase()
 
 					} else {
@@ -2924,8 +2951,8 @@
 						return;
 					}
 
-					if (name && doc.nunaliit_geom){
-						if (! _this._docIdByPlacename ){
+					if (name && doc.nunaliit_geom) {
+						if (! _this._docIdByPlacename) {
 							_this._docIdByPlacename = {};
 						}
 						_this._docIdByPlacename[name] = doc;
@@ -2934,9 +2961,9 @@
 					break;
 
 				case 'UPDATE':
-					var placeAtt = doc.atlascine_place;
-					var name = placeAtt.name;
-					if (name){
+					placeAtt = doc.atlascine_place;
+					name = placeAtt.name;
+					if (name) {
 						name = name.trim().toLowerCase()
 
 					} else {
@@ -2944,8 +2971,8 @@
 						return;
 					}
 
-					if (name && doc.nunaliit_geom){
-						if (! _this._docIdByPlacename ){
+					if (name && doc.nunaliit_geom) {
+						if (! _this._docIdByPlacename) {
 							_this._docIdByPlacename = {};
 						}
 						_this._docIdByPlacename[name] = doc;
@@ -2953,9 +2980,9 @@
 					break;
 
 				case 'REMOVE':
-					var placeAtt = doc.atlascine_place;
-					var name = placeAtt.name;
-					if (name){
+					placeAtt = doc.atlascine_place;
+					name = placeAtt.name;
+					if (name) {
 						name = name.trim().toLowerCase()
 
 					} else {
@@ -2971,21 +2998,21 @@
 	})
 
 //	++++++++++++++++++++++++++++++++++++++++++++++
-	function handleUtilityCreate(m, addr, dispatcher){
+	function handleUtilityCreate(m, addr, dispatcher) {
 		var options, key, value;
-		if( 'utilityCreate' === m.type ){
-			if( 'cinemaSelectionRedirector' === m.utilityType ){
+		if ('utilityCreate' === m.type) {
+			if ('cinemaSelectionRedirector' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -2998,18 +3025,18 @@
 
 				m.created = true;
 
-			} else if( 'multiStoriesSelectionRedirector' === m.utilityType ){
+			} else if ('multiStoriesSelectionRedirector' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -3022,18 +3049,18 @@
 
 				m.created = true;
 
-			} else if ('getSelectionUtility' === m.utilityType ){
+			} else if ('getSelectionUtility' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -3045,18 +3072,18 @@
 				new GetSelectionUtility(options);
 
 				m.created = true;
-			} else if ('tagUtility' === m.utilityType){
+			} else if ('tagUtility' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -3068,18 +3095,18 @@
 				new TagUtility(options);
 				m.created = true;
 
-			} else if ('colorUtility' === m.utilityType ){
+			} else if ('colorUtility' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -3091,18 +3118,18 @@
 				new ColorUtility(options);
 				m.created = true;
 
-			} else if ('placeUtility' === m.utilityType ){
+			} else if ('placeUtility' === m.utilityType) {
 				options = {};
 
-				if( m.utilityOptions ){
-					for(key in m.utilityOptions){
+				if (m.utilityOptions) {
+					for (key in m.utilityOptions) {
 						value = m.utilityOptions[key];
 						options[key] = value;
 					}
 				}
 
-				if( m && m.config ){
-					if( m.config.directory ){
+				if (m && m.config) {
+					if (m.config.directory) {
 						options.dispatchService = m.config.directory.dispatchService;
 						options.eventService = m.config.directory.eventService;
 						options.customService = m.config.directory.customService;
@@ -3126,8 +3153,6 @@ var CineDisplay = $n2.Class('CineDisplay',{
 
 	showService: null,
 
-	displayPanelName: null,
-
 	displayElemId: null,
 
 	/**
@@ -3149,8 +3174,8 @@ var CineDisplay = $n2.Class('CineDisplay',{
 		this.displayPanelName = opts.displayPanelName;
 
 		var dispatcher = this.dispatchService;
-		if( dispatcher ) {
-			var f = function(msg, addr, d){
+		if (dispatcher ) {
+			var f = function(msg, addr, d) {
 				_this._handleDispatch(msg, addr, d);
 			};
 			dispatcher.register(DH, 'selected', f);
@@ -3175,7 +3200,7 @@ var CineDisplay = $n2.Class('CineDisplay',{
 			autoOpen: false
 			,title: _loc('Search Results')
 			,modal: false
-			,close: function(event, ui){
+			,close: function(event, ui) {
 				$(this).empty();
 				_this.dispatchService.send(DH,{
 					type: 'searchDeactivated'
@@ -3190,41 +3215,41 @@ var CineDisplay = $n2.Class('CineDisplay',{
 		$n2.log('CineDisplay',this);
 	},
 
-	_handleDispatch: function(m, addr, d){
-		if( 'searchResults' == m.type ){
+	_handleDispatch: function(m, addr, d) {
+		if ('searchResults' == m.type) {
 			this._displaySearchResults(m.results);
 
-		} else if( 'selected' == m.type ){
+		} else if ('selected' == m.type) {
 			var docIds = [];
-			if( m.docId ){
+			if (m.docId) {
 				docIds.push(m.docId);
 			}
 
-			if( m.docIds ){
-				for(var docId of m.docIds){
+			if (m.docIds) {
+				for (var docId of m.docIds) {
 					docIds.push(docId);
 				}
 			}
 			this._displayDocuments(docIds);
 
-		} else if( 'unselected' == m.type ){
+		} else if ('unselected' == m.type) {
 			var $elem = this._getDisplayDiv();
 			$elem
 			.empty().dialog("close");
 		}
 	},
 
-	_getDisplayDiv: function(){
+	_getDisplayDiv: function() {
 		var divId = this.displayElemId;
 		return $('#'+divId);
 	},
 
-	_displayDocuments: function(docIds){
+	_displayDocuments: function(docIds) {
 		var $elem = this._getDisplayDiv();
 
 		$elem.empty();
 
-		for(var docId of docIds){
+		for (var docId of docIds) {
 			var $contentDiv = $('<div>')
 				.addClass('n2s_handleHover')
 				.attr('n2-docId',docId)
@@ -3238,7 +3263,7 @@ var CineDisplay = $n2.Class('CineDisplay',{
 	/*
 	 * Accepts search results and display them
 	 */
-	_displaySearchResults: function(results){
+	_displaySearchResults: function(results) {
 
 		var _this = this;
 
@@ -3247,27 +3272,27 @@ var CineDisplay = $n2.Class('CineDisplay',{
 		$elem.empty();
 
 		var ids = [];
-		if( results && results.sorted && results.sorted.length ) {
-			for(var i=0,e=results.sorted.length; i<e; ++i){
+		if (results && results.sorted && results.sorted.length ) {
+			for (var i=0,e=results.sorted.length; i<e; ++i) {
 				ids.push(results.sorted[i].id);
 			}
 		}
 
-		if( ids.length < 1 ){
+		if (ids.length < 1) {
 
 			$elem
 				.text( _loc('Empty search results') );
 
 		} else {
-			for(var docId of ids){
+			for (var docId of ids) {
 				var $contentDiv = $('<div>')
 					.addClass('n2s_handleHover')
 					.attr('n2-docId',docId)
 					.appendTo($elem)
-					.click(function(){
+					.click(function() {
 						var $contentElem = $(this);
 						var docId = $contentElem.attr('n2-docId');
-						if( docId ){
+						if (docId) {
 							_this.dispatchService.send(DH,{
 								type: 'userSelect'
 								,docId: docId
@@ -3280,7 +3305,7 @@ var CineDisplay = $n2.Class('CineDisplay',{
 		}
 
 		var isOpen = $elem.dialog("isOpen");
-		if (!isOpen){
+		if (!isOpen) {
 			$elem.dialog("open");
 		}
 	}
@@ -3314,8 +3339,8 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 		this.displayPanelName = opts.displayPanelName;
 
 		var dispatcher = this.dispatchService;
-		if( dispatcher ) {
-			var f = function(msg, addr, d){
+		if (dispatcher ) {
+			var f = function(msg, addr, d) {
 				_this._handleDispatch(msg, addr, d);
 			};
 			dispatcher.register(DH, 'selected', f);
@@ -3340,7 +3365,7 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 			autoOpen: false
 			,title: _loc('Search Results')
 			,modal: false
-			,close: function(event, ui){
+			,close: function(event, ui) {
 				$(this).empty();
 				_this.dispatchService.send(DH,{
 					type: 'searchDeactivated'
@@ -3355,40 +3380,40 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 		$n2.log('CineDisplay',this);
 	},
 
-	_handleDispatch: function(m, addr, d){
-		if( 'searchResults' == m.type ){
+	_handleDispatch: function(m, addr, d) {
+		if ('searchResults' == m.type) {
 			this._displaySearchResults(m.results);
 
-		} else if( 'selected' == m.type ){
+		} else if ('selected' == m.type) {
 			var docIds = [];
-			if( m.docId ){
+			if (m.docId) {
 				docIds.push(m.docId);
 			}
 
-			if( m.docIds ){
-				for(var docId of m.docIds){
+			if (m.docIds) {
+				for (var docId of m.docIds) {
 					docIds.push(docId);
 				}
 			}
 			this._displayDocuments(docIds);
 
-		} else if( 'unselected' == m.type ){
+		} else if ('unselected' == m.type) {
 			var $elem = this._getDisplayDiv();
 			$elem.empty().dialog("close");
 		}
 	},
 
-	_getDisplayDiv: function(){
+	_getDisplayDiv: function() {
 		var divId = this.displayElemId;
 		return $('#'+divId);
 	},
 
-	_displayDocuments: function(docIds){
+	_displayDocuments: function(docIds) {
 		var $elem = this._getDisplayDiv();
 
 		$elem.empty();
 
-		for(var docId of docIds){
+		for (var docId of docIds) {
 			var $contentDiv = $('<div>')
 				.addClass('n2s_handleHover')
 				.attr('n2-docId',docId)
@@ -3402,7 +3427,7 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 	/*
 	 * Accepts search results and display them
 	 */
-	_displaySearchResults: function(results){
+	_displaySearchResults: function(results) {
 
 		var _this = this;
 
@@ -3411,25 +3436,25 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 		$elem.empty();
 
 		var ids = [];
-		if( results && results.sorted && results.sorted.length ) {
-			for(var i=0,e=results.sorted.length; i<e; ++i){
+		if (results && results.sorted && results.sorted.length ) {
+			for (var i=0,e=results.sorted.length; i<e; ++i) {
 				ids.push(results.sorted[i].id);
 			}
 		}
 
-		if( ids.length < 1 ){
+		if (ids.length < 1) {
 			$elem.text( _loc('Empty search results') );
 
 		} else {
-			for(var docId of ids){
+			for (var docId of ids) {
 				var $contentDiv = $('<div>')
 					.addClass('n2s_handleHover')
 					.attr('n2-docId',docId)
 					.appendTo($elem)
-					.click(function(){
+					.click(function() {
 						var $contentElem = $(this);
 						var docId = $contentElem.attr('n2-docId');
-						if( docId ){
+						if (docId) {
 							_this.dispatchService.send(DH,{
 								type: 'userSelect'
 								,docId: docId
@@ -3442,7 +3467,7 @@ var CineDisplayGlobal = $n2.Class('CineDisplayGlobal',{
 		}
 
 		var isOpen = $elem.dialog("isOpen");
-		if (!isOpen){
+		if (!isOpen) {
 			$elem.dialog("open");
 		}
 	}
@@ -3462,7 +3487,7 @@ var SearchInput = $n2.Class({
 
 	,dispatchHandle: null
 
-	,initialize: function(opts_){
+	,initialize: function(opts_) {
 		this.options = $n2.extend({
 			textInput: null
 			,designDoc: null
@@ -3475,8 +3500,8 @@ var SearchInput = $n2.Class({
 
 		this.keyPressedSinceLastSearch = false;
 		this.designDoc = this.options.designDoc;
-//		if( this.options.dispatchService ) {
-//			var f = function(m){
+//		if (this.options.dispatchService ) {
+//			var f = function(m) {
 //				_this._handle(m);
 //			};
 ////			this.options.dispatchService.register(DH,'searchInitiate',f);
@@ -3487,12 +3512,12 @@ var SearchInput = $n2.Class({
 //
 //			// Activate/Deactivate Search Box
 //			$('.searchIcon').click(function() {
-//				if( $('.nunaliit_search_input').hasClass('search_active') ){
+//				if ($('.nunaliit_search_input').hasClass('search_active')) {
 //					_this.options.dispatchService.send(DH,{
 //						type: 'searchDeactivated'
 //					});
 //
-//				} else if( $('.nunaliit_search_input').hasClass('search_inactive') ){
+//				} else if ($('.nunaliit_search_input').hasClass('search_inactive')) {
 //					_this.options.dispatchService.send(DH,{
 //						type: 'searchActivated'
 //					});
@@ -3514,10 +3539,10 @@ var SearchInput = $n2.Class({
 		this.options.textInput = null; // get rid of reference
 
 		// Same for button
-		if( this.options.searchButton ) {
+		if (this.options.searchButton ) {
 			var $searchButton = this.options.searchButton;
 			var searchButtonId = $searchButton.attr('id');
-			if( !searchButtonId ) {
+			if (!searchButtonId ) {
 				searchButtonId = $n2.getUniqueId();
 				$searchButton.attr('id',searchButtonId);
 			}
@@ -3525,7 +3550,7 @@ var SearchInput = $n2.Class({
 			this.options.searchButton = null; // get rid of reference
 		}
 
-		if( !this.options.initialSearchText ){
+		if (!this.options.initialSearchText) {
 			this.options.initialSearchText = '';
 		}
 
@@ -3537,17 +3562,17 @@ var SearchInput = $n2.Class({
 	}
 
 	,getSearchButton: function() {
-		if( this.searchButtonId ) {
+		if (this.searchButtonId ) {
 			return $('#'+this.searchButtonId);
 		}
 		return null;
 	}
 
-	,getSearchLine: function(){
+	,getSearchLine: function() {
 		var $textInput = this.getTextInput();
 		var line = $textInput.val();
-		if( line && line.length > 0 ) {
-			if( line === this.options.initialSearchText ){
+		if (line && line.length > 0 ) {
+			if (line === this.options.initialSearchText) {
 				return '';
 
 			} else {
@@ -3559,24 +3584,24 @@ var SearchInput = $n2.Class({
 		}
 	}
 
-	,performSearch: function(line){
+	,performSearch: function(line) {
 
 		var _this = this;
 
-		if( this.options.dispatchService ) {
+		if (this.options.dispatchService ) {
 			this.options.dispatchService.send(DH, {
 				type: 'searchInitiateForDisplayWidget'
 				,searchLine: line
 			});
 
-		} else if( this.searchServer ){
+		} else if (this.searchServer) {
 			this.searchServer.submitRequest(
 				line
 				,{
-					onSuccess: function(searchResults){
+					onSuccess: function(searchResults) {
 						_this._processSearchResults(searchResults);
 					}
-					,onError: function(err){
+					,onError: function(err) {
 						_this._processSearchError(err);
 					}
 				}
@@ -3587,22 +3612,22 @@ var SearchInput = $n2.Class({
 		this._displayWait();
 	}
 
-	,_install: function(){
+	,_install: function() {
 
 		var _this = this;
 
 		var $textInput = this.getTextInput();
 
-		if( this.options.initialSearchText ) {
+		if (this.options.initialSearchText ) {
 			$textInput.val(this.options.initialSearchText);
 		}
 
-		if( $textInput.autocomplete ) {
+		if ($textInput.autocomplete ) {
 			$textInput.autocomplete({
 				source: this._getJqAutoCompleteSource(),
-				select: function(event, ui){
+				select: function(event, ui) {
 					var line = ui.item.value;
-					if( line.length > 0 ) {
+					if (line.length > 0 ) {
 						_this._closeLookAhead();
 						_this.performSearch(line);
 						_this._closeLookAhead();
@@ -3611,7 +3636,7 @@ var SearchInput = $n2.Class({
 			});
 		}
 
-		$textInput.keydown(function(e){
+		$textInput.keydown(function(e) {
 			_this._keyDown(e);
 		});
 
@@ -3624,8 +3649,8 @@ var SearchInput = $n2.Class({
 		});
 
 		var $searchButton = this.getSearchButton();
-		if( $searchButton ) {
-			$searchButton.click(function(e){
+		if ($searchButton ) {
+			$searchButton.click(function(e) {
 				_this._clickSearch(e);
 			});
 		}
@@ -3633,7 +3658,7 @@ var SearchInput = $n2.Class({
 
 	,_focus: function(e) {
 		var $textInput = this.getTextInput();
-		if( this.options.initialSearchText ) {
+		if (this.options.initialSearchText ) {
 			var value = $textInput.val();
 			if(this.options.initialSearchText === value) {
 				$textInput.val('');
@@ -3642,12 +3667,12 @@ var SearchInput = $n2.Class({
 		$textInput.select();
 	}
 
-	,_blur: function(e){
-		if( this.options.initialSearchText ) {
+	,_blur: function(e) {
+		if (this.options.initialSearchText ) {
 			var $textInput = this.getTextInput();
 
 			var value = $textInput.val();
-			if( '' === value ) {
+			if ('' === value ) {
 				$textInput.val(this.options.initialSearchText);
 			}
 		}
@@ -3655,12 +3680,12 @@ var SearchInput = $n2.Class({
 
 	,_keyDown: function(e) {
 		var charCode = null;
-		if( null === e ) {
+		if (null === e ) {
 			e = window.event; // IE
 		}
 
-		if( null !== e ) {
-			if( e.keyCode ) {
+		if (null !== e ) {
+			if (e.keyCode ) {
 				charCode = e.keyCode;
 			}
 		}
@@ -3672,7 +3697,7 @@ var SearchInput = $n2.Class({
 			// carriage return or I'm not detecting key codes
 			// and have to submit on each key press - yuck...
 			var line = this.getSearchLine();
-			if( line.length > 0 ) {
+			if (line.length > 0 ) {
 				this._closeLookAhead();
 				this.performSearch(line);
 				this._closeLookAhead();
@@ -3680,32 +3705,32 @@ var SearchInput = $n2.Class({
 		}
 	}
 
-	,_clickSearch: function(e){
+	,_clickSearch: function(e) {
 		var line = this.getSearchLine();
-		if( line.length > 0 ) {
+		if (line.length > 0 ) {
 			this._closeLookAhead();
 			this.performSearch(line);
 			this._closeLookAhead();
 		}
 	}
 
-	,_closeLookAhead: function($textInput){
-		if( !$textInput ) {
+	,_closeLookAhead: function($textInput) {
+		if (!$textInput ) {
 			$textInput = this.getTextInput();
 		}
 
-		if( $textInput.autocomplete ) {
+		if ($textInput.autocomplete ) {
 			// Close autocomplete
 			$textInput.autocomplete('close');
 		}
 	}
 
-	,_processSearchResults: function(searchResults){
-		if( this.options.displayFn ) {
+	,_processSearchResults: function(searchResults) {
+		if (this.options.displayFn ) {
 			searchResults.type = 'results';
 			this.options.displayFn(searchResults);
 
-		} else if( this.options.dispatchService ) {
+		} else if (this.options.dispatchService ) {
 			this.options.dispatchService.send(DH, {
 				type: 'searchResults'
 				,results: searchResults
@@ -3716,8 +3741,8 @@ var SearchInput = $n2.Class({
 		}
 	}
 
-	,_processSearchError: function(err){
-		if( this.options.displayFn ) {
+	,_processSearchError: function(err) {
+		if (this.options.displayFn ) {
 			var display = {
 				type:'error'
 				,error: err
@@ -3725,7 +3750,7 @@ var SearchInput = $n2.Class({
 
 			this.options.displayFn(display);
 
-		} else if( this.options.dispatchService ) {
+		} else if (this.options.dispatchService ) {
 			this.options.dispatchService.send(DH, {
 				type: 'searchResults'
 				,error: err
@@ -3733,8 +3758,8 @@ var SearchInput = $n2.Class({
 		}
 	}
 
-	,_displayWait: function(){
-		if( this.options.displayFn ) {
+	,_displayWait: function() {
+		if (this.options.displayFn ) {
 			this.options.displayFn({type:'wait'});
 		}
 	}
@@ -3747,7 +3772,7 @@ var SearchInput = $n2.Class({
 	}
 
 	,getLookAheadService: function() {
-		if( !this.lookAheadService ) {
+		if (!this.lookAheadService ) {
 			this.lookAheadService = new LookAheadService({
 				designDoc: this.designDoc
 				,lookAheadLimit: 5
@@ -3765,8 +3790,8 @@ var SearchInput = $n2.Class({
 		// result.
 		var _this = this;
 		var lookAheadService = this.getLookAheadService();
-		lookAheadService._jqAutoComplete(request, function(res){
-			if( _this.keyPressedSinceLastSearch ) {
+		lookAheadService._jqAutoComplete(request, function(res) {
+			if (_this.keyPressedSinceLastSearch ) {
 				cb(res);
 			} else {
 				// suppress since the result of look ahead service
@@ -3776,7 +3801,7 @@ var SearchInput = $n2.Class({
 		});
 	}
 
-	,_activateSearchBar: function(){
+	,_activateSearchBar: function() {
 		$('.nunaliit_search_input')
 			.addClass('search_active')
 			.removeClass('search_inactive');
@@ -3785,24 +3810,25 @@ var SearchInput = $n2.Class({
 		$('.nunaliit_search_input input').focus();
 	}
 
-	,_deactivateSearchBar: function(){
+	,_deactivateSearchBar: function() {
 		$('.nunaliit_search_input')
 			.addClass('search_inactive')
 			.removeClass('search_active');
 	}
 
-	,_handle: function(m){
-		if( 'searchInitiate' === m.type ){
-			var $textInput = this.getTextInput();
+	,_handle: function(m) {
+		var $textInput;
+		if ('searchInitiate' === m.type) {
+			$textInput = this.getTextInput();
 			$textInput.val(m.searchLine);
 			this.options.dispatchService.send(DH,{
 				type: 'searchActivated'
 			});
 
-		} else if( 'selected' === m.type
-			|| 'unselected' === m.type ){
-			var $textInput = this.getTextInput();
-			if( this.options.initialSearchText ) {
+		} else if ('selected' === m.type
+			|| 'unselected' === m.type) {
+			$textInput = this.getTextInput();
+			if (this.options.initialSearchText ) {
 				$textInput.val(this.options.initialSearchText);
 
 				// Hide search bar after document selection
@@ -3814,10 +3840,10 @@ var SearchInput = $n2.Class({
 				$textInput.val('');
 			}
 
-		} else if( 'searchActivated' === m.type ){
+		} else if ('searchActivated' === m.type) {
 			this._activateSearchBar();
 
-		} else if( 'searchDeactivated' === m.type ){
+		} else if ('searchDeactivated' === m.type) {
 			this._deactivateSearchBar();
 		}
 	}
@@ -3826,9 +3852,9 @@ var SearchInput = $n2.Class({
 var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 
 	//Element id for the root div node for whole widget
-	elemId : null ,
+	elemId: null ,
 
-	initialize: function(opts_){
+	initialize: function(opts_) {
 		var opts = $n2.extend({
 			containerClass: undefined
 			,dispatchService: undefined
@@ -3858,8 +3884,8 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		this.searchResultDivId = $n2.getUniqueId();
 
 		// Set up dispatcher
-		if( this.dispatchService ){
-			var f = function(m, addr, dispatcher){
+		if (this.dispatchService) {
+			var f = function(m, addr, dispatcher) {
 				_this._handle(m, addr, dispatcher);
 			};
 
@@ -3867,14 +3893,14 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 			this.dispatchService.register(DH, 'documentContent' , f);
 			this.dispatchService.register(DH, 'searchInitiateForDisplayWidget', f);
 			this.dispatchService.register(DH, 'searchResultsForDisplayWidget', f);
-			if( this.sourceModelId ){
+			if (this.sourceModelId) {
 				// Initialize state
 				var state = $n2.model.getModelState({
 					dispatchService: this.dispatchService
 					,modelId: this.sourceModelId
 				});
 
-				if( state ){
+				if (state) {
 					this._sourceModelUpdated(state);
 				}
 			}
@@ -3887,18 +3913,18 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		$n2.log(this._classname, this);
 	},
 
-	_handle: function(m, addr, dispatcher){
+	_handle: function(m, addr, dispatcher) {
 		var _this = this;
-		if ('modelStateUpdated' === m.type){
-			if( this.sourceModelId === m.modelId ){
+		if ('modelStateUpdated' === m.type) {
+			if (this.sourceModelId === m.modelId) {
 				this._sourceModelUpdated (m.state);
 			}
 
-		} else if ('searchInitiateForDisplayWidget' === m.type){
+		} else if ('searchInitiateForDisplayWidget' === m.type) {
 			var searchTerms = m.searchLine;
 			_this.execSearch(searchTerms);
 
-		} else if ('searchResultsForDisplayWidget' === m.type){
+		} else if ('searchResultsForDisplayWidget' === m.type) {
 			var result = m.results;
 			//$n2.log('search result ', result);
 			var $resDiv = $('#' + _this.searchResultDivId);
@@ -3907,48 +3933,49 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 
 			//$resDiv.text(JSON.stringify(result, undefined, 2));
 			//
-		} else if ('documentContent' === m.type){
+		} else if ('documentContent' === m.type) {
 			this._receiveDocumentContent(m.doc);
 		}
 	},
 
-	_receiveDocumentContent: function(doc){
+	_receiveDocumentContent: function(doc) {
+		var cinemapId, mediaDocId;
 		var _this = this;
 		var docId = doc._id;
-		if ( !this._cachedMediaDoc[docId] ){
+		if (!this._cachedMediaDoc[docId]) {
 			this._cachedMediaDoc[docId] = doc;
 		}
 
-		if ( doc.atlascine_cinemap ){
+		if (doc.atlascine_cinemap) {
 			var mediaRef = doc.atlascine_cinemap.media_doc_ref;
-			var cinemapId = doc._id;
+			cinemapId = doc._id;
 
-			if ( mediaRef ){
-				var mediaDocId = mediaRef.doc;
+			if (mediaRef) {
+				mediaDocId = mediaRef.doc;
 				this.mediaIdToCinemapId [mediaDocId] = cinemapId;
 				this._requestDocumentWithId (mediaDocId);
 			}
 
-		} else if ( doc.atlascine_media ){
+		} else if (doc.atlascine_media) {
 			var $set = this._getResultDiv();
 			var thumbnailName = null;
-			if ( doc.nunaliit_attachments
-				&& doc.nunaliit_attachments.files ){
-				for (var attName in doc.nunaliit_attachments.files){
+			if (doc.nunaliit_attachments
+				&& doc.nunaliit_attachments.files) {
+				for (var attName in doc.nunaliit_attachments.files) {
 					var att = doc.nunaliit_attachments.files[attName];
-					if( att.thumbnail ){
+					if (att.thumbnail) {
 						thumbnailName = att.thumbnail;
 					}
 				}
 			}
 
-			if ( thumbnailName ){
+			if (thumbnailName) {
 				var url = this.documentSource.getDocumentAttachmentUrl(doc,thumbnailName);
-				if( url ){
-					var mediaDocId = doc._id;
-					var cinemapId = _this.mediaIdToCinemapId[mediaDocId];
-					if (cinemapId){
-						$set.find('.n2card__media__' + $n2.utils.stringToHtmlId(cinemapId)).each(function(){
+				if (url) {
+					mediaDocId = doc._id;
+					cinemapId = _this.mediaIdToCinemapId[mediaDocId];
+					if (cinemapId) {
+						$set.find('.n2card__media__' + $n2.utils.stringToHtmlId(cinemapId)).each(function() {
 							var $div = $(this);
 							$div.css({backgroundImage: 'url(' +url + ')'});
 
@@ -3963,29 +3990,29 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		}
 	},
 
-	_getResultDiv: function(){
+	_getResultDiv: function() {
 		var rstDivId = this.searchResultDivId;
 		return $('#' + rstDivId);
 	},
 
-	_displayTagSearchResult: function($elem, searchResult){
+	_displayTagSearchResult: function($elem, searchResult) {
 		var $container = $elem;
-		if (!searchResult || searchResult.length === 0){
+		if (!searchResult || searchResult.length === 0) {
 			$('<div>')
 				.text("No matching tag")
 				.appendTo($container);
 			return;
 		}
 		var cinemapIdExisted = {};
-		for (var i=0,e=searchResult.length;i<e; i++){
+		for (var i=0,e=searchResult.length;i<e; i++) {
 			var cinemapId = searchResult[i].value.cinemapId;
 			var value = searchResult[i].value.value;
 			var places = searchResult[i].value.places || [];
-			if (cinemapIdExisted[cinemapId]){
-				if (places.length > 0){
-					for (var j = 0,k=places.length; j<k; j++){
+			if (cinemapIdExisted[cinemapId]) {
+				if (places.length > 0) {
+					for (var j = 0,k=places.length; j<k; j++) {
 						var pl = places[j];
-						if (cinemapIdExisted[cinemapId].places.indexOf(pl) > -1){
+						if (cinemapIdExisted[cinemapId].places.indexOf(pl) > -1) {
 
 						} else {
 							cinemapIdExisted[cinemapId].places.push(pl);
@@ -3995,27 +4022,27 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 
 			} else {
 				cinemapIdExisted[cinemapId] = {
-						cinemapId : cinemapId
-						,value : value
-						,places : places
+						cinemapId: cinemapId
+						,value: value
+						,places: places
 				}
 			}
 
 		}
 
-		for (var cinemapId in cinemapIdExisted){
+		for (var cinemapId in cinemapIdExisted) {
 			new $n2.mdc.MDCCard ({
 				parentElem: $container
-				,imageGenerator: function(){
+				,imageGenerator: function() {
 					return '<div class="mdc-card__media mdc-card__media--square n2card__media__'
 						+ $n2.utils.stringToHtmlId(cinemapId)
 						+ '"></div>'
 				}
 
-				,infoGenerator: function(){
+				,infoGenerator: function() {
 					var rst = '<div>';
-					for(var k in cinemapIdExisted[cinemapId]){
-						if (k && k.endsWith('time')){
+					for (var k in cinemapIdExisted[cinemapId]) {
+						if (k && k.endsWith('time')) {
 							continue;
 						}
 
@@ -4042,20 +4069,20 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 //		$mdc_card.appendTo($container);
 	},
 
-	_requestDocumentWithId: function(docId){
+	_requestDocumentWithId: function(docId) {
 		//Looking in the cache
 		var doc = this._cachedMediaDoc[docId];
-		if (doc){
+		if (doc) {
 			this._receiveDocumentContent(doc);
 			return;
 		}
 
-		if( this.requestService ){
+		if (this.requestService) {
 			this.requestService.requestDocument(docId);
 		}
 	},
 
-	execSearch: function(searchTerms){
+	execSearch: function(searchTerms) {
 /*		var _db = this._indexOfTags;
 		var rst = _db[searchTerms];
 		return rst;*/
@@ -4065,7 +4092,7 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		this.designDoc.queryView({
 			viewName: 'tags_detailed'
 			,startkey: startKey
-			,endkey : endKey
+			,endkey: endKey
 			,top: undefined
 			,onlyRows: true
 			,reduce: false
@@ -4074,24 +4101,24 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 				//$n2.log('tags_detailed view responds:' , response);
 				if (response &&
 					Array.isArray(response) &&
-					response.length > 0){
+					response.length > 0) {
 					_this.dispatchService.send(DH, {
 						type: 'searchResultsForDisplayWidget'
-						,results : response
+						,results: response
 					});
 				}
 			}
 
-			,onError: function(){
-				callback(prefix,null);
+			,onError: function() {
+				callback(prefix, null);
 			}
 		})
 	},
 
-	_sourceModelUpdated: function(sourceState){
+	_sourceModelUpdated: function(sourceState) {
 		var i, e, doc, docId;
-		if( sourceState.added ){
-			for(i=0, e=sourceState.added.length; i<e; ++i){
+		if (sourceState.added) {
+			for (i=0, e=sourceState.added.length; i<e; ++i) {
 				doc = sourceState.added[i];
 				docId = doc._id;
 
@@ -4099,8 +4126,8 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 			}
 		}
 
-		if( sourceState.updated ){
-			for(i=0, e=sourceState.updated.length; i<e; ++i){
+		if (sourceState.updated) {
+			for (i=0, e=sourceState.updated.length; i<e; ++i) {
 				doc = sourceState.updated[i];
 				docId = doc._id;
 
@@ -4108,8 +4135,8 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 			}
 		}
 
-		if( sourceState.removed ){
-			for(i=0, e=sourceState.removed.length; i<e; ++i){
+		if (sourceState.removed) {
+			for (i=0, e=sourceState.removed.length; i<e; ++i) {
 				doc = sourceState.removed[i];
 				docId = doc._id;
 
@@ -4119,45 +4146,45 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		//this._indexUpdate();
 	},
 
-	_indexUpdate: function(){
+	_indexUpdate: function() {
 		this._indexOfTags = {};
 
-		for (var id in this.docsById){
+		for (var id in this.docsById) {
 			var doc = this.docsById[id];
 			var cinemaps = doc.atlascine_cinemap;
 			var tl = cinemaps.timeLinks;
-			if (tl){
-				for (var i=0,e=tl.length; i<e; i++){
+			if (tl) {
+				for (var i=0,e=tl.length; i<e; i++) {
 					var te = tl[i];
 					var _tags = te.tags;
 					var _tags_places = undefined;
-					for (var j=0,k=_tags.length; j<k; j++){
+					for (var j=0,k=_tags.length; j<k; j++) {
 						var _tag = _tags[j];
 						var key = _tag.value;
 						var key_t = _tag.type;
-						if (!this._indexOfTags[key]){
+						if (!this._indexOfTags[key]) {
 							this._indexOfTags[key] = [];
 						}
 
-						if (!this._indexOfTags[key_t]){
+						if (!this._indexOfTags[key_t]) {
 							this._indexOfTags[key_t] = [];
 						}
 
-						if (_tag.type === 'place' || _tag.type === 'location'){
-							if ( !_tags_places ){
+						if (_tag.type === 'place' || _tag.type === 'location') {
+							if (!_tags_places) {
 								_tags_places = [];
 							}
 							_tags_places.push(_tag.value);
 						}
 
 						var _tagInfo =	{
-							cinemapId : id
+							cinemapId: id
 							,cinemapDoc: doc
-							,type : _tag.type
+							,type: _tag.type
 							,value: _tag.value
 							,places:_tags_places
 							,starttime: te.starttime
-							,endtime : te.endtime
+							,endtime: te.endtime
 						};
 						this._indexOfTags[key].push(_tagInfo);
 						this._indexOfTags[key_t].push(_tagInfo);
@@ -4171,24 +4198,20 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		$n2.log('The indexofTags', this._indexOfTags);
 	},
 
-	_documentChanged: function(){
-		//if ( !)
-	},
-
-	_installSearchInput: function(){
+	_installSearchInput: function() {
 		var $elem = this._getElem();
 		var searchInput = $('<input type="text">')
 			.addClass('search_panel_input')
 			.appendTo($elem);
 
 		return new SearchInput({
-			textInput : searchInput
-			,dispatchService : this.dispatchService
+			textInput: searchInput
+			,dispatchService: this.dispatchService
 			,designDoc: this.designDoc
 		});
 	},
 
-	_getElem: function(){
+	_getElem: function() {
 		return $('#'+this.elemId);
 	},
 
@@ -4205,9 +4228,9 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		var $filters = $set.find('.n2DisplayTiled_filters');
 		var $current = $set.find('.n2DisplayTiled_info');
 		var $docs = $set.find('.n2DisplayTiled_documents');
-		if( $filters.length < 1
+		if ($filters.length < 1
 			|| $current.length < 1
-			|| $docs.length < 1 ){
+			|| $docs.length < 1) {
 			$set.empty();
 			$filters = $('<div>')
 				.addClass('n2DisplayTiled_filters')
@@ -4239,8 +4262,8 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 
 				var tile = new Tiles.Tile(docId, $elem);
 
-				if( _this.currentDetails
-					&& _this.currentDetails.docId === docId ){
+				if (_this.currentDetails
+					&& _this.currentDetails.docId === docId) {
 					// Current document
 					$elem.addClass('n2DisplayTiled_tile_current');
 					_this._generateCurrentDocumentContent($elem, docId);
@@ -4253,26 +4276,26 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 			}
 
 			// Create document filter
-			this.filter = this.filterFactory.get($filters,function(){
+			this.filter = this.filterFactory.get($filters,function() {
 				_this._documentFilterChanged();
 			});
 		}
 	},
 
-	_displaySearchResults: function(results){
+	_displaySearchResults: function(results) {
 
 		this._reclaimDisplayDiv();
 
 		var ids = [];
-		if( results && results.sorted && results.sorted.length ) {
-			for(var i=0,e=results.sorted.length; i<e; ++i){
+		if (results && results.sorted && results.sorted.length ) {
+			for (var i=0,e=results.sorted.length; i<e; ++i) {
 				ids.push(results.sorted[i].id);
 			}
 		}
 
 		this._displayMultipleDocuments(ids, null);
 
-		if( ids.length < 1 ){
+		if (ids.length < 1) {
 			var $set = this._getDisplayDiv();
 			var $current = $set.find('.n2DisplayTiled_info');
 			$current
@@ -4281,7 +4304,7 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 		}
 	},
 
-	_renderError: function(errMsg){
+	_renderError: function(errMsg) {
 		var $elem = this._getElem();
 
 		$elem.empty();
@@ -4300,27 +4323,27 @@ var DisplaySearchResultsWidget = $n2.Class('DisplaySearchResultsWidget',{
 
 });
 
-function handleDisplayAvailable(m, addr, dispatcher){
-	if( m.displayType === 'cineDisplayGlobal' ){
+function handleDisplayAvailable(m, addr, dispatcher) {
+	if (m.displayType === 'cineDisplayGlobal') {
 		m.isAvailable = true;
-	} else if( m.displayType === 'cineDisplay' ){
+	} else if (m.displayType === 'cineDisplay') {
 		m.isAvailable = true;
 	}
 }
 
-function handleDisplayRender(m, addr, dispatcher){
+function handleDisplayRender(m, addr, dispatcher) {
 	var options, key, displayControl;
-	if( m.displayType === 'cineDisplayGlobal' ){
+	if (m.displayType === 'cineDisplayGlobal') {
 		options = {};
-		if( m.displayOptions ){
-			for(key in m.displayOptions){
+		if (m.displayOptions) {
+			for (key in m.displayOptions) {
 				options[key] = m.displayOptions[key];
 			}
 		}
 
 		options.displayPanelName = m.displayId;
 
-		if( m && m.config && m.config.directory ){
+		if (m && m.config && m.config.directory) {
 			options.dispatchService = m.config.directory.dispatchService;
 			options.showService = m.config.directory.showService;
 		}
@@ -4328,17 +4351,17 @@ function handleDisplayRender(m, addr, dispatcher){
 		displayControl = new CineDisplayGlobal(options);
 		m.onSuccess(displayControl);
 
-	} else if( m.displayType === 'cineDisplay' ){
+	} else if (m.displayType === 'cineDisplay') {
 		options = {};
-		if( m.displayOptions ){
-			for(key in m.displayOptions){
+		if (m.displayOptions) {
+			for (key in m.displayOptions) {
 				options[key] = m.displayOptions[key];
 			}
 		}
 
 		options.displayPanelName = m.displayId;
 
-		if( m && m.config && m.config.directory ){
+		if (m && m.config && m.config.directory) {
 			options.dispatchService = m.config.directory.dispatchService;
 			options.showService = m.config.directory.showService;
 		}
@@ -4348,24 +4371,24 @@ function handleDisplayRender(m, addr, dispatcher){
 	}
 }
 
-function HandleWidgetAvailableRequests(m){
-	if( m.widgetType === 'displaySearchResultsWidget' ){
+function HandleWidgetAvailableRequests(m) {
+	if (m.widgetType === 'displaySearchResultsWidget') {
 		m.isAvailable = true;
 
 	}
 }
 
 //--------------------------------------------------------------------------
-function HandleWidgetDisplayRequests(m){
-	if( m.widgetType === 'displaySearchResultsWidget' ){
+function HandleWidgetDisplayRequests(m) {
+	if (m.widgetType === 'displaySearchResultsWidget') {
 		var widgetOptions = m.widgetOptions;
 		var containerClass = widgetOptions.containerClass;
 		var config = m.config;
 
 		var options = {};
 
-		if( widgetOptions ){
-			for(var key in widgetOptions){
+		if (widgetOptions) {
+			for (var key in widgetOptions) {
 				var value = widgetOptions[key];
 				options[key] = value;
 			}
@@ -4373,7 +4396,7 @@ function HandleWidgetDisplayRequests(m){
 
 		options.containerClass = containerClass;
 
-		if( config && config.directory ){
+		if (config && config.directory) {
 			options.dispatchService = config.directory.dispatchService;
 			options.attachmentService = config.directory.attachmentService;
 			options.documentSource = config.documentSource;
@@ -4388,7 +4411,7 @@ function HandleWidgetDisplayRequests(m){
 //	++++++++++++++++++++++++++++++++++++++++++++++
 //	This is the a custom function that can be installed and give opportunity
 //	for an atlas to configure certain components before modules are displayed
-	window.nunaliit_custom.configuration = function(config, callback){
+	window.nunaliit_custom.configuration = function(config, callback) {
 
 		config.directory.showService.options.preprocessDocument = function(doc) {
 
@@ -4396,7 +4419,7 @@ function HandleWidgetDisplayRequests(m){
 		};
 
 		// Custom service
-		if( config.directory.customService ){
+		if (config.directory.customService) {
 			var customService = config.directory.customService;
 
 			// Default table of content
@@ -4405,7 +4428,7 @@ function HandleWidgetDisplayRequests(m){
 			// Default module
 			customService.setOption('defaultModuleIdentifier','module.home');
 
-			customService.setOption('moduleDisplayIntroFunction', function(opts_){
+			customService.setOption('moduleDisplayIntroFunction', function(opts_) {
 				var opts = $n2.extend({
 					elem: null
 					,config: null
@@ -4414,14 +4437,14 @@ function HandleWidgetDisplayRequests(m){
 				var $elem = opts.elem;
 				var moduleDisplay = opts.moduleDisplay;
 				var moduleId = moduleDisplay.getCurrentModuleId();
-				if ( moduleId === 'module.about' ||
+				if (moduleId === 'module.about' ||
 						moduleId === 'module.tutorial' ||
-						moduleId === 'module.home'){
+						moduleId === 'module.home') {
 						moduleDisplay.module.displayIntro({
 							elem: $elem
 							,showService: config.directory.showService
 							,dispatchService: config.directory.dispatchService
-							,onLoaded: function(){
+							,onLoaded: function() {
 							moduleDisplay._sendDispatchMessage({type:'loadedModuleContent'});
 						}
 					});
@@ -4432,14 +4455,14 @@ function HandleWidgetDisplayRequests(m){
 		}
 
 		// Dispatch service
-		if( config.directory.dispatchService ){
+		if (config.directory.dispatchService) {
 			var dispatchService = config.directory.dispatchService;
 
 			// Handler called when atlas starts
-			dispatchService.register(DH,'start',function(m){});
+			dispatchService.register(DH,'start',function(m) {});
 
 			// Handler called when the module content is loaded
-			dispatchService.register(DH,'loadedModuleContent',function(m){});
+			dispatchService.register(DH,'loadedModuleContent',function(m) {});
 
 			dispatchService.register(DH,'modelCreate',handleModelEvents);
 
