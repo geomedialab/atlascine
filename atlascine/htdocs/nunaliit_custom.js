@@ -2146,6 +2146,110 @@
 		}
 	});
 
+	// Donut filter by group tag
+	var DonutFilterByGroupTag = $n2.Class('DonutFilterByGroupTag', $n2.modelFilter.SelectableDocumentFilter, {
+	
+		dispatchService: null,
+	
+		initialize: function(opts_) {
+			var opts = $n2.extend({
+				modelId: null
+				,sourceModelId: null
+				,dispatchService: null
+			},opts_);
+
+			this.disabled = opts.dispatchService;
+	
+			$n2.modelFilter.SelectableDocumentFilter.prototype.initialize.call(this,opts);
+
+			$n2.log('DonutFilterByGroupTag', this);
+		},
+
+		/*
+		 * Computes the available choices used by filter.
+		 * @param {array} docs - An array of nunaliit documents
+		 * @param callbackFn - Callback function
+		 */
+		_computeAvailableChoicesFromDocs: function(docs, callbackFn) {
+			var uniqueGroupTags;
+			var tags = {};
+			var availableChoices = [];
+
+			// Get a collection of unique year values.
+			docs.forEach(function(doc) {
+				if (doc && doc._ldata
+					&& doc._ldata.tags
+					&& $n2.isArray(doc._ldata.tags)
+					&& doc._ldata.tags.length) {
+					for (var i = 0; i < doc._ldata.tags.length; i +=1 ){
+						var tag = doc._ldata.tags[i].toLowerCase().trim();
+						// Each tag is stored in lower case and trimed of white space 
+						// to reduce the number of tag duplicates
+						tags[tag] = true;
+					}
+				}
+			});
+
+			// Generate availableChoices array based on the collection of years
+			uniqueGroupTags = Object.keys(tags);
+			uniqueGroupTags.forEach(function(tag) {
+				var label = tag[0].toUpperCase() + tag.substring(1);
+				availableChoices.push({
+					id: tag,
+					label: label
+				});
+			});
+
+			// Sort the availableChoices array
+			availableChoices.sort(function(a,b) {
+				if (a.label < b.label) {
+					return -1;
+				}
+
+				if (a.label > b.label) {
+					return 1;
+				}
+
+				return 0;
+			});
+
+			this.currentCallback = callbackFn;
+			callbackFn(availableChoices);
+
+			return null;
+		},
+
+		// Filter documents in source model based on the selected choice.
+		_isDocVisible: function(doc, selectedChoiceIdMap, allSelected) {
+			if (doc && doc._ldata) {
+				// If the filter option allSelected is select in the widget
+				// then all documents in the source model pass through the
+				// filter. Otherwise each document needs to be checked to see
+				// if its filters based on its contents.
+				if (allSelected) {
+					return true;
+
+				} else if (doc._ldata.tags
+					&& $n2.isArray(doc._ldata.tags)
+					&& doc._ldata.tags.length) {
+					for (var i = 0; i < doc._ldata.tags.length; i += 1) {
+						var tag = doc._ldata.tags[i].toLowerCase().trim();
+						if (selectedChoiceIdMap[tag]) {
+							return true;
+						}
+					}
+				}
+
+				return false;
+			}
+
+			// All other docs in the source model, let them through the filter
+			return true;
+		}
+	});
+
+
+
 //	++++++++++++++++++++++++++++++++++++++++++++++
 	function handleModelEvents(m, addr, dispatcher) {
 		var options, key, value;
@@ -2211,6 +2315,26 @@
 				}
 
 				new CineMapFilter(options);
+				m.created = true;
+
+			}  else if ('donutFilter' === m.modelType ) {
+				options = {};
+				if (m.modelOptions) {
+					for (key in m.modelOptions) {
+						value = m.modelOptions[key];
+						options[key] = value;
+					}
+				}
+
+				options.modelId = m.modelId;
+
+				if (m && m.config) {
+					if (m.config.directory) {
+						options.dispatchService = m.config.directory.dispatchService;
+					}
+				}
+
+				new DonutFilterByGroupTag(options);
 				m.created = true;
 
 			} else if ('searchResult2DonutTransform' === m.modelType) {

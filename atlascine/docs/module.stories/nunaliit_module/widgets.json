@@ -28,4 +28,11 @@
 			}
 		]
 	}
+	,{
+		"widgetType": "multiFilterSelectionDropDownWidget",
+		"containerClass": "nunaliit_module_title",
+		"sourceModelId": "donutFilterByGroupTag",
+		"noChoiceLabel": "Select Donut Group Tags",
+		"allChoicesLabel": "All Group Tags"
+	}
 ]

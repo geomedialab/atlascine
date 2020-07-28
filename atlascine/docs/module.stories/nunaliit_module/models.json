@@ -73,5 +73,10 @@
 		"modelType": "cineData2DonutTransform"
 		,"modelId": "donut"
 		,"sourceModelId":"time"
+	},
+	{
+		"modelType": "donutFilter"
+		,"modelId": "donutFilterByGroupTag"
+		,"sourceModelId": "donut"
 	}
 ]

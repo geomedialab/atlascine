@@ -31,7 +31,7 @@
 			}
 			,"type": "model"
 			,"options": {
-				"sourceModelId": "donut"
+				"sourceModelId": "donutFilterByGroupTag"
 			}
 			,"featurePopupDelayMs": 300
 			,"useHoverSound": true
