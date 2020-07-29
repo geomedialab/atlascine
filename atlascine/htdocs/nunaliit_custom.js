@@ -2146,110 +2146,6 @@
 		}
 	});
 
-	// Donut filter by group tag
-	var DonutFilterByGroupTag = $n2.Class('DonutFilterByGroupTag', $n2.modelFilter.SelectableDocumentFilter, {
-	
-		dispatchService: null,
-	
-		initialize: function(opts_) {
-			var opts = $n2.extend({
-				modelId: null
-				,sourceModelId: null
-				,dispatchService: null
-			},opts_);
-
-			this.disabled = opts.dispatchService;
-	
-			$n2.modelFilter.SelectableDocumentFilter.prototype.initialize.call(this,opts);
-
-			$n2.log('DonutFilterByGroupTag', this);
-		},
-
-		/*
-		 * Computes the available choices used by filter.
-		 * @param {array} docs - An array of nunaliit documents
-		 * @param callbackFn - Callback function
-		 */
-		_computeAvailableChoicesFromDocs: function(docs, callbackFn) {
-			var uniqueGroupTags;
-			var tags = {};
-			var availableChoices = [];
-
-			// Get a collection of unique year values.
-			docs.forEach(function(doc) {
-				if (doc && doc._ldata
-					&& doc._ldata.tags
-					&& $n2.isArray(doc._ldata.tags)
-					&& doc._ldata.tags.length) {
-					for (var i = 0; i < doc._ldata.tags.length; i +=1 ){
-						var tag = doc._ldata.tags[i].toLowerCase().trim();
-						// Each tag is stored in lower case and trimed of white space 
-						// to reduce the number of tag duplicates
-						tags[tag] = true;
-					}
-				}
-			});
-
-			// Generate availableChoices array based on the collection of years
-			uniqueGroupTags = Object.keys(tags);
-			uniqueGroupTags.forEach(function(tag) {
-				var label = tag[0].toUpperCase() + tag.substring(1);
-				availableChoices.push({
-					id: tag,
-					label: label
-				});
-			});
-
-			// Sort the availableChoices array
-			availableChoices.sort(function(a,b) {
-				if (a.label < b.label) {
-					return -1;
-				}
-
-				if (a.label > b.label) {
-					return 1;
-				}
-
-				return 0;
-			});
-
-			this.currentCallback = callbackFn;
-			callbackFn(availableChoices);
-
-			return null;
-		},
-
-		// Filter documents in source model based on the selected choice.
-		_isDocVisible: function(doc, selectedChoiceIdMap, allSelected) {
-			if (doc && doc._ldata) {
-				// If the filter option allSelected is select in the widget
-				// then all documents in the source model pass through the
-				// filter. Otherwise each document needs to be checked to see
-				// if its filters based on its contents.
-				if (allSelected) {
-					return true;
-
-				} else if (doc._ldata.tags
-					&& $n2.isArray(doc._ldata.tags)
-					&& doc._ldata.tags.length) {
-					for (var i = 0; i < doc._ldata.tags.length; i += 1) {
-						var tag = doc._ldata.tags[i].toLowerCase().trim();
-						if (selectedChoiceIdMap[tag]) {
-							return true;
-						}
-					}
-				}
-
-				return false;
-			}
-
-			// All other docs in the source model, let them through the filter
-			return true;
-		}
-	});
-
-
-
 //	++++++++++++++++++++++++++++++++++++++++++++++
 	function handleModelEvents(m, addr, dispatcher) {
 		var options, key, value;
@@ -2334,7 +2230,7 @@
 					}
 				}
 
-				new DonutFilterByGroupTag(options);
+				new $n2.donut_tag_legend.DonutFilterByGroupTag(options);
 				m.created = true;
 
 			} else if ('searchResult2DonutTransform' === m.modelType) {
@@ -4496,24 +4392,28 @@ function handleDisplayRender(m, addr, dispatcher) {
 }
 
 function HandleWidgetAvailableRequests(m) {
-	if (m.widgetType === 'displaySearchResultsWidget') {
+	if (m.widgetType === 'displaysearchresultswidget') {
 		m.isAvailable = true;
 
+	} else if (m.widgetType === 'donutGroupTagLegendWidget') {
+		m.isAvailable = true;
 	}
 }
 
 //--------------------------------------------------------------------------
 function HandleWidgetDisplayRequests(m) {
-	if (m.widgetType === 'displaySearchResultsWidget') {
-		var widgetOptions = m.widgetOptions;
-		var containerClass = widgetOptions.containerClass;
-		var config = m.config;
+	var options, widgetOptions, containerClass, containerId, config, key, value;
 
-		var options = {};
+	if (m.widgetType === 'displaySearchResultsWidget') {
+		widgetOptions = m.widgetOptions;
+		containerClass = widgetOptions.containerClass;
+		config = m.config;
+
+		options = {};
 
 		if (widgetOptions) {
-			for (var key in widgetOptions) {
-				var value = widgetOptions[key];
+			for (key in widgetOptions) {
+				value = widgetOptions[key];
 				options[key] = value;
 			}
 		}
@@ -4529,11 +4429,34 @@ function HandleWidgetDisplayRequests(m) {
 		}
 
 		new DisplaySearchResultsWidget(options);
+
+	} else if (m.widgetType === 'donutGroupTagLegendWidget') {
+		widgetOptions = m.widgetOptions;
+		containerId = m.containerId;
+		config = m.config;
+		
+		options = {};
+		
+		if( widgetOptions ){
+			for(key in widgetOptions){
+				value = widgetOptions[key];
+				options[key] = value;
+			}
+		}
+
+		options.containerId = containerId;
+		
+		if( config && config.directory ){
+			options.dispatchService = config.directory.dispatchService;
+			options.showService = config.directory.showService;
+		}
+		
+		new $n2.donut_tag_legend.DonutGroupTagLegendWidget(options);
 	}
 }
 
 //	++++++++++++++++++++++++++++++++++++++++++++++
-//	This is the a custom function that can be installed and give opportunity
+//	This is a custom function that can be installed and give opportunity
 //	for an atlas to configure certain components before modules are displayed
 	window.nunaliit_custom.configuration = function(config, callback) {
 
@@ -4603,7 +4526,8 @@ function HandleWidgetDisplayRequests(m) {
 	};
 
 	$n2.scripts.loadCustomScripts([
-		'js/redirector.js'
+		'js/redirector.js',
+		'js/donut_tag_legend.js'
 	]);
 
 })(jQuery,nunaliit2);

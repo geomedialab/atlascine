@@ -29,8 +29,8 @@
 		]
 	}
 	,{
-		"widgetType": "multiFilterSelectionDropDownWidget",
-		"containerClass": "nunaliit_module_title",
+		"widgetType": "donutGroupTagLegendWidget",
+		"containerId": "content",
 		"sourceModelId": "donutFilterByGroupTag",
 		"noChoiceLabel": "Select Donut Group Tags",
 		"allChoicesLabel": "All Group Tags"
