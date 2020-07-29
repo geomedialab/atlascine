@@ -2,6 +2,11 @@
 	This is a CSS file designed to hold declarations specific
 	for this atlas.
 */
+
+.nunaliit_module_module_056stories .n2widgetLegend {
+	bottom: 50px;
+}
+
 .mejs__controls{
     position: fixed;
     bottom: 20px;
