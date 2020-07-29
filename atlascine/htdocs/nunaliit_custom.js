@@ -1676,6 +1676,11 @@
 			this._recomputeTransforms(removed);
 		},
 
+		/**
+		 * Source model update function that's called when the cinemap model is updated. 
+		 * @param {object} sourceState - Object containing cinemap model
+		 * @param {boolean} forceSingleCinemap - force single cinemap.
+		 */
 		_cinemapUpdate: function(sourceState, forceSingleCinemap) {
 			var i, e, doc, docId;
 			var removed = [];
