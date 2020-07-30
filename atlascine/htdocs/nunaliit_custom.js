@@ -1799,7 +1799,7 @@
 			/**
 			 * Recursive function to create a list of tags
 			 * @param {array} path - Current list of collected tags
-			 * @param {*} curnode - Current node. 
+			 * @param {string} curnode - Current node. 
 			 * @param {object} tagsProfile - A collection of tag groups with associated list of theme tags.
 			 * @param {array} rst - Results array that's updated when the tag === current node.
 			 * @param {string} tag - tag being searched for. 
@@ -1832,8 +1832,8 @@
 			/**
 			 * Retrieves the hex colour code string for the provided tags array
 			 * @param {object} colorProfile - Collection of group tags with associated colours
-			 * @param {aray} tagsArr - A list of tags 
-			 * @return {string} rst - The hex color code for the last tag in the array
+			 * @param {array} tagsArr - A list of tags 
+			 * @return {string} rst - The last encountered hex color code.
 			 */
 			function findUniqueColorByTags(colorProfile, tagsArr) {
 				var rst = undefined;
@@ -1850,6 +1850,12 @@
 				return rst;
 			}
 
+			/**
+			 * Various checkes to see if the newly transformed CineIndex is equal to the previous CineIndex.
+			 * @param {object} lastCineIndex - Previous CineIndex object.
+			 * @param {object} newCineIndex - New CineIndex object.
+			 * @return {boolean} - true if equal, false if not.
+			 */
 			function indicesAreEqual(lastCineIndex, newCineIndex) {
 				var i, e;
 				if (!lastCineIndex && !newCineIndex) {
