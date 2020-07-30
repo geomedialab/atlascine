@@ -1922,14 +1922,20 @@
 			for (var indexId in this.cineIndexByDocId) {
 				var indexDoc = this.cineIndexByDocId[indexId];
 
+				// Get the tagGroupProfile
+				// tagGroupProfile contains a collection of group tags and associated theme tags
 				if (indexDoc.atlascine_cinemap.tagGroups) {
 					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
 				}
 
+				// Get the tagColorProfile
+				// tagColorProfile contains a collection of group tags with corresponding hex color codes.
 				if (indexDoc.atlascine_cinemap.tagColors) {
 					tagColorProfile = indexDoc.atlascine_cinemap.tagColors;
 				}
 
+				// Get cinemap settings
+				// Calculates the scale factor and time offset values for the cinemap
 				if (indexDoc.atlascine_cinemap.settings) {
 					_scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
 					var offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
@@ -1941,6 +1947,8 @@
 					_timeOffset = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
 				}
 
+				// Iterate through each timeLink associated with the cinemap document
+				// and generate an CineIndex object for each document.
 				if (indexDoc
 					&& indexDoc.atlascine_cinemap
 					&& indexDoc.atlascine_cinemap.timeLinks) {
