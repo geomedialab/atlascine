@@ -409,15 +409,19 @@
 						donutColor = doc._ldata.style.fillColor;
 					}
 				
-					// Get donut tag information
-					if (doc._ldata.tags
-						&& $n2.isArray(doc._ldata.tags)
-						&& doc._ldata.tags.length) {
-						for (var i = 0; i < doc._ldata.tags.length; i +=1) {
+					if (doc._ldata.timeLinkTags
+						&& doc._ldata.timeLinkTags.groupTags
+						&& $n2.isArray(doc._ldata.timeLinkTags.groupTags)
+						&& doc._ldata.timeLinkTags.groupTags.length) {
+						for (var i = 0; i < doc._ldata.timeLinkTags.groupTags.length; i +=1) {
 							// Each tag is stored in lower case and trimed of white space 
 							// to reduce the number of tag duplicates
-							var tag = doc._ldata.tags[i].toLowerCase().trim();
-							tags[tag] = donutColor;
+							var tag = doc._ldata.timeLinkTags.groupTags[i].toLowerCase().trim();
+							if (Object.hasOwnProperty.call(tags, tag)) {
+								// Don't update donut color
+							} else {
+								tags[tag] = donutColor;
+							}
 						}
 					}
 				}
@@ -464,11 +468,12 @@
 				if (allSelected) {
 					return true;
 
-				} else if (doc._ldata.tags
-					&& $n2.isArray(doc._ldata.tags)
-					&& doc._ldata.tags.length) {
-					for (var i = 0; i < doc._ldata.tags.length; i += 1) {
-						var tag = doc._ldata.tags[i].toLowerCase().trim();
+				} else if (doc._ldata.timeLinkTags
+					&& doc._ldata.timeLinkTags.groupTags
+					&& $n2.isArray(doc._ldata.timeLinkTags.groupTags)
+					&& doc._ldata.timeLinkTags.groupTags.length) {
+					for (var i = 0; i < doc._ldata.timeLinkTags.groupTags.length; i += 1) {
+						var tag = doc._ldata.timeLinkTags.groupTags[i].toLowerCase().trim();
 						if (selectedChoiceIdMap[tag]) {
 							return true;
 						}

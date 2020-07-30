@@ -1084,6 +1084,7 @@
 					var ldata_tmp = {
 						start: cidx.start,
 						tags: cidx.tags,
+						timeLinkTags: cidx.timeLinkTags,
 						scaleFactor: cidx.scaleFactor
 					};
 
@@ -1918,12 +1919,12 @@
 				return;
 			}
 
-			// Loop over the indices, computing a new index for each document
+			// Loop over the indices, computing a new cine index for each place document
 			for (var indexId in this.cineIndexByDocId) {
 				var indexDoc = this.cineIndexByDocId[indexId];
 
-				// Get the tagGroupProfile
-				// tagGroupProfile contains a collection of group tags and associated theme tags
+				// Get the tagGroupsProfile
+				// tagGroupsProfile contains a collection of group tags and associated theme tags
 				if (indexDoc.atlascine_cinemap.tagGroups) {
 					tagGroupsProfile = indexDoc.atlascine_cinemap.tagGroups;
 				}
@@ -1962,9 +1963,20 @@
 						var placeTags = findPlaceDocTags (referenceDocTags);
 						if (placeTags) {
 							placeTags.forEach(function(tag) {
+								// Create a data structure for collecting tags by type
+								var timeLinkTags = {
+									placeTag: "",
+									groupTags: [],
+									themeTags: []
+								};
 								var placeName = tag.value;
 								var _name = placeName.trim().toLowerCase();
 								var referencedDoc = _this._placeDocIdMap[_name];
+
+								// Add place tag to timeLinkTags
+								if (_name) {
+									timeLinkTags.placeTag = _name[0].toUpperCase() + _name.substring(1);
+								}
 
 								if (!referencedDoc) {
 									//$n2.log('PlaceUtility returns void referencedDocId for: ', placeName);
@@ -1989,9 +2001,26 @@
 									&& referenceDocTags.length > 0) {
 									for (var tag of referenceDocTags) {
 										var tagVal = tag.value;
+										var tagGroupsProfileKeys = Object.keys(tagGroupsProfile);
 										var tagsFromTagsGroup = findTagsIncluded(tagGroupsProfile, tagVal);
 										if (tagsFromTagsGroup.length == 0) {
 											tagsFromTagsGroup.push(tagVal);
+										}
+
+										// Store group and theme tags in timeLinkTags object.
+										if (tag.type != 'place'
+											&& timeLinkTags.themeTags.indexOf(tagVal) < 0) {
+											timeLinkTags.themeTags.push(tagVal);
+												
+											for (var i = 0; i < tagGroupsProfileKeys.length; i += 1) {
+												var tagGroupName = tagGroupsProfileKeys[i];
+												var tagGroupTags = tagGroupsProfile[tagGroupName];
+
+												if (tagGroupTags.indexOf(tagVal) >= 0
+													&& timeLinkTags.groupTags.indexOf(tagGroupName) < 0){
+													timeLinkTags.groupTags.push(tagGroupName);
+												}
+											}
 										}
 										tags.push.apply(tags,tagsFromTagsGroup);
 									}
@@ -2044,6 +2073,7 @@
 									indexInfo.start = start;
 									indexInfo.end = end;
 									indexInfo.tags = tags
+									indexInfo.timeLinkTags = timeLinkTags;
 									indexInfo.color = color;
 									indexInfo.scaleFactor = _scaleFactor;
 									referencedDocInfo.newCineIndex.push(indexInfo);
