@@ -843,7 +843,7 @@
 		_getModelInfo: function() {
 			var modelInfo = {
 				modelId: this.modelId
-				,modelType: 'PopulatedPlaceTransform'
+				,modelType: 'cineData2DonutTransform'
 				,parameters: {}
 			};
 
