@@ -1732,10 +1732,11 @@
 			}
 
 			// Loop through all removed documents
-			//report cinemap changing
+			// report cinemap changing
 			this._reportStateUpdate(added, updated, removed);
 
 			this._clearN2Index();
+
 			// Report changes in visibility
 			this._recomputeTransforms(removed);
 		},
@@ -1763,7 +1764,12 @@
 			var tagColorProfile = undefined;
 			var _scaleFactor, _timeOffset;
 
-			function findPlaceDocTags (tags) {
+			/**
+			 * Finds all tags of type 'place' or 'location'.
+			 * @param {array} tags - list of tag objects 
+			 * @return {array} rst - list of all place/location tag objects
+			 */
+			function findPlaceDocTags(tags) {
 				var rst = undefined;
 				tags.forEach(function(tag) {
 					if ('place' === tag.type || 'location' === tag.type) {
@@ -1776,7 +1782,13 @@
 				return rst;
 			}
 
-			function findTagsIncluded (tagsProfile, tag) {
+			/**
+			 * Finds all tag group associated with a specified tag.
+			 * @param {object} tagsProfile - A collection of tag groups with theme tags associated with those groups
+			 * @param {string} tag - tag to find in profile of tags.
+			 * @return {array} rst - list containing the tag and all associated tag groups
+			 */
+			function findTagsIncluded(tagsProfile, tag) {
 				var rst = [];
 				if (tagsProfile) {
 					gen_path([], "", tagsProfile, rst, tag);
@@ -1784,14 +1796,24 @@
 				return rst;
 			}
 
+			/**
+			 * Recursive function to create a list of tags
+			 * @param {array} path - Current list of collected tags
+			 * @param {*} curnode - Current node. 
+			 * @param {object} tagsProfile - A collection of tag groups with associated list of theme tags.
+			 * @param {array} rst - Results array that's updated when the tag === current node.
+			 * @param {string} tag - tag being searched for. 
+			 */
 			function gen_path(path, curnode, tagsProfile, rst, tag) {
 				var innertag, newPath;
 				if (curnode === tag) {
+					// pushes all tag items in path array into the results tag array
 					rst.push.apply(rst, path);
 				}
 
-				if(tagsProfile && Array.isArray(tagsProfile)) {
+				if(tagsProfile && $n2.isArray(tagsProfile)) {
 					for (innertag of tagsProfile) {
+						// make a copy of the path array 
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, null, rst, tag);
@@ -1799,6 +1821,7 @@
 
 				} else if (tagsProfile && typeof tagsProfile === 'object') {
 					for (innertag in tagsProfile) {
+						// make a copy of the path array 
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, tagsProfile[innertag], rst, tag);
@@ -1806,6 +1829,12 @@
 				}
 			}
 
+			/**
+			 * Retrieves the hex colour code string for the provided tags array
+			 * @param {object} colorProfile - Collection of group tags with associated colours
+			 * @param {aray} tagsArr - A list of tags 
+			 * @return {string} rst - The hex color code for the last tag in the array
+			 */
 			function findUniqueColorByTags(colorProfile, tagsArr) {
 				var rst = undefined;
 				if (colorProfile) {
@@ -2048,6 +2077,12 @@
 			this._recomputeTransforms([]);
 		},
 
+		/**
+		 * Report update of model state
+		 * @param {array} added - List of added documents to the model
+		 * @param {array} updated - List of updated documents to the model
+		 * @param {array} removed - List of removed documents to the model
+		 */
 		_reportStateUpdate: function(added, updated, removed) {
 			var stateUpdate = {
 				added: added
