@@ -25,15 +25,9 @@ The following steps describe the process of forking the atlascine atlas template
 
 ### How to run your cloned atlas template:
 The clone of the repository contains an the following structure. 
-```
-/atlas-template  
-├── .gitignore
-├── atlascine <- this directory contains the copy of the AtlasCine template
-└── README.md
-```
 
-1. Within the atlascine sub-directory you will need to run the `nunaliit config` command to configure the atlas (e.g. setting the CouchDb password, atlas name, port number, etc). Note: The template doesn't have all of these values set initially so you will need to do so before running the atlas.
-2. Next, within the atlascine sub-directory you will run the `nunaliit update` & `nunaliit run` commands. 
+1. Within the cloned directory you will need to run the `nunaliit config` command to configure the atlas (e.g. setting the CouchDb password, atlas name, port number, etc). Note: The template doesn't have all of these values set initially so you will need to do so before running the atlas.
+2. Next run the `nunaliit update` & `nunaliit run` commands. 
 3. Open a browser to `localhost:<your_specified_port>` (e.g. localhost:8080), and you should see the template running.
 
 *Note:* For the above steps to work properly, make sure you have the latest branch-for-atlascine Nunaliit build. Currently there is code unique to atlascine in this branch which is required to run this type of atlas.
