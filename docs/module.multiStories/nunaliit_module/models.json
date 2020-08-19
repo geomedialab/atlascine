@@ -18,27 +18,27 @@
 		]
 	},
 	{
-		"_comment": "Load all atlascine2_place documents"
+		"_comment": "Load all atlascine_place documents"
 		,"modelType":"couchDb"
-		,"modelId": "atlascine2_places"
+		,"modelId": "atlascine_places"
 		,"selectors": [
 			{
 				"type":"couchDbSchema"
 				,"options": {
-					"schemaName": "atlascine2_place"
+					"schemaName": "atlascine_place"
 				}
 			}
 		]
 	},
 	{
-		"_comment": "Load all atlascine2_cinemap documents"
+		"_comment": "Load all atlascine_cinemap documents"
 		,"modelType":"couchDb"
-		,"modelId": "atlascine2_cinemaps"
+		,"modelId": "atlascine_cinemaps"
 		,"selectors": [
 			{
 				"type":"couchDbSchema"
 				,"options": {
-					"schemaName": "atlascine2_cinemap"
+					"schemaName": "atlascine_cinemap"
 				}
 			}
 		]
@@ -46,13 +46,13 @@
 	{
 		"modelType": "cineMapFilter"
 		,"modelId": "cineMapFilter"
-		,"sourceModelId":"atlascine2_cinemaps"
+		,"sourceModelId":"atlascine_cinemaps"
 		,"initialSelection": ["stock.cinemap.anita3"]
 		,"saveSelection": true
 	},
 	{
 		"modelType": "searchResult2DonutTransform"
 		,"modelId": "donut_search"
-		,"sourceModelId":"atlascine2_places"
+		,"sourceModelId":"atlascine_places"
 	}
 ]

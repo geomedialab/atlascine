@@ -2,6 +2,6 @@
 	"disabled": false
 	,"constraint" : {
 		"type" : "model"
-		,"sourceModelIds" : ["atlascine2_cinemaps"]
+		,"sourceModelIds" : ["atlascine_cinemaps"]
 	}
 }

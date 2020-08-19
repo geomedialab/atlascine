@@ -6,15 +6,14 @@
 		,"fr":"Atlascine"
 	}
     ,"items":[
-			{
-				"title" : {
-						"nunaliit_type":"localized"
-						,"en": "Home"
-						,"fr": "Accueil"
-				}
-				,"module": "module.home"
-			},
-
+		{
+			"title" : {
+				"nunaliit_type":"localized"
+				,"en": "Home"
+				,"fr": "Accueil"
+			}
+			,"module": "module.home"
+		},
 		{
 			"title": {
 				"nunaliit_type":"localized"

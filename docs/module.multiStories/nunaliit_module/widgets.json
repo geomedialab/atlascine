@@ -11,7 +11,7 @@
 	}
 	,{
 		"widgetType" :  "displaySearchResultsWidget"
-		, "sourceModelId" : "atlascine2_cinemaps"
+		, "sourceModelId" : "atlascine_cinemaps"
 		 , "containerClass": "n2_content_text"
 	}
 ]
