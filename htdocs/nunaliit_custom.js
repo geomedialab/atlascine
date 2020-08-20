@@ -1523,9 +1523,9 @@
 
 			/**
 			  * Creates a new docInfo object
-			  * @param {object} doc - Nunaliit document object 
+			  * @param {object} doc - Nunaliit document object
 			  * @return {object} docInfo - object containing relevant doc information;
-			  * docId, source, a copy of the document, and if it's published. 
+			  * docId, source, a copy of the document, and if it's published.
 			  */
 			function createDocInfo(doc) {
 				var docId = doc._id;
@@ -1559,11 +1559,11 @@
 			}
 
 			/**
-			  * Updates docInfo object by, copying the contents from the doc into 
+			  * Updates docInfo object by, copying the contents from the doc into
 			  * the current docInfo object, and then returning this updated docInfo.
 			  * @param {object} docInfo - Current docInfo object
 			  * @param {object} doc - Nunaliit document object
-			  * @return {object} docInfo - Updated docInfo object 
+			  * @return {object} docInfo - Updated docInfo object
 			  */
 			function updateDocInfo(docInfo, doc) {
 				docInfo.sourceDoc = doc;
@@ -1678,7 +1678,7 @@
 		},
 
 		/**
-		 * Source model update function that's called when the cinemap model is updated. 
+		 * Source model update function that's called when the cinemap model is updated.
 		 * @param {object} sourceState - Object containing cinemap model
 		 * @param {boolean} forceSingleCinemap - force single cinemap.
 		 */
@@ -1767,7 +1767,7 @@
 
 			/**
 			 * Finds all tags of type 'place' or 'location'.
-			 * @param {array} tags - list of tag objects 
+			 * @param {array} tags - list of tag objects
 			 * @return {array} rst - list of all place/location tag objects
 			 */
 			function findPlaceDocTags(tags) {
@@ -1800,10 +1800,10 @@
 			/**
 			 * Recursive function to create a list of tags
 			 * @param {array} path - Current list of collected tags
-			 * @param {string} curnode - Current node. 
+			 * @param {string} curnode - Current node.
 			 * @param {object} tagsProfile - A collection of tag groups with associated list of theme tags.
 			 * @param {array} rst - Results array that's updated when the tag === current node.
-			 * @param {string} tag - tag being searched for. 
+			 * @param {string} tag - tag being searched for.
 			 */
 			function gen_path(path, curnode, tagsProfile, rst, tag) {
 				var innertag, newPath;
@@ -1814,7 +1814,7 @@
 
 				if(tagsProfile && $n2.isArray(tagsProfile)) {
 					for (innertag of tagsProfile) {
-						// make a copy of the path array 
+						// make a copy of the path array
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, null, rst, tag);
@@ -1822,7 +1822,7 @@
 
 				} else if (tagsProfile && typeof tagsProfile === 'object') {
 					for (innertag in tagsProfile) {
-						// make a copy of the path array 
+						// make a copy of the path array
 						newPath = path.slice(0);
 						newPath.push(innertag);
 						gen_path(newPath, innertag, tagsProfile[innertag], rst, tag);
@@ -1833,7 +1833,7 @@
 			/**
 			 * Retrieves the hex colour code string for the provided tags array
 			 * @param {object} colorProfile - Collection of group tags with associated colours
-			 * @param {array} tagsArr - A list of tags 
+			 * @param {array} tagsArr - A list of tags
 			 * @return {string} rst - The last encountered hex color code.
 			 */
 			function findUniqueColorByTags(colorProfile, tagsArr) {
@@ -2011,7 +2011,7 @@
 										if (tag.type != 'place'
 											&& timeLinkTags.themeTags.indexOf(tagVal) < 0) {
 											timeLinkTags.themeTags.push(tagVal);
-												
+
 											for (var i = 0; i < tagGroupsProfileKeys.length; i += 1) {
 												var tagGroupName = tagGroupsProfileKeys[i];
 												var tagGroupTags = tagGroupsProfile[tagGroupName];
@@ -4518,9 +4518,9 @@ function HandleWidgetDisplayRequests(m) {
 		widgetOptions = m.widgetOptions;
 		containerId = m.containerId;
 		config = m.config;
-		
+
 		options = {};
-		
+
 		if( widgetOptions ){
 			for(key in widgetOptions){
 				value = widgetOptions[key];
@@ -4529,12 +4529,12 @@ function HandleWidgetDisplayRequests(m) {
 		}
 
 		options.containerId = containerId;
-		
+
 		if( config && config.directory ){
 			options.dispatchService = config.directory.dispatchService;
 			options.showService = config.directory.showService;
 		}
-		
+
 		new $n2.donut_tag_legend.DonutGroupTagLegendWidget(options);
 	}
 }
@@ -4590,7 +4590,12 @@ function HandleWidgetDisplayRequests(m) {
 			var dispatchService = config.directory.dispatchService;
 
 			// Handler called when atlas starts
-			dispatchService.register(DH,'start',function(m) {});
+			dispatchService.register(DH,'start',function(m) {
+				if (typeof window.slideSwitch === 'function') {
+					window.slideSwitch();
+					setInterval(window.slideSwitch, 10000);
+				}
+			});
 
 			// Handler called when the module content is loaded
 			dispatchService.register(DH,'loadedModuleContent',function(m) {});
