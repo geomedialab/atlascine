@@ -43,7 +43,6 @@
 				,"minimumLinePixelSize": 20
 				,"minimumPolygonPixelSize": 20
 			}
-
 		}
 	]
 	,"addPointsOnly": false
@@ -84,9 +83,17 @@
 					"text" : "",
 					"startupOffset" : 5
 				}
-
+			}, "hovered": {
+				"v2_style" : true,
+				"n2es6.n2mapModule.N2CustomPointStyle" :{
+					"type": "treeRingB",
+					"donutScaleFactor": "=doc._ldata.scaleFactor",
+					"stroke": "#000000",
+					"color": "=doc._ldata.style.fillColor",
+					"data": "=doc._ldata",
+					"startupOffset" : 5
+				}
 			}
-
 		}
 	]
 }

@@ -14,7 +14,7 @@
 
 
 	var MultiStoriesSelectionRedirector = $n2.Class( 'MultiStoriesSelectionRedirector', {
-		
+
 	});
 //	++++++++++++++++++++++++++++++++++++++++++++++
 	DH = 'CinemaSelectionRedirector';
@@ -121,9 +121,13 @@
 					var feature = opts.feature;
 					if (feature &&
 						feature.data._ldata &&
-						feature.data._ldata.tags ) {
-					    var contentArr = feature.data._ldata.tags;
-					    contentArr = contentArr.filter((a, b) => contentArr.indexOf(a) === b);
+						feature.data._ldata.timeLinkTags &&
+						feature.data._ldata.timeLinkTags.themeTags) {
+						var contentArr = feature.data._ldata.timeLinkTags.themeTags;
+						if (feature.data._ldata.timeLinkTags.placeTag) {
+							contentArr.push(feature.data._ldata.timeLinkTags.placeTag);
+						}
+						contentArr = contentArr.filter((a, b) => contentArr.indexOf(a) === b);
 						var content = contentArr.join(', ');
 						if (content && '' !== content ) {
 							opts.onSuccess(content);
@@ -131,7 +135,7 @@
 						return;
 					}
 				});
-			};
+			}
 		},
 
 		_retrieveDocuments: function(opts_){
