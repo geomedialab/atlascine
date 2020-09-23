@@ -1,11 +1,11 @@
 # Nunaliit directories to ignore
 ################################
 
-/media/*
-/upgrade
-/logs
+media/*
+upgrade/*
+logs/*
 
 # Nunaliit sensitivity.properties
 #################################
 
-/config/sensitive.properties
+config/sensitive.properties
