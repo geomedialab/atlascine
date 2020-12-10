@@ -1,4 +1,4 @@
-/*
+//
 	This is a CSS file designed to hold declarations specific
 	for this atlas.
 */
@@ -180,6 +180,8 @@
 .nunaliit_module_module_056home .n2_content_text,
 .nunaliit_module_module_056home .n2ModuleIntro {
 	padding:0px !important;
+	background-color:#111111;
+	overflow: hidden;
 }
 
 .nunaliit_module_module_056home div#overview_content {
