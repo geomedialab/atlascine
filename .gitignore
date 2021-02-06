@@ -9,3 +9,4 @@ logs/*
 #################################
 
 config/sensitive.properties
+config/mail.properties
