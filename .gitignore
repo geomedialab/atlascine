@@ -4,8 +4,9 @@
 media/*
 upgrade/*
 logs/*
+dump/
 
-# Nunaliit sensitivity.properties
+# atlas specific settings to ignore
 #################################
 
 config/sensitive.properties
