@@ -18,6 +18,14 @@
 					"label": "French"
 					,"value": "fr"
 				}
+				,{
+					"label": "Spanish"
+					,"value": "es"
+				}
+				,{
+					"label": "Parlanjhe"
+					,"value": "po"
+				}
 			]
 		},
 	    {

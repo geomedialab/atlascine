@@ -20,6 +20,8 @@
 								<ul class="mdc-list">
 									<li class="n2s_localize mdc-list-item" role="option" data-value="en">English</li>
 									<li class="n2s_localize mdc-list-item" role="option" data-value="fr">French</li>
+									<li class="n2s_localize mdc-list-item" role="option" data-value="es">Spanish</li>
+									<li class="n2s_localize mdc-list-item" role="option" data-value="po">Parlanjhe</li>
 								</ul>
 							</div>
 						</div>
