@@ -8,6 +8,8 @@
 						<div class="value n2s_select" n2-choice="{{language}}">
 							<span class="n2s_choice n2s_localize" n2-choice="en">English</span>
 							<span class="n2s_choice n2s_localize" n2-choice="fr">French</span>
+							<span class="n2s_choice n2s_localize" n2-choice="es">Spanish</span>
+							<span class="n2s_choice n2s_localize" n2-choice="po">Parlanjhe</span>
 							<span class="n2s_choiceDefault">{{language}}</span>
 						</div>
 						<div class="end"></div>
