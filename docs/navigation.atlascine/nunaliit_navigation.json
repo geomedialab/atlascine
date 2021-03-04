@@ -17,16 +17,16 @@
 		{
 			"title": {
 				"nunaliit_type":"localized"
-				,"en": "Maps"
-				,"fr": "Plans"
+				,"en": "Atlas"
+				,"fr": "Atlas"
 			}
 			,"module": "module.stories"
 			,"items":[
 				{
 					"title": {
 						"nunaliit_type": "localized"
-						,"en": "Stories"
-						,"fr": "Histoires"
+						,"en": "Maps"
+						,"fr": "Cartes"
 					},
 					"module": "module.stories"
 				}
@@ -34,7 +34,7 @@
 					"title": {
 						"nunaliit_type": "localized"
 						,"en": "Editor"
-						,"fr": "Monteur"
+						,"fr": "Éditeur"
 					},
 					"module": "module.editor"
 				}
@@ -44,7 +44,7 @@
 			"title" : {
 					"nunaliit_type":"localized"
 					,"en": "Tutorial"
-					,"fr": "Didacticiel"
+					,"fr": "Tutoriel"
 			}
 			,"module": "module.tutorial"
 		},
@@ -52,7 +52,7 @@
 			"title" : {
 					"nunaliit_type": "localized"
 					,"en": "About"
-					,"fr": "Sur"
+					,"fr": "À propos"
 			}
 			,"module": "module.about"
 		}
