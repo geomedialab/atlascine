@@ -11,3 +11,4 @@ dump/
 
 config/sensitive.properties
 config/mail.properties
+.DS_Store
