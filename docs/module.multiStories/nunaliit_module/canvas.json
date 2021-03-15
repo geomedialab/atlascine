@@ -18,14 +18,14 @@
 	]
 	,"overlays": [
 		{
-			"id": "searchResultOverlay"
+			"id": "firstOverlay"
 			,"name": {
 				"nunaliit_type":"localized"
 				,"en":"Demo"
 			}
 			,"type": "model"
 			,"options": {
-				"sourceModelId": "donut_search"
+				"sourceModelId": "themeDonutFilterByGroupTag"
 			}
 			,"featurePopupDelayMs": 300
 			,"useHoverSound": true
@@ -37,7 +37,6 @@
 				,"minimumLinePixelSize": 20
 				,"minimumPolygonPixelSize": 20
 			}
-
 		}
 	]
 	,"addPointsOnly": false
@@ -83,9 +82,7 @@
 					"opacity": 0.5,
 					"startupOffset" : 5
 				}
-
 			}
-
 		}
 	]
 }

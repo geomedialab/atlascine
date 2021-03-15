@@ -43,16 +43,39 @@
 			}
 		]
 	},
+    {
+		"_comment": "Load all atlascine_cinemap documents subtitle"
+		,"modelType":"couchDb"
+		,"modelId": "atlascine_subtitle"
+		,"selectors": [
+			{
+				"type":"couchDbSchema"
+				,"options": {
+					"schemaName": "atlascine_subtitle"
+				}
+			}
+		]
+	},
 	{
-		"modelType": "cineMapFilter"
-		,"modelId": "cineMapFilter"
+		"modelType": "themeMapFilter"
+		,"modelId": "themeMapFilter"
+		,"initialSelection": []
 		,"sourceModelId":"atlascine_cinemaps"
-		,"initialSelection": ["stock.cinemap.anita3"]
 		,"saveSelection": true
 	},
 	{
-		"modelType": "searchResult2DonutTransform"
-		,"modelId": "donut_search"
-		,"sourceModelId":"atlascine_places"
+        "modelType": "themeIndexTransform"
+		,"modelId": "theme"
+		,"sourceModelId":"couchDb"
+	},
+    {
+        "modelType": "themeData2DonutTransform"
+        ,"modelId": "donut"
+        ,"sourceModelId":"theme"
+    },
+	{
+		"modelType": "themeDonutFilter"
+		,"modelId": "themeDonutFilterByGroupTag"
+		,"sourceModelId": "donut"
 	}
 ]

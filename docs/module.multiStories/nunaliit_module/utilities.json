@@ -15,6 +15,6 @@
 	{
 		"utilityType": "placeUtility"
 		, "name" : "placeUtility"
-		, "sourceModelId": "atlascine2_places"
+		, "sourceModelId": "atlascine_places"
 	}
 ]

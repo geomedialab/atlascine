@@ -1,17 +1,33 @@
 [
-
 	{
-		"widgetType": "timeline"
-		,"sourceModelId": "time"
+		"widgetType": "singleFilterSelectionWidget"
+		,"sourceModelId":"themeMapFilter"
+		,"containerClass": "nunaliit_module_title"
+		,"suppressAllChoices": true
+		,"suppressNoChoice": true
 	}
 	,{
-		"widgetType": "annotationEditorWidget"
-		,"sourceModelId":"cineMapFilter"
-		,"containerId": "content"
+		"_comment": "timeTable key appears to be required for widget to work"
+		,"widgetType": "themeTranscript"
+		,"containerClass": "n2_content_text"
+		,"name": "trans1"
+		,"sourceModelId": "atlascine_cinemaps"
+		,"cinemapModelId": "atlascine_cinemaps"
+		,"subtitleModelId": "atlascine_subtitle"
+		,"timeTable":[
+			{
+				"videoStart": 0
+				,"videoEnd": 4311
+				,"timeStart": "2018-01-01"
+				,"timeEnd": "2018-12-31"
+			}
+		]
 	}
 	,{
-		"widgetType" :  "displaySearchResultsWidget"
-		, "sourceModelId" : "atlascine_cinemaps"
-		 , "containerClass": "n2_content_text"
+		"widgetType": "themeDonutGroupTagLegendWidget",
+		"containerId": "content",
+		"sourceModelId": "themeDonutFilterByGroupTag",
+		"noChoiceLabel": "Select Donut Group Tags",
+		"allChoicesLabel": "All Selected"
 	}
 ]

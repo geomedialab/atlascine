@@ -30,6 +30,14 @@
 					},
 					"module": "module.stories"
 				}
+                ,{
+                    "title": {
+                        "nunaliit_type": "localized"
+                        ,"en": "Multi Maps"
+                        ,"fr": "Plusieurs Cartes"
+                    },
+                    "module": "module.multiStories"
+                }
 				,{
 					"title": {
 						"nunaliit_type": "localized"
