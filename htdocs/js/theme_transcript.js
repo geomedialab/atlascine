@@ -1,8 +1,6 @@
 (function ($, $n2) {
     "use strict";
 
-    "use strict";
-
     var DH = 'n2.widgetTranscript';
 
     var context_menu_text = ['Tag Selection...', 'Map Tags...', 'Settings...'];
