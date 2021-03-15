@@ -280,12 +280,16 @@
                     if (selectedChoiceId === choiceId) {
                         removed = true;
                     } else {
-                        selectedChoiceIds.push(selectedChoiceId);
+                        if (selectedChoiceId != null) {
+                            selectedChoiceIds.push(selectedChoiceId);
+                        }
                     }
                 });
 
                 if (!removed) {
-                    selectedChoiceIds.push(choiceId);
+                    if (choiceId != null) {
+                        selectedChoiceIds.push(choiceId);
+                    }
                 }
 
                 this.dispatchService.send(DH, {
