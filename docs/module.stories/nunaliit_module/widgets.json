@@ -13,7 +13,7 @@
 	}
 	,{
 		"_comment": "timeTable key appears to be required for widget to work"
-		,"widgetType": "transcriptWidget"
+		,"widgetType": "cineTranscript"
 		,"containerClass": "n2_content_text"
 		,"name": "trans1"
 		,"sourceModelId": "time"

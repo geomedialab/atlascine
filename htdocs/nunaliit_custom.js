@@ -175,6 +175,8 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'cineTranscript') {
+            m.isAvailable = true;
         } else if (m.widgetType === 'themeTranscript') {
             m.isAvailable = true;
         }
@@ -226,6 +228,27 @@
             }
 
             new $n2.atlascine.ThemeDonutGroupTagLegendWidget(options);
+        } else if (m.widgetType === 'cineTranscript') {
+            var widgetOptions = m.widgetOptions;
+            var containerClass = widgetOptions.containerClass;
+            var config = m.config;
+            var options = {};
+
+            if (widgetOptions) {
+                for (var key in widgetOptions) {
+                    var value = widgetOptions[key];
+                    options[key] = value;
+                }
+            }
+
+            options.containerClass = containerClass;
+
+            if (config && config.directory) {
+                options.dispatchService = config.directory.dispatchService;
+                options.attachmentService = config.directory.attachmentService;
+            }
+
+            new $n2.atlascine.CineTranscript(options);
         } else if (m.widgetType === 'themeTranscript') {
             var widgetOptions = m.widgetOptions;
             var containerClass = widgetOptions.containerClass;
@@ -483,6 +506,7 @@
 
     $n2.scripts.loadCustomScripts([
         'js/utilities.js',
+        'js/cine_transcript.js',
         'js/theme_transcript.js',
         'js/cine_map_filter.js',
         'js/donut_tag_legend.js',
