@@ -1005,6 +1005,61 @@
                 }
             }
         },
+
+        _timeChanged: function(currentTime, origin) {
+            var $video;
+            var _this = this;
+            var n_cur = Number (currentTime);
+            $('#' + _this.transcriptId + ' > div').removeClass('highlight');
+            
+            $n2.utils.processLargeArrayAsync(_this.transcript_array, function(transcriptElem, _index_, _array_) {
+                var $transcriptElem = $('#'+transcriptElem.id);
+                if(n_cur >= transcriptElem.start && n_cur < transcriptElem.fin) {
+                    $transcriptElem.addClass('highlight');
+                    if ($.now() - _this.lastTimeUserScroll > 5000) {
+                        _this._scrollToView($transcriptElem);
+                    }
+                }
+            });
+
+            if ('model' === origin) {
+                $video = $('#'+this.videoId);
+                if ($video[0] != null) {
+                    var currentVideoTime = $video[0].currentTime;
+                    if (Math.abs(currentVideoTime - currentTime) < 0.5) {} else {
+                        $video[0].currentTime = currentTime;
+                        $video[0].play();
+                    }
+                }
+            } else if ('text' === origin) {
+                $video = $('#'+this.videoId);
+                if ($video[0] != null) {
+                    $video[0].currentTime = currentTime;
+                    $video[0].play();
+                }
+            } else if ('text-oneclick' === origin) {
+                $video = $('#'+this.videoId);
+                if ($video[0] != null) {
+                    _this.pauseVideo($video[0], currentTime);
+                }
+            } else if ('startEditing' === origin) {
+                _this._lastCtxTime = currentTime;
+            } else if ('savedState' === origin) {
+                $video = $('#'+this.videoId);
+                if ($video[0] != null) {
+                    $video[0].load();
+                    $video[0].currentTime = currentTime;
+                    $video[0].play();
+                    var inid = setInterval(function() {
+                        var isPlaying = $video[0].currentTime > 0 && !$video[0].paused && !$video[0].ended && $video[0].readyState > 2;
+                        if (!isPlaying) {
+                            $video[0].pause();
+                            clearInterval(inid);
+                        }	
+                    }, 100);
+                }
+            } 
+        },
     });
 
     Object.assign($n2.atlascine, {
