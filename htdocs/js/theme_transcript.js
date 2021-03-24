@@ -491,7 +491,6 @@
                         this._clear();
                         this.docId = currentDocId;
                         this._documentChanged();
-                        this._timeChanged(m.currentTime, m.origin);
                     }
                     this._timeChanged(m.currentTime, m.origin);
                 }
@@ -559,7 +558,6 @@
         },
 
         _refresh: function () {
-            console.log('refreshing...');
             var _this = this;
             var $subtitleSelectionDiv = this._getSubtitleSelectionDiv();
 
@@ -934,11 +932,13 @@
 
         _clear() {
             if (this.docId) {
+                this.doc = undefined;
                 this.docId = undefined;
                 this.timeTable = [];
                 this.transcript = undefined;
                 this.srtData = undefined;
                 this.subtitleFormat = undefined;
+                this.selectedIndexDoc = undefined;
                 this._refresh();
                 this._reInstallSubtitleSel();
             }
