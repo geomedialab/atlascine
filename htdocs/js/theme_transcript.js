@@ -938,7 +938,6 @@
                 this.transcript = undefined;
                 this.srtData = undefined;
                 this.subtitleFormat = undefined;
-                this.selectedIndexDoc = undefined;
                 this._refresh();
                 this._reInstallSubtitleSel();
             }
