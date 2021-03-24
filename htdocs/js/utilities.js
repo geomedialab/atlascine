@@ -135,9 +135,9 @@
 
             } else if ('modelStateUpdated' === m.type) {
                 // Does it come from our source?
-                if (this.sourceModelId === m.modelId) {
-                    this._cinemapUpdate(m.state);
-                }
+                    if (this.sourceModelId === m.modelId) {
+                        this._cinemapUpdate(m.state);
+                    }
 
             } else if ('resetDisplayedSentences' === m.type) {
                 this.tagsBySentenceSpanIds = m.data;
@@ -261,7 +261,6 @@
                                     tags.push.apply(tags, tagsFromTagsGroup);
                                     atleastOne = true;
                                 }
-                                //$n2.log(referencedDocId + 'tags from calculating: ', tags);
                             }
                         }
 
@@ -356,8 +355,6 @@
 
         }
     });
-
-
 
     var ColorUtility = $n2.Class('ColorUtility', {
 

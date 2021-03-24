@@ -1,20 +1,20 @@
 [
-	{
-		"utilityType": "assignLayerOnDocumentCreation"
-		,"layerId": "public"
-		,"onlyWithGeometries": true
-	},
-	{
-		"utilityType": "cinemaSelectionRedirector"
-		,"name": "trans1"
-	},
-	{
-		"utilityType": "getSelectionUtility"
-		,"name": "getSelection"
-	},	
-	{
-		"utilityType": "placeUtility"
-		, "name" : "placeUtility"
-		, "sourceModelId": "atlascine_places"
-	}
+    {
+        "utilityType": "assignLayerOnDocumentCreation"
+        ,"layerId": "public"
+        ,"onlyWithGeometries": true
+    },
+    {
+        "utilityType": "cinemaSelectionRedirector"
+        ,"name": "trans1"
+    },
+    {
+        "utilityType": "getSelectionUtility"
+        ,"name": "getSelection"
+    },
+    {
+        "utilityType": "placeUtility"
+        , "name" : "placeUtility"
+        , "sourceModelId": "atlascine_places"
+    }
 ]
