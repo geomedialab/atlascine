@@ -1,81 +1,81 @@
 [
-	{
-		"_comment": "Load all documents from layer public"
-		,"modelType":"couchDb"
-		,"modelId": "couchDb"
-		,"selectors": [
-			{
-				"type":"couchDbLayer"
-				,"options": {
-					"layerId": "public"
-				}
-				,"name": {
-					"nunaliit_type": "localized"
-					,"en": "Public"
-				}
-				,"visibility": true
-			}
-		]
-	},
-	{
-		"_comment": "Load all atlascine_place documents"
-		,"modelType":"couchDb"
-		,"modelId": "atlascine_places"
-		,"selectors": [
-			{
-				"type":"couchDbSchema"
-				,"options": {
-					"schemaName": "atlascine_place"
-				}
-			}
-		]
-	},
-	{
-		"_comment": "Load all atlascine_cinemap documents"
-		,"modelType":"couchDb"
-		,"modelId": "atlascine_cinemaps"
-		,"selectors": [
-			{
-				"type":"couchDbSchema"
-				,"options": {
-					"schemaName": "atlascine_cinemap"
-				}
-			}
-		]
-	},
     {
-		"_comment": "Load all atlascine_cinemap documents subtitle"
-		,"modelType":"couchDb"
-		,"modelId": "atlascine_subtitle"
-		,"selectors": [
-			{
-				"type":"couchDbSchema"
-				,"options": {
-					"schemaName": "atlascine_subtitle"
-				}
-			}
-		]
-	},
-	{
-		"modelType": "themeMapFilter"
-		,"modelId": "themeMapFilter"
-		,"initialSelection": []
-		,"sourceModelId":"atlascine_cinemaps"
-		,"saveSelection": true
-	},
-	{
+        "_comment": "Load all documents from layer public"
+        ,"modelType":"couchDb"
+        ,"modelId": "couchDb"
+        ,"selectors": [
+            {
+                "type":"couchDbLayer"
+                ,"options": {
+                    "layerId": "public"
+                }
+                ,"name": {
+                    "nunaliit_type": "localized"
+                    ,"en": "Public"
+                }
+                ,"visibility": true
+            }
+        ]
+    },
+    {
+        "_comment": "Load all atlascine_place documents"
+        ,"modelType":"couchDb"
+        ,"modelId": "atlascine_places"
+        ,"selectors": [
+            {
+                "type":"couchDbSchema"
+                ,"options": {
+                    "schemaName": "atlascine_place"
+                }
+            }
+        ]
+    },
+    {
+        "_comment": "Load all atlascine_cinemap documents"
+        ,"modelType":"couchDb"
+        ,"modelId": "atlascine_cinemaps"
+        ,"selectors": [
+            {
+                "type":"couchDbSchema"
+                ,"options": {
+                    "schemaName": "atlascine_cinemap"
+                }
+            }
+        ]
+    },
+    {
+        "_comment": "Load all atlascine_cinemap documents subtitle"
+        ,"modelType":"couchDb"
+        ,"modelId": "atlascine_subtitle"
+        ,"selectors": [
+            {
+                "type":"couchDbSchema"
+                ,"options": {
+                    "schemaName": "atlascine_subtitle"
+                }
+            }
+        ]
+    },
+    {
+        "modelType": "themeMapFilter"
+        ,"modelId": "themeMapFilter"
+        ,"initialSelection": []
+        ,"sourceModelId":"atlascine_cinemaps"
+        ,"saveSelection": true
+    },
+    {
         "modelType": "themeIndexTransform"
-		,"modelId": "theme"
-		,"sourceModelId":"couchDb"
-	},
+        ,"modelId": "theme"
+        ,"sourceModelId":"couchDb"
+    },
     {
         "modelType": "themeData2DonutTransform"
         ,"modelId": "donut"
         ,"sourceModelId":"theme"
     },
-	{
-		"modelType": "themeDonutFilter"
-		,"modelId": "themeDonutFilterByGroupTag"
-		,"sourceModelId": "donut"
-	}
+    {
+        "modelType": "themeDonutFilter"
+        ,"modelId": "themeDonutFilterByGroupTag"
+        ,"sourceModelId": "donut"
+    }
 ]

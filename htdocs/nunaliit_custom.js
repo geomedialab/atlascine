@@ -433,7 +433,7 @@
         }
     }
 
-    //	for an atlas to configure certain components before modules are displayed
+    //  for an atlas to configure certain components before modules are displayed
     window.nunaliit_custom.configuration = function (config, callback) {
 
         config.directory.showService.options.preprocessDocument = function (doc) {

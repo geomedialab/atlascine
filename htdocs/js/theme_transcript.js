@@ -283,6 +283,7 @@
     };
 
     var ThemeTranscript = $n2.Class('ThemeTranscript', $n2.widgetTranscript.TranscriptWidget, {
+        selectedIndexDoc: null,
         docInfosByDocId: null,
 
         initialize: function (opts_) {
@@ -415,8 +416,8 @@
                 this.dispatchService.register(DH, 'modelStateUpdated', f);
                 this.dispatchService.register(DH, 'mediaTimeChanged', f);
                 this.dispatchService.register(DH, 'documentContent', f);
-                this.dispatchService.register(DH, 'replyColorForDisplayedSentences', f);
                 this.dispatchService.register(DH, 'changeCineViaDonut', f);
+                this.dispatchService.register(DH, 'themeChanged', f);
 
                 if (this.intervalChangeEventName) {
                     this.dispatchService.register(DH, this.intervalChangeEventName, f);
@@ -429,6 +430,8 @@
                     this.subtitleFormat = undefined;
                 }
             }
+
+            this._refresh = $n2.utils.debounce(this._refresh, 10);
 
             $n2.log(this._classname, this);
 
@@ -482,6 +485,7 @@
             if (m.docId) {
                 var doc = this.docInfosByDocId[m.docId];
                 if (doc) {
+                    this.selectedIndexDoc = doc;
                     var currentDocId = doc.atlascine_cinemap.media_doc_ref.doc;
                     if (previousDocId !== currentDocId) {
                         this._clear();
@@ -542,20 +546,20 @@
                                     break;
                             }
                             _this._documentChanged();
+                            _this._refresh();
                         }
                         , error: function () {
                             _this._documentChanged();
                         }
                     });
-
                 } else {
                     $n2.log('Can not find any valid SRT/WEBVTT file');
                 }
             }
-            this._refresh();
         },
 
         _refresh: function () {
+            console.log('refreshing...');
             var _this = this;
             var $subtitleSelectionDiv = this._getSubtitleSelectionDiv();
 
@@ -659,7 +663,6 @@
                     var $transcript = this._getSubtitleDiv();
                     $transcript.empty();
                     prep_transcript($transcript, this.transcript_array);
-
                 }
             } else {
                 _this._renderError('Can not compute URL for video');
@@ -741,6 +744,9 @@
             }
 
             function prep_transcript($transcript, transcript_array) {
+                if (!transcript_array || !Array.isArray(transcript_array) || transcript_array.length === 0) {
+                    return;
+                }
                 var currentSelectSentences = undefined;
 
                 var contextMenu = $('div.' + _this._contextMenuClass);
@@ -776,18 +782,27 @@
                     .append(transcript_context_menu_list)
                     .appendTo(document.body);
 
-                var tagsBySentenceSpanIds = {};
+                var timeLinksMap = {};
+                if (_this.selectedIndexDoc && _this.selectedIndexDoc.atlascine_cinemap && _this.selectedIndexDoc.atlascine_cinemap.timeLinks) {
+                    var timeLinks = _this.selectedIndexDoc.atlascine_cinemap.timeLinks;
+                    timeLinksMap = timeLinks.reduce((acc, timeLink) => {
+                        if (timeLink && timeLink.starttime && timeLink.endtime) {
+                            var start = $n2.atlascine.convertTimecodeToMs(timeLink.starttime);
+                            var end = $n2.atlascine.convertTimecodeToMs(timeLink.endtime);
+                            acc[start + '-' + end] = timeLink;
+                        }
+                        return acc;
+                    }, {});
+                }
 
                 for (var i = 0, e = transcript_array.length; i < e; i++) {
                     var transcriptElem = transcript_array[i];
                     var DELAY = 300, clicks = 0, timer = null;
                     var id = $n2.getUniqueId();
                     transcriptElem.id = id;
-                    tagsBySentenceSpanIds[id] = {
-                        start: transcriptElem.startTimeCode
-                        , end: transcriptElem.finTimeCode
-                    }
-
+                    var target_start = $n2.atlascine.convertTimecodeToMs(transcriptElem.startTimeCode);
+                    var target_end = $n2.atlascine.convertTimecodeToMs(transcriptElem.finTimeCode);
+                    var query = target_start + '-' + target_end;
                     $('<div>')
                         .attr('id', id)
                         .attr('data-start', transcriptElem.start)
@@ -796,6 +811,7 @@
                         .attr('data-fincode', transcriptElem.finTimeCode)
                         .addClass('n2-transcriptWidget-sentence')
                         .addClass('n2transcript_sentence_' + $n2.utils.stringToHtmlId(id))
+                        .css('background-color', query in timeLinksMap ? _this.selectedIndexDoc._color : '#ffffff')
                         .html(transcriptElem.text + " ")
                         .appendTo($transcript)
                 }
@@ -867,11 +883,6 @@
                         e.preventDefault();
                         return true;
                     });
-
-                _this.dispatchService.send(DH, {
-                    type: 'resetDisplayedSentences'
-                    , data: tagsBySentenceSpanIds
-                })
 
                 $transcript.on('scroll', function (e) {
                     e.stopPropagation();
@@ -975,10 +986,10 @@
                     this.subtitleFormat = undefined;
                     this._documentChanged();
                 }
-            } else if ('replyColorForDisplayedSentences' === m.type) {
-                this._color_transcript(m.data);
             } else if ('changeCineViaDonut' === m.type) {
                 this._donutRedirection(m);
+            } else if ('themeChanged' === m.type) {
+                this._clear()
             }
         },
 
@@ -1011,7 +1022,7 @@
             var _this = this;
             var n_cur = Number (currentTime);
             $('#' + _this.transcriptId + ' > div').removeClass('highlight');
-            
+
             $n2.utils.processLargeArrayAsync(_this.transcript_array, function(transcriptElem, _index_, _array_) {
                 var $transcriptElem = $('#'+transcriptElem.id);
                 if(n_cur >= transcriptElem.start && n_cur < transcriptElem.fin) {
@@ -1055,10 +1066,10 @@
                         if (!isPlaying) {
                             $video[0].pause();
                             clearInterval(inid);
-                        }	
+                        }
                     }, 100);
                 }
-            } 
+            }
         },
     });
 
