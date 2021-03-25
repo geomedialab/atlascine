@@ -285,6 +285,7 @@
     var ThemeTranscript = $n2.Class('ThemeTranscript', $n2.widgetTranscript.TranscriptWidget, {
         selectedIndexDoc: null,
         docInfosByDocId: null,
+        selectedThemes: null,
 
         initialize: function (opts_) {
             var opts = $n2.extend({
@@ -793,6 +794,23 @@
                     }, {});
                 }
 
+                var tags = {}
+                if (_this.selectedIndexDoc && _this.selectedIndexDoc.atlascine_cinemap && _this.selectedIndexDoc.atlascine_cinemap.tagGroups) {
+                    if (Array.isArray(_this.selectedThemes)) {
+                        for (var theme of _this.selectedThemes) {
+                            var tagGroups = _this.selectedIndexDoc.atlascine_cinemap.tagGroups;
+                            if (tagGroups && theme in tagGroups) {
+                                var themeTags = tagGroups[theme];
+                                if (Array.isArray(themeTags)) {
+                                    for (var tag of themeTags) {
+                                        tags[tag] = true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 for (var i = 0, e = transcript_array.length; i < e; i++) {
                     var transcriptElem = transcript_array[i];
                     var DELAY = 300, clicks = 0, timer = null;
@@ -801,6 +819,20 @@
                     var target_start = $n2.atlascine.convertTimecodeToMs(transcriptElem.startTimeCode);
                     var target_end = $n2.atlascine.convertTimecodeToMs(transcriptElem.finTimeCode);
                     var query = target_start + '-' + target_end;
+                    var color = '#ffffff';
+                    if (query in timeLinksMap) {
+                        var timeLink = timeLinksMap[query];
+                        var timeLinkTags = timeLink.tags;
+                        if (Array.isArray(timeLinkTags)) {
+                            for (var tag of timeLinkTags) {
+                                if (tag && tag.value in tags) {
+                                    color = _this.selectedIndexDoc._color
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     $('<div>')
                         .attr('id', id)
                         .attr('data-start', transcriptElem.start)
@@ -809,7 +841,7 @@
                         .attr('data-fincode', transcriptElem.finTimeCode)
                         .addClass('n2-transcriptWidget-sentence')
                         .addClass('n2transcript_sentence_' + $n2.utils.stringToHtmlId(id))
-                        .css('background-color', query in timeLinksMap ? _this.selectedIndexDoc._color : '#ffffff')
+                        .css('background-color',color)
                         .html(transcriptElem.text + " ")
                         .appendTo($transcript)
                 }
@@ -988,6 +1020,7 @@
             } else if ('changeCineViaDonut' === m.type) {
                 this._donutRedirection(m);
             } else if ('themeChanged' === m.type) {
+                this.selectedThemes = m.data.themes;
                 this._clear()
             }
         },
