@@ -1,6 +1,6 @@
 # Atlas template for deploying Atlascine
 
-[Atlascine](https://rs-atlascine.concordia.ca/) is a story mapping research tool developed by the [Geomedia Lab at Concordia University](https://geomedialab.org/) in collaboration with the [GCRC at Carleton University](https://gcrc.carleton.ca/). Development is funded by the [CANARIE Research Software Program](https://www.canarie.ca/software/). The current version is 4.0, you can read more on Atlascine's history on [our website](https://geomedialab.org/atlascine.html).
+[Atlascine](https://rs-atlascine.concordia.ca/) is a story mapping research tool developed by the [Geomedia Lab at Concordia University](https://geomedialab.org/) in collaboration with the [GCRC at Carleton University](https://gcrc.carleton.ca/). Development is funded by the [CANARIE Research Software Program](https://www.canarie.ca/software/). The current version is 4.0. You can read more on Atlascine's history and previous version of the tool on [our website](https://geomedialab.org/atlascine.html).
 
 Atlascine uses the open source web atlas framework [Nunaliit](http://nunaliit.org/). Like other instances of Nunaliit, Atlascine can be installed and deployed from your own server. This is a public repository for an AtlasCine atlas template, containing all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content (maps, videos, etc.)
 
