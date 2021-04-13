@@ -4,6 +4,7 @@
 media/*
 upgrade/*
 logs/*
+dump/*
 
 # Nunaliit sensitivity.properties
 #################################
