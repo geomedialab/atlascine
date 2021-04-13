@@ -1,4 +1,4 @@
-# Atlas Template for deploying Atlascine
+# Atlas template for deploying Atlascine
 
 This is a public repository for an AtlasCine atlas template, containing all of the files (e.g. modules, schemas, custom code) needed to create an AtlasCine atlas, minus the atlas content (maps, videos, etc.)
 
