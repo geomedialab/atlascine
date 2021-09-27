@@ -392,42 +392,40 @@
          * @param callbackFn - Callback function
          */
         _computeAvailableChoicesFromDocs: function (docs, callbackFn) {
-            var uniqueGroupTags;
-            var tags = {};
-            var availableChoices = [];
+            const tags = {};
+            const availableChoices = [];
 
-            // Get a collection of unique year values.
+            // Get determine what tag group (tag,color) values are available to display in the legend
             docs.forEach(function (doc) {
-                var donutColor;
+                let tagGroupColors = {};
+
                 if (doc && doc._ldata) {
-                    // Get donut style information
-                    if (doc._ldata.style && doc._ldata.style.fillColor) {
-                        donutColor = doc._ldata.style.fillColor;
+                    if (doc._ldata.tagGroupColors) {
+                        tagGroupColors = doc._ldata.tagGroupColors;
                     }
 
                     if (doc._ldata.timeLinkTags
                         && doc._ldata.timeLinkTags.groupTags
                         && $n2.isArray(doc._ldata.timeLinkTags.groupTags)
                         && doc._ldata.timeLinkTags.groupTags.length) {
-                        for (var i = 0; i < doc._ldata.timeLinkTags.groupTags.length; i += 1) {
+
+                        doc._ldata.timeLinkTags.groupTags.forEach(tag => {
                             // Each tag is stored in lower case and trimed of white space 
                             // to reduce the number of tag duplicates
-                            var tag = doc._ldata.timeLinkTags.groupTags[i].toLowerCase().trim();
-                            if (Object.hasOwnProperty.call(tags, tag)) {
-                                // Don't update donut color
-                            } else {
-                                tags[tag] = donutColor;
+                            const reducedTag = tag.toLowerCase().trim();
+                            if (!tags.hasOwnProperty(reducedTag) && tagGroupColors.hasOwnProperty(reducedTag)) {
+                                tags[reducedTag] = tagGroupColors[reducedTag];
                             }
-                        }
+                        });
                     }
                 }
             });
 
             // Generate availableChoices array based on the collection of years
-            uniqueGroupTags = Object.keys(tags);
-            uniqueGroupTags.forEach(function (tag) {
-                var label = tag[0].toUpperCase() + tag.substring(1);
-                var color = tags[tag];
+            const uniqueGroupTags = Object.keys(tags);
+            uniqueGroupTags.forEach(tag => {
+                const label = tag[0].toUpperCase() + tag.substring(1);
+                const color = tags[tag];
                 availableChoices.push({
                     id: tag,
                     label: label,
@@ -440,11 +438,9 @@
                 if (a.label < b.label) {
                     return -1;
                 }
-
                 if (a.label > b.label) {
                     return 1;
                 }
-
                 return 0;
             });
 

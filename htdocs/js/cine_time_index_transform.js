@@ -619,13 +619,20 @@
                                         referencedDocInfo.newCineIndex = [];
                                     }
 
+                                    const tagGroupColors = Object.fromEntries(
+                                        Object.entries(tagColorProfile).map(([tagName, tagColor]) => {
+                                            return [tagName.toLowerCase(), tagColor]
+                                        })
+                                    );
+
                                     var indexInfo = {};
                                     indexInfo.origin = indexDoc._id;
                                     indexInfo.start = start;
                                     indexInfo.end = end;
-                                    indexInfo.tags = tags
+                                    indexInfo.tags = tags;
                                     indexInfo.timeLinkTags = timeLinkTags;
                                     indexInfo.color = color;
+                                    indexInfo.tagGroupColors = tagGroupColors;
                                     indexInfo.scaleFactor = _scaleFactor;
                                     referencedDocInfo.newCineIndex.push(indexInfo);
                                 }

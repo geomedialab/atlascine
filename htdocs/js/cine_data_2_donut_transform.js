@@ -360,6 +360,8 @@
                         scaleFactor: cidx.scaleFactor
                     };
 
+                    ldata_tmp.tagGroupColors = cidx.tagGroupColors;
+
                     // 15 is the magic number for the ring to be drawn on map
                     // need to make sure duration calculated accordingly to make sure item to be drawn
 
