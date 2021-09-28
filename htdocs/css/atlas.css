@@ -93,6 +93,9 @@
     background:blue;
     color:#FFF;
 }
+.transcript-context-menu ul {
+	cursor: pointer;
+}
 .mdc-card__media.mdc-card__media--square {
 	width:110px;
 }
