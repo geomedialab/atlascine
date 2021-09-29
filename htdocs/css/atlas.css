@@ -1,7 +1,11 @@
-//
+/* 
 	This is a CSS file designed to hold declarations specific
 	for this atlas.
-*/
+ */
+
+ .nunaliit_atlas .nunaliit_header-nav>ul>li>ul>li>a:hover {
+	cursor: pointer;
+}
 
 .nunaliit_module_module_056stories .n2widgetLegend {
 	bottom: 50px;
