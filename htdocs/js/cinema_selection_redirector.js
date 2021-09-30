@@ -5,7 +5,7 @@
         return $n2.loc(str, 'nunaliit2-couch', args);
     };
 
-    DH = 'CinemaSelectionRedirector';
+    const DH = 'CinemaSelectionRedirector';
     var CinemaSelectionRedirector = $n2.Class('CinemaSelectionRedirector', {
         /**
          * Name used to synchronize time events

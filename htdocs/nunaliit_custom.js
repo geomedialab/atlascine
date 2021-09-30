@@ -4,119 +4,41 @@
         window.nunaliit_custom = {};
     }
 
-    var DH = 'atlascine';
+    const DH = 'atlascine';
 
     function handleUtilityCreate(m) {
-        var options, key, value;
+        let options = {};
         if ('utilityCreate' === m.type) {
-            if ('cinemaSelectionRedirector' === m.utilityType) {
-                options = {};
+            if (m.utilityOptions) {
+                options = { ...m.utilityOptions };
+            }
 
-                if (m.utilityOptions) {
-                    for (key in m.utilityOptions) {
-                        value = m.utilityOptions[key];
-                        options[key] = value;
-                    }
-                }
+            const cfg = m.config;
+            if (cfg && cfg.directory) {
+                options.dispatchService = cfg.directory.dispatchService;
+                options.eventService = cfg.directory.eventService;
+                options.customService = cfg.directory.customService;
+                options.showService = cfg.directory.showService;
+                options.atlasDb = cfg.atlasDb;
+            }
 
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                        options.eventService = m.config.directory.eventService;
-                        options.customService = m.config.directory.customService;
-                        options.showService = m.config.directory.showService;
-                        options.atlasDb = m.config.atlasDb;
-                    }
-                }
-
+            if (m.utilityType === 'cinemaSelectionRedirector') {
                 new $n2.atlascine.CinemaSelectionRedirector(options);
                 m.created = true;
-            } else if ('getSelectionUtility' === m.utilityType) {
-                options = {};
-
-                if (m.utilityOptions) {
-                    for (key in m.utilityOptions) {
-                        value = m.utilityOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                        options.eventService = m.config.directory.eventService;
-                        options.customService = m.config.directory.customService;
-                        options.showService = m.config.directory.showService;
-                        options.atlasDb = m.config.atlasDb;
-                    }
-                }
-
+            }
+            else if (m.utilityType === 'getSelectionUtility') {
                 new $n2.atlascine.GetSelectionUtility(options);
                 m.created = true;
-            } else if ('tagUtility' === m.utilityType) {
-                options = {};
-
-                if (m.utilityOptions) {
-                    for (key in m.utilityOptions) {
-                        value = m.utilityOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                        options.eventService = m.config.directory.eventService;
-                        options.customService = m.config.directory.customService;
-                        options.showService = m.config.directory.showService;
-                        options.atlasDb = m.config.atlasDb;
-                    }
-                }
-
+            }
+            else if (m.utilityType === 'tagUtility') {
                 new $n2.atlascine.TagUtility(options);
                 m.created = true;
-            } else if ('colorUtility' === m.utilityType) {
-                options = {};
-
-                if (m.utilityOptions) {
-                    for (key in m.utilityOptions) {
-                        value = m.utilityOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                        options.eventService = m.config.directory.eventService;
-                        options.customService = m.config.directory.customService;
-                        options.showService = m.config.directory.showService;
-                        options.atlasDb = m.config.atlasDb;
-                    }
-                }
-
+            }
+            else if (m.utilityType === 'colorUtility') {
                 new $n2.atlascine.ColorUtility(options);
                 m.created = true;
-            } else if ('placeUtility' === m.utilityType) {
-                options = {};
-
-                if (m.utilityOptions) {
-                    for (key in m.utilityOptions) {
-                        value = m.utilityOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                        options.eventService = m.config.directory.eventService;
-                        options.customService = m.config.directory.customService;
-                        options.showService = m.config.directory.showService;
-                        options.atlasDb = m.config.atlasDb;
-                    }
-                }
-
+            }
+            else if (m.utilityType === 'placeUtility') {
                 new $n2.atlascine.PlaceUtility(options);
                 m.created = true;
             }
@@ -132,40 +54,24 @@
     }
 
     function handleDisplayRender(m) {
-        var options, key, displayControl;
+        let options = {};
+        if (m.displayOptions) {
+            options = { ...m.displayOptions };
+        }
+
+        options.displayPanelName = m.displayId;
+
+        if (m.config && m.config.directory) {
+            options.dispatchService = m.config.directory.dispatchService;
+            options.showService = m.config.directory.showService;
+        }
+
         if (m.displayType === 'cineMultiStoriesDisplay') {
-            options = {};
-            if (m.displayOptions) {
-                for (key in m.displayOptions) {
-                    options[key] = m.displayOptions[key];
-                }
-            }
-
-            options.displayPanelName = m.displayId;
-
-            if (m && m.config && m.config.directory) {
-                options.dispatchService = m.config.directory.dispatchService;
-                options.showService = m.config.directory.showService;
-            }
-
-            displayControl = new $n2.atlascine.CineMultiStoriesDisplay(options);
+            const displayControl = new $n2.atlascine.CineMultiStoriesDisplay(options);
             m.onSuccess(displayControl);
-        } else if (m.displayType === 'cineStoriesDisplay') {
-            options = {};
-            if (m.displayOptions) {
-                for (key in m.displayOptions) {
-                    options[key] = m.displayOptions[key];
-                }
-            }
-
-            options.displayPanelName = m.displayId;
-
-            if (m && m.config && m.config.directory) {
-                options.dispatchService = m.config.directory.dispatchService;
-                options.showService = m.config.directory.showService;
-            }
-
-            displayControl = new $n2.atlascine.CineStoriesDisplay(options);
+        }
+        else if (m.displayType === 'cineStoriesDisplay') {
+            const displayControl = new $n2.atlascine.CineStoriesDisplay(options);
             m.onSuccess(displayControl);
         }
     }
@@ -183,250 +89,89 @@
     }
 
     function handleWidgetDisplayRequests(m) {
-        var options, widgetOptions, containerId, config, key, value;
+        let options = {};
+        const cfg = m.config;
+        const isDirectoryPresent = (cfg && cfg.directory);
+
+        if (m.widgetOptions) {
+            options = { ...m.widgetOptions };
+        }
+
+        if (isDirectoryPresent) {
+            options.dispatchService = cfg.directory.dispatchService;
+        }
+
         if (m.widgetType === 'donutGroupTagLegendWidget') {
-            widgetOptions = m.widgetOptions;
-            containerId = m.containerId;
-            config = m.config;
-
-            options = {};
-
-            if (widgetOptions) {
-                for (key in widgetOptions) {
-                    value = widgetOptions[key];
-                    options[key] = value;
-                }
+            if (isDirectoryPresent) {
+                options.showService = cfg.directory.showService;
             }
-
-            options.containerId = containerId;
-
-            if (config && config.directory) {
-                options.dispatchService = config.directory.dispatchService;
-                options.showService = config.directory.showService;
-            }
-
+            options.containerId = m.containerId;
             new $n2.atlascine.DonutGroupTagLegendWidget(options);
-        } else if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
-            widgetOptions = m.widgetOptions;
-            containerId = m.containerId;
-            config = m.config;
-
-            options = {};
-
-            if (widgetOptions) {
-                for (key in widgetOptions) {
-                    value = widgetOptions[key];
-                    options[key] = value;
-                }
+        }
+        else if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
+            if (isDirectoryPresent) {
+                options.showService = cfg.directory.showService;
             }
-
-            options.containerId = containerId;
-
-            if (config && config.directory) {
-                options.dispatchService = config.directory.dispatchService;
-                options.showService = config.directory.showService;
-            }
-
+            options.containerId = m.containerId;
             new $n2.atlascine.ThemeDonutGroupTagLegendWidget(options);
-        } else if (m.widgetType === 'cineTranscript') {
-            var widgetOptions = m.widgetOptions;
-            var containerClass = widgetOptions.containerClass;
-            var config = m.config;
-            var options = {};
-
-            if (widgetOptions) {
-                for (var key in widgetOptions) {
-                    var value = widgetOptions[key];
-                    options[key] = value;
-                }
+        }
+        else if (m.widgetType === 'cineTranscript') {
+            if (isDirectoryPresent) {
+                options.attachmentService = cfg.directory.attachmentService;
             }
-
-            options.containerClass = containerClass;
-
-            if (config && config.directory) {
-                options.dispatchService = config.directory.dispatchService;
-                options.attachmentService = config.directory.attachmentService;
-            }
-
             new $n2.atlascine.CineTranscript(options);
-        } else if (m.widgetType === 'themeTranscript') {
-            var widgetOptions = m.widgetOptions;
-            var containerClass = widgetOptions.containerClass;
-            var config = m.config;
-            var options = {};
-
-            if (widgetOptions) {
-                for (var key in widgetOptions) {
-                    var value = widgetOptions[key];
-                    options[key] = value;
-                }
+        }
+        else if (m.widgetType === 'themeTranscript') {
+            if (isDirectoryPresent) {
+                options.attachmentService = cfg.directory.attachmentService;
             }
-
-            options.containerClass = containerClass;
-
-            if (config && config.directory) {
-                options.dispatchService = config.directory.dispatchService;
-                options.attachmentService = config.directory.attachmentService;
-            }
-
             new $n2.atlascine.ThemeTranscript(options);
         }
     }
 
     function handleModelEvents(m) {
-        var options, key, value;
-        if ('modelCreate' === m.type) {
-            if ('cineTimeIndexTransform' === m.modelType) {
-                options = {};
+        if (m.type === 'modelCreate') {
+            let options = {};
 
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
+            if (m.modelOptions) {
+                options = {...m.modelOptions};
+            }
 
-                options.modelId = m.modelId;
+            options.modelId = m.modelId;
 
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
+            if (m.config && m.config.directory) {
+                options.dispatchService = m.config.directory.dispatchService;
+            }
 
+            if (m.modelType === 'cineTimeIndexTransform') {
                 new $n2.atlascine.CineTimeIndexTransform(options);
                 m.created = true;
-            } else if ('cineData2DonutTransform' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'cineData2DonutTransform') {
                 new $n2.atlascine.CineData2DonutTransform(options);
                 m.created = true;
-            } else if ('themeIndexTransform' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'themeIndexTransform') {
                 new $n2.atlascine.ThemeIndexTransform(options);
                 m.created = true;
-            } else if ('themeData2DonutTransform' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'themeData2DonutTransform') {
                 new $n2.atlascine.ThemeData2DonutTransform(options);
                 m.created = true;
-            } else if ('cineMapFilter' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'cineMapFilter') {
                 new $n2.atlascine.CineMapFilter(options);
                 m.created = true;
-            } else if ('themeMapFilter' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'themeMapFilter') {
                 new $n2.atlascine.ThemeMapFilter(options);
                 m.created = true;
-            } else if ('donutFilter' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'donutFilter') {
                 new $n2.atlascine.DonutFilterByGroupTag(options);
                 m.created = true;
-            } else if ('themeDonutFilter' === m.modelType) {
-                options = {};
-                if (m.modelOptions) {
-                    for (key in m.modelOptions) {
-                        value = m.modelOptions[key];
-                        options[key] = value;
-                    }
-                }
-
-                options.modelId = m.modelId;
-
-                if (m && m.config) {
-                    if (m.config.directory) {
-                        options.dispatchService = m.config.directory.dispatchService;
-                    }
-                }
-
+            }
+            else if (m.modelType === 'themeDonutFilter') {
                 new $n2.atlascine.ThemeDonutFilterByGroupTag(options);
                 m.created = true;
             }
@@ -442,7 +187,7 @@
 
         // Custom service
         if (config.directory.customService) {
-            var customService = config.directory.customService;
+            const customService = config.directory.customService;
 
             // Default table of content
             customService.setOption('defaultNavigationIdentifier', 'navigation.atlascine');
@@ -451,14 +196,14 @@
             customService.setOption('defaultModuleIdentifier', 'module.home');
 
             customService.setOption('moduleDisplayIntroFunction', function (opts_) {
-                var opts = $n2.extend({
+                const opts = $n2.extend({
                     elem: null
                     , config: null
                     , moduleDisplay: null
                 }, opts_);
-                var $elem = opts.elem;
-                var moduleDisplay = opts.moduleDisplay;
-                var moduleId = moduleDisplay.getCurrentModuleId();
+                const $elem = opts.elem;
+                const moduleDisplay = opts.moduleDisplay;
+                const moduleId = moduleDisplay.getCurrentModuleId();
                 if (moduleId === 'module.about' ||
                     moduleId === 'module.tutorial' ||
                     moduleId === 'module.home') {
@@ -478,7 +223,7 @@
 
         // Dispatch service
         if (config.directory.dispatchService) {
-            var dispatchService = config.directory.dispatchService;
+            const dispatchService = config.directory.dispatchService;
 
             // Handler called when atlas starts
             dispatchService.register(DH, 'start', function () {
