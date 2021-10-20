@@ -10,6 +10,15 @@
 					</div>
 				{{/if}}
 			{{/atlascine_place}}
+			{{#atlascine_place}}
+				{{#if zoomScale}}
+					<div class="atlascine_place_zoomScale">
+						<div class="label n2s_localize mdc-typography--subtitle2">Zoom Scale</div>
+						<div class="value">{{zoomScale}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_place}}
 			{{#nunaliit_geom}}
 				<div class="nunaliit_geom">
 					<div class="label n2s_localize mdc-typography--subtitle2">WKT Geometry</div>

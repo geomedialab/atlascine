@@ -8,6 +8,13 @@
 					</div>
 				</div>
 			{{/atlascine_place}}
+			{{#atlascine_place}}
+				<div class="atlascine_place_zoomScale">
+					<div class="value">
+						{{#:field}}zoomScale,id=zoomScale,label=Zoom%20Scale{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_place}}
 			<div class="nunaliit_geom">
 				<div class="value">{{#:field}}nunaliit_geom,geometry,label=WKT%20Geometry{{/:field}}</div>
 			</div>

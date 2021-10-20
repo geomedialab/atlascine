@@ -1,19 +1,27 @@
 {
-	"id": "place"
-	,"group": "atlascine"
-	,"label": "Place"
-	,"relatedSchemas": ["atlascine2_cinemap"]
-	,"initialLayers": []
-	,"attributes": [
+	"id": "place",
+	"group": "atlascine",
+	"label": "Place",
+	"relatedSchemas": [
+		"atlascine2_cinemap"
+	],
+	"initialLayers": [],
+	"attributes": [
 		{
-			"id": "name"
-			,"label": "Name"
-			,"type": "string"
-			,"includedInBrief": true
-		}
-		,{
-			"label": "WKT Geometry"
-			,"type": "geometry"
+			"id": "name",
+			"label": "Name",
+			"type": "string",
+			"includedInBrief": true
+		},
+		{
+			"id": "zoomScale",
+			"label": "Zoom Scale",
+			"type": "string",
+			"includedInBrief": true
+		},
+		{
+			"label": "WKT Geometry",
+			"type": "geometry"
 		}
 	]
 }

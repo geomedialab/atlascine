@@ -372,7 +372,18 @@
                         fillColor: cidx.color,
                         opacity: 0.5
                     };
-
+                    
+                    /* If the atlascine_place has a zoom scale, give it to the donut as well. */
+                    if (doc.hasOwnProperty("atlascine_place")) {
+                        if (doc.atlascine_place.hasOwnProperty("zoomScale")) {
+                            const zoomScale = doc.atlascine_place.zoomScale;
+                            // https://stackoverflow.com/a/175787
+                            if ((typeof zoomScale === "string") && ((!isNaN(zoomScale)) && (!isNaN(parseFloat(zoomScale))))) {
+                                ldata_tmp.placeZoomScale = Number(zoomScale);
+                            }
+                        }
+                    }
+                    
                     donutDocInfo.doc._ldata = ldata_tmp;
 
                     // Remember start time given the doc id

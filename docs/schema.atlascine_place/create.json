@@ -1,4 +1,7 @@
 {
 	"nunaliit_schema": "atlascine_place",
-	"atlascine_place": {"name": ""}
+	"atlascine_place": {
+		"zoomScale": "",
+		"name": ""
+	}
 }

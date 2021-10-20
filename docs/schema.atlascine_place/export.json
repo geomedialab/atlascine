@@ -5,6 +5,11 @@
 		"type": "text"
 	},
 	{
+		"select": "atlascine_place.zoomScale",
+		"label": "zoomScale",
+		"type": "text"
+	},
+	{
 		"select": "nunaliit_geom.wkt",
 		"label": "nunaliit_geom",
 		"type": "text"
