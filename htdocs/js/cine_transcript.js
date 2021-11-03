@@ -188,7 +188,159 @@
         }
     });
 
-    var CineTranscript = $n2.Class('ThemeTranscript', $n2.widgetTranscript.TranscriptWidget, {
+    const CineTranscript = $n2.Class('ThemeTranscript', $n2.widgetTranscript.TranscriptWidget, {    
+        initialize: function(opts_){
+            const opts = {
+                containerClass: undefined
+                , dispatchService: undefined
+                , attachmentService: undefined
+                , name: undefined
+                , docId: undefined
+                , doc: undefined
+                , sourceModelId: undefined
+                , cinemapModelId: undefined
+                , subtitleModelId: undefined
+                , isInsideContentTextPanel : true
+                , ...opts_
+            };
+    
+            const _this = this;
+    
+            this.dispatchService = opts.dispatchService;
+            this.attachmentService = opts.attachmentService;
+            this.name = opts.name;
+            this.docId = opts.docId;
+            this.sourceModelId = opts.sourceModelId;
+            this.subtitleModelId = opts.subtitleModelId;
+            this._contextMenuClass = 'transcript-context-menu';
+            
+            this.isInsideContentTextPanel = opts.isInsideContentTextPanel;
+    
+            if (opts.doc) {
+                this.doc = opts.doc;
+                this.docId = this.doc._id;
+            }
+
+            if (!this.name) {
+                this.name = $n2.getUniqueId();
+            }
+    
+            this.transcriptDiv = undefined;
+            this.transcript_array = [];
+            this.subtitleFormat = undefined;
+            this.lastTimeUserScroll = 0;
+            this.mediaDivId = undefined;
+            this.annotationEditor = undefined;
+            this._lastCtxTime = undefined;
+            
+            const containerClass = opts.containerClass;
+            if( !containerClass ){
+                throw new Error('containerClass must be specified');
+            }
+    
+            const $container = $('.'+containerClass);
+            
+            this.elemId = $n2.getUniqueId();
+            this.mediaAndSubtitleDivId = $n2.getUniqueId();
+            this.mediaDivId = $n2.getUniqueId();
+            this.subtitleDivId = $n2.getUniqueId();
+            this.subtitleSelectionDivId = $n2.getUniqueId();
+            this.srtSelectionId = $n2.getUniqueId();
+            this.srtSelector = undefined;
+            
+            if (this.isInsideContentTextPanel) {
+                const $elem = $('<div>')
+                    .attr('id', this.elemId)
+                    .appendTo($container);
+
+                $('<div>')
+                    .attr('id', this.subtitleSelectionDivId)
+                    .appendTo($elem);
+
+                const $mediaAndSubtitleDiv = $('<div>')
+                    .attr('id', this.mediaAndSubtitleDivId)
+                    .addClass('n2widgetTranscript n2widgetTranscript_insideTextPanel')
+                    .appendTo($elem);
+
+                $('<div>')
+                    .attr('id', this.mediaDivId)
+                    .appendTo($mediaAndSubtitleDiv);
+
+                $('<div>')
+                    .attr('id', this.subtitleDivId)
+                    .addClass('n2widgetTranscript_transcript')
+                    .appendTo($mediaAndSubtitleDiv);
+
+                this._reInstallSubtitleSel();
+            }
+            else {
+                $('<div>')
+                    .attr('id', this.elemId)
+                    .addClass('n2widgetTranscript')
+                    .appendTo($container);
+            }
+
+            if (this.dispatchService) {
+                if (this.sourceModelId) {
+                    const modelInfoRequest = {
+                        type: 'modelGetInfo'
+                        , modelId: this.sourceModelId
+                        , modelInfo: null
+                    };
+                    this.dispatchService.synchronousCall(DH, modelInfoRequest);
+                    const sourceModelInfo = modelInfoRequest.modelInfo;
+
+                    if (sourceModelInfo
+                        && sourceModelInfo.parameters) {
+                        if (sourceModelInfo.parameters.interval) {
+                            var paramInfo = sourceModelInfo.parameters.interval;
+                            this.intervalChangeEventName = paramInfo.changeEvent;
+                            this.intervalGetEventName = paramInfo.getEvent;
+                            this.intervalSetEventName = paramInfo.setEvent;
+
+                            if (paramInfo.value) {
+                                this.intervalMin = paramInfo.value.min;
+                                this.intervalMax = paramInfo.value.max;
+                            }
+                        }
+
+                        if (sourceModelInfo.parameters.range) {
+                            var paramInfo = sourceModelInfo.parameters.range;
+                            this.rangeChangeEventName = paramInfo.changeEvent;
+                            this.rangeGetEventName = paramInfo.getEvent;
+                            this.rangeSetEventName = paramInfo.setEvent;
+                        }
+                    }
+                }
+    
+                const f = function(m, addr, dispatcher){
+                    _this._handle(m, addr, dispatcher);
+                };
+    
+                this.dispatchService.register(DH, 'modelStateUpdated', f);
+                this.dispatchService.register(DH, 'mediaTimeChanged', f);
+                this.dispatchService.register(DH, 'renderStyledTranscript', f);
+                this.dispatchService.register(DH, 'documentContent', f);
+                this.dispatchService.register(DH, 'replyColorForDisplayedSentences', f);
+    
+                if (this.intervalChangeEventName) {
+                    this.dispatchService.register(DH, this.intervalChangeEventName, f);
+                }
+
+                if (!this.docId) {
+                    this.timeTable = [];
+                    this.transcript = undefined;
+                    this.srtData = undefined;
+                    this.subtitleFormat = undefined;
+                }
+            }
+    
+            this._refresh = $n2.utils.debounce(this._refresh, 10);
+
+            $n2.log(this._classname, this);
+    
+            this._documentChanged();
+        },
         _reInstallSubtitleSel: function () {
             var _this = this;
             var $elem = this._getSubtitleSelectionDiv();
@@ -230,10 +382,68 @@
                 })
             }
         },
+        _timeChanged: function (currentTime, origin) {
+            const $video = $('#' + this.videoId);
+            const _this = this;
+            const numCurrentTime = Number(currentTime);
+
+            $('#' + _this.transcriptId + ' > div').removeClass('highlight');
+
+            $n2.utils.processLargeArrayAsync(_this.transcript_array, function (transcriptElem, _index_, _array_) {
+                const $transcriptElem = $('#' + transcriptElem.id);
+                if (numCurrentTime >= transcriptElem.start && numCurrentTime < transcriptElem.fin) {
+                    /* Entering a new transcript segment - highlight it. */
+                    $transcriptElem.addClass('highlight');
+                    /* Check if it has a colour, if so, emit event to be able to center the view on the generated donut */
+                    if (document.querySelector(`#${_this.transcriptId} > div.highlight`).hasAttribute('style')) {
+                        _this.dispatchService.send(DH, {
+                            type: 'renderStyledTranscript'
+                        });
+                    }
+                    if ($.now() - _this.lastTimeUserScroll > 5000) {
+                        _this._scrollToView($transcriptElem);
+                    }
+                }
+            });
+
+            if ('model' === origin) {
+                const currentVideoTime = $video[0].currentTime;
+                if (Math.abs(currentVideoTime - currentTime) < 0.5) {
+                } else {
+                    $video[0].currentTime = currentTime;
+                    $video[0].play();
+                }
+
+            } else if ('text' === origin) {
+                $video[0].currentTime = currentTime;
+                $video[0].play();
+
+            } else if ('text-oneclick' === origin) {
+                _this.pauseVideo($video[0], currentTime);
+
+            } else if ('startEditing' === origin) {
+                _this._lastCtxTime = currentTime;
+
+            } else if ('savedState' === origin) {
+                $video[0].load();
+                $video[0].currentTime = currentTime;
+
+                $video[0].play();
+                const inid = setInterval(function () {
+                    const isPlaying = $video[0].currentTime > 0 && !$video[0].paused && !$video[0].ended
+                        && $video[0].readyState > 2;
+
+                    if (!isPlaying) {
+
+                    } else {
+                        $video[0].pause();
+                        clearInterval(inid);
+                    }
+                }, 100);
+            }
+        }
     });
 
-    Object.assign($n2.atlascine, {
-        CineTranscript: CineTranscript,
-    });
+    $n2.atlascine = { "CineTranscript": CineTranscript, ...$n2.atlascine };
 
 })(jQuery, nunaliit2);
