@@ -1061,10 +1061,10 @@
                 if(n_cur >= transcriptElem.start && n_cur < transcriptElem.fin) {
                     $transcriptElem.addClass('highlight');
 
-                    const highlightedLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
+                    const styledLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
                     /* var color = #ffffff is set earlier but that turns into this rgb format instead */
-                    if (highlightedLine && highlightedLine.hasAttribute('style')) {
-                        if (highlightedLine.style.backgroundColor !== "rgb(255, 255, 255)") {
+                    if (styledLine && styledLine.hasAttribute('style')) {
+                        if (styledLine.style.backgroundColor !== "rgb(255, 255, 255)") {
                             _this.dispatchService.send(DH, {
                                 type: 'renderStyledTranscript'
                             });
