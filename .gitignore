@@ -5,6 +5,7 @@ media/*
 upgrade/*
 logs/*
 dump/
+extra/*
 
 # atlas specific settings to ignore
 #################################
