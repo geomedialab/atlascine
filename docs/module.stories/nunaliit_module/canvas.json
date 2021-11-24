@@ -19,6 +19,14 @@
 			}
 		},
 		{
+			"name": "Stamen Watercolor",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}",
+				"layerName": "watercolor"
+			}
+		},
+		{
 			"name": "Stamen Toner",
 			"type": "stamen",
 			"options": {

@@ -1,97 +1,116 @@
 {
     "canvasType": "map",
     "coordinates": {
-        "initialBounds": [-157,-32,75,67]
-        ,"autoInitialBounds": false
-    }
-    ,"renderOrderBasedOn" : "=doc._ldata.start"
-    ,"backgrounds": [
+        "initialBounds": [
+            -157,
+            -32,
+            75,
+            67
+        ],
+        "autoInitialBounds": false
+    },
+    "renderOrderBasedOn": "=doc._ldata.start",
+    "backgrounds": [
         {
-            "name": "OSM"
-            ,"type": "osm"
-            ,"options": {
+            "name": "OSM",
+            "type": "osm",
+            "options": {
                 "url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                ,"layers":""
-                ,"styles": ""
+            }
+        },
+        {
+            "name": "Stamen Watercolor",
+            "type": "stamen",
+            "options": {
+                "url": "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}",
+                "layerName": "watercolor"
+            }
+        },
+        {
+            "name": "Stamen Toner",
+            "type": "stamen",
+            "options": {
+                "url": "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png",
+                "layerName": "toner"
             }
         }
-    ]
-    ,"overlays": [
+    ],
+    "overlays": [
         {
-            "id": "firstOverlay"
-            ,"name": {
-                "nunaliit_type":"localized"
-                ,"en":"Demo"
-            }
-            ,"type": "model"
-            ,"options": {
+            "id": "firstOverlay",
+            "name": {
+                "nunaliit_type": "localized",
+                "en": "Demo"
+            },
+            "type": "model",
+            "options": {
                 "sourceModelId": "themeDonutFilterByGroupTag"
-            }
-            ,"featurePopupDelayMs": 300
-            ,"useHoverSound": true
-            ,"clustering": {
-                "distance": 20
-                ,"threshold": 1
-                ,"disableDynamicClustering": false
-                ,"clusterPointsOnly": false
-                ,"minimumLinePixelSize": 20
-                ,"minimumPolygonPixelSize": 20
+            },
+            "featurePopupDelayMs": 300,
+            "useHoverSound": true,
+            "clustering": {
+                "distance": 20,
+                "threshold": 1,
+                "disableDynamicClustering": false,
+                "clusterPointsOnly": false,
+                "minimumLinePixelSize": 20,
+                "minimumPolygonPixelSize": 20
             }
         }
-    ]
-    ,"addPointsOnly": false
-    ,"showSRSAttribution": true
-    ,"toggleClick": true
-    ,"styles":[
+    ],
+    "addPointsOnly": false,
+    "showSRSAttribution": true,
+    "toggleClick": true,
+    "styles": [
         {
-            "condition": "onLayer('public_demo')"
-            ,"label": "Public Demo"
-            ,"normal": {
-                "fill":"#ff3333"
+            "condition": "onLayer('public_demo')",
+            "label": "Public Demo",
+            "normal": {
+                "fill": "#ff3333"
             }
-        }
-        ,{
-            "condition": "onLayer('public')"
-            ,"label": "Public Demo"
-            ,"normal": {
-                "fill":"#ffff33"
+        },
+        {
+            "condition": "onLayer('public')",
+            "label": "Public Demo",
+            "normal": {
+                "fill": "#ffff33"
             }
-        }
-        ,{
-            "condition": "hasProperty('doc._ldata')"
-            ,"normal": {
+        },
+        {
+            "condition": "hasProperty('doc._ldata')",
+            "normal": {
                 "v2_style": true,
-                "n2es6.n2mapModule.N2CustomPointStyle" :{
+                "n2es6.n2mapModule.N2CustomPointStyle": {
                     "type": "treeRingB",
                     "donutScaleFactor": "=doc._ldata.scaleFactor",
                     "color": "=doc._ldata.style.fillColor",
-                    "stroke" : "#ffffff",
+                    "stroke": "#ffffff",
                     "opacity": 0.8,
                     "data": "=doc._ldata",
-                    "text" : "",
-                    "startupOffset" : 5
+                    "text": "",
+                    "startupOffset": 5
                 }
-            }
-            ,"selected": {
-                "v2_style" : true,
-                "n2es6.n2mapModule.N2CustomPointStyle" :{
+            },
+            "selected": {
+                "v2_style": true,
+                "n2es6.n2mapModule.N2CustomPointStyle": {
                     "type": "treeRingB",
                     "donutScaleFactor": 10,
                     "data": "=doc._ldata",
-                    "color" : "#ffff33",
+                    "color": "#ffff33",
                     "opacity": 0.5,
-                    "startupOffset" : 5
+                    "startupOffset": 5
                 }
-            }
-            ,"hovered": {
-                "v2_style" : true,
-                "n2es6.n2mapModule.N2CustomPointStyle" :{
+            },
+            "hovered": {
+                "v2_style": true,
+                "n2es6.n2mapModule.N2CustomPointStyle": {
                     "type": "treeRingB",
                     "donutScaleFactor": "=doc._ldata.scaleFactor",
                     "stroke": "#000000",
                     "color": "=doc._ldata.style.fillColor",
                     "data": "=doc._ldata",
-                    "startupOffset" : 5
+                    "startupOffset": 5
                 }
             }
         }
