@@ -11,7 +11,7 @@
 			{{#atlascine_place}}
 				<div class="atlascine_place_zoomScale">
 					<div class="value">
-						{{#:field}}zoomScale,id=zoomScale,label=Zoom%20Scale{{/:field}}
+						{{#:field}}zoomScale,id=zoomScale,label=Zoom%20Scale,placeholder=Accepted%20Values%3A%200%20-%2022%2C%20defaults%20to%2010{{/:field}}
 					</div>
 				</div>
 			{{/atlascine_place}}

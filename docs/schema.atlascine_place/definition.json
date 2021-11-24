@@ -17,7 +17,8 @@
 			"id": "zoomScale",
 			"label": "Zoom Scale",
 			"type": "string",
-			"includedInBrief": true
+			"includedInBrief": false,
+			"placeholder": "Accepted Values: 0 - 22, defaults to 10"
 		},
 		{
 			"label": "WKT Geometry",

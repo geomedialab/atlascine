@@ -5,10 +5,5 @@
 			<span class="atlascine_place_name">{{name}}</span>
 		{{/if}}
 	{{/atlascine_place}}
-	{{#atlascine_place}}
-		{{#if zoomScale}}
-			<span class="atlascine_place_zoomScale"> {{zoomScale}}</span>
-		{{/if}}
-	{{/atlascine_place}}
 	<span class="atlascine_place_brief_decoration">)</span>
 </span>
