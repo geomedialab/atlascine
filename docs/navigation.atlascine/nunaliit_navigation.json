@@ -1,68 +1,86 @@
 {
-	"nunaliit_type":"navigation"
-	,"title":{
-		"nunaliit_type":"localized"
-		,"en":"Atlascine"
-		,"fr":"Atlascine"
-	}
-    ,"items":[
+	"nunaliit_type": "navigation",
+	"title": {
+		"nunaliit_type": "localized",
+		"en": "Atlascine",
+		"fr": "Atlascine"
+	},
+	"items": [
 		{
-			"title" : {
-				"nunaliit_type":"localized"
-				,"en": "Home"
-				,"fr": "Accueil"
-			}
-			,"module": "module.home"
+			"title": {
+				"nunaliit_type": "localized",
+				"en": "Home",
+				"fr": "Accueil"
+			},
+			"module": "module.home"
 		},
 		{
 			"title": {
-				"nunaliit_type":"localized"
-				,"en": "Maps"
-				,"fr": "Plans"
-			}
-			,"module": "module.stories"
-			,"items":[
+				"nunaliit_type": "localized",
+				"en": "Atlas",
+				"fr": "Atlas"
+			},
+			"module": "module.stories",
+			"items": [
 				{
 					"title": {
-						"nunaliit_type": "localized"
-						,"en": "Stories"
-						,"fr": "Histoires"
+						"nunaliit_type": "localized",
+						"en": "Map stories",
+						"fr": "Cartographier"
 					},
 					"module": "module.stories"
-				}
-                ,{
-                    "title": {
-                        "nunaliit_type": "localized"
-                        ,"en": "Multi Maps"
-                        ,"fr": "Plusieurs Cartes"
-                    },
-                    "module": "module.multiStories"
-                }
-				,{
+				},
+				{
 					"title": {
-						"nunaliit_type": "localized"
-						,"en": "Editor"
-						,"fr": "Monteur"
+						"nunaliit_type": "localized",
+						"en": "Compare maps",
+						"fr": "Comparer les cartes"
+					},
+					"module": "module.multiStories"
+				},
+				{
+					"title": {
+						"nunaliit_type": "localized",
+						"en": "Editor",
+						"fr": "Éditeur"
 					},
 					"module": "module.editor"
 				}
 			]
 		},
 		{
-			"title" : {
-					"nunaliit_type":"localized"
-					,"en": "Tutorial"
-					,"fr": "Didacticiel"
-			}
-			,"module": "module.tutorial"
+			"title": {
+				"nunaliit_type": "localized",
+				"en": "Tutorials",
+				"fr": "Tutoriels"
+			},
+			"href": "https://github.com/geomedialab/atlascine/wiki",
+			"items": [
+				{
+					"title": {
+						"nunaliit_type": "localized",
+						"en": "How to use Atlascine",
+						"fr": "Comment utiliser Atlascine"
+					},
+					"href": "https://github.com/geomedialab/atlascine/wiki/How-to-use-Atlascine"
+				},
+				{
+					"title": {
+						"nunaliit_type": "localized",
+						"en": "How to deploy Atlascine",
+						"fr": "Comment déployer Atlascine"
+					},
+					"href": "https://github.com/geomedialab/atlascine/wiki/How-to-deploy-Atlascine"
+				}
+			]
 		},
 		{
-			"title" : {
-					"nunaliit_type": "localized"
-					,"en": "About"
-					,"fr": "Sur"
-			}
-			,"module": "module.about"
+			"title": {
+				"nunaliit_type": "localized",
+				"en": "About",
+				"fr": "À propos"
+			},
+			"module": "module.about"
 		}
 	]
 }
