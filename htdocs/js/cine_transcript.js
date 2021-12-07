@@ -382,6 +382,37 @@
                 })
             }
         },
+        _updateCurrentTime: function (currentTime, origin) {
+            /* Override n2.widgetTranscript's _updateCurrentTime */
+            this.dispatchService.send(DH, {
+                type: 'mediaTimeChanged'
+                , name: this.name
+                , currentTime: currentTime
+                , origin: origin
+            });
+            if (!this.intervalSetEventName) return;
+            let max = currentTime;
+            if (typeof max === 'number') {
+                if (max === 0) {
+                    /*  
+                        max being zero means video is not playing or just started playing 
+                        (and will very quickly move out of time zero)
+                        so retrieve all documents instead.
+                        This operates under the assumption that the documents will live within
+                        the range of 0 to Number.MAX_SAFE_INTEGER.
+                    */
+                   max = Number.MAX_SAFE_INTEGER;
+                }
+                this.dispatchService.send(DH, {
+                    type: this.intervalSetEventName
+                    , value: new $n2.date.DateInterval({
+                        min: 0
+                        , max: max
+                        , ongoing: false
+                    })
+                });
+            }
+        },
         _timeChanged: function (currentTime, origin) {
             const $video = $('#' + this.videoId);
             const _this = this;

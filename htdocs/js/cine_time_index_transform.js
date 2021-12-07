@@ -583,7 +583,6 @@
                                 if (!currentInterval) {
                                     start = undefined;
                                     end = undefined;
-
                                 } else if (end < currentInterval.min) {
                                     start = undefined;
                                     end = undefined;
