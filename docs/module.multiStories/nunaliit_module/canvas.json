@@ -11,29 +11,45 @@
     },
     "renderOrderBasedOn": "=doc._ldata.start",
     "backgrounds": [
-        {
-            "name": "OSM",
-            "type": "osm",
-            "options": {
-                "url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            }
-        },
-        {
-            "name": "Stamen Watercolor",
-            "type": "stamen",
-            "options": {
-                "url": "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}",
-                "layerName": "watercolor"
-            }
-        },
-        {
-            "name": "Stamen Toner",
-            "type": "stamen",
-            "options": {
-                "url": "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png",
-                "layerName": "toner"
-            }
-        }
+		{
+			"name": "Stamen Terrain",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}",
+				"layerName": "terrain"
+			}
+		},
+		{
+			"name": "Stamen TonerLite",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}",
+				"layerName": "toner-lite"
+			}
+		},
+		{
+			"name": "Stamen Toner",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png",
+				"layerName": "toner"
+			}
+		},
+		{
+			"name": "Stamen Watercolor",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}",
+				"layerName": "watercolor"
+			}
+		},
+		{
+			"name": "OSM",
+			"type": "osm",
+			"options": {
+				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+			}
+		}
     ],
     "overlays": [
         {

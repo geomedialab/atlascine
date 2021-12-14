@@ -12,6 +12,14 @@
 	"renderOrderBasedOn": "=doc._ldata.start",
 	"backgrounds": [
 		{
+			"name": "Stamen Terrain",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}",
+				"layerName": "terrain"
+			}
+		},
+		{
 			"name": "Stamen TonerLite",
 			"type": "stamen",
 			"options": {
@@ -25,14 +33,6 @@
 			"options": {
 				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png",
 				"layerName": "toner"
-			}
-		},
-		{
-			"name": "Stamen Terrain",
-			"type": "stamen",
-			"options": {
-				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}",
-				"layerName": "terrain"
 			}
 		},
 		{
