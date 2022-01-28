@@ -211,12 +211,17 @@
     margin-bottom: 30px;
 }
 
+/* Map Toggle Settings Bar */
+div.ol-overlaycontainer-stopevent > div.ol-unselectable.ol-control.ol-bar.ol-top.ol-left {
+	top: 6.9em;
+}
+
 /* Layer Switcher / Basemap Selector and Overlays */
 div.ol-unselectable.ol-control.layer-switcher,
 div.ol-unselectable.ol-control.layer-switcher.shown,
 div.ol-unselectable.ol-control.layer-switcher.shown.layer-switcher-activation-mode-click {
 	position: absolute;
-	top: 10.4em;
+	top: 4.5em;
 	left: 0.5em;
 	right: unset;
 }
