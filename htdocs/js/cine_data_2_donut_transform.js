@@ -355,11 +355,13 @@
                     var l = cidx.start, r = cidx.end;
                     var ldata_tmp = {
                         start: cidx.start,
+                        lineDuration: cidx.lineDuration,
                         tags: cidx.tags,
                         timeLinkTags: cidx.timeLinkTags,
-                        scaleFactor: cidx.scaleFactor
+                        scaleFactor: cidx.scaleFactor,
+                        relatedImage: cidx.relatedImage ? cidx.relatedImage : ""
                     };
-
+                    
                     ldata_tmp.tagGroupColors = cidx.tagGroupColors;
 
                     // 15 is the magic number for the ring to be drawn on map

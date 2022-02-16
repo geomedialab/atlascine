@@ -249,3 +249,45 @@ div.ol-unselectable.ol-control.layer-switcher.shown > button {
 	margin-left: 3px;
 	margin-top: 1px;
 }
+
+/* Image Notification (ol-ext Notification) */
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification {
+	top: 1%;
+	bottom: auto;
+}
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification span.closeBox {
+	top: 0.5em;
+	right: 0.9em;
+	cursor: pointer;
+}
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification div.ol-close {
+	padding-right: 0.5em;
+}
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification.ol-collapsed > div {
+	top: -5em;
+	display: none;
+}
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification > div img {
+	max-height: 35em;
+	max-width: 35em;
+	padding-top: 0.2em;
+}
+
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification > div,
+div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification > div:hover {
+	background-color: #D5D3D3;
+	bottom: auto;
+	top: 0;
+	border-radius: 4px;
+	max-width: none;
+	max-height: none;
+	-webkit-transition-property: none;
+	-moz-transition-property: none;
+	-o-transition-property: none;
+	transition-property: none;
+}

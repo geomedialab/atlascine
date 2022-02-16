@@ -513,6 +513,11 @@
                             return;
                         }
 
+                        let relatedImage = "";
+                        if (timeLink.relatedImage) {
+                            relatedImage = timeLink.relatedImage;
+                        }
+
                         var referenceDocTags = timeLink.tags;
                         var placeTags = findPlaceDocTags(referenceDocTags);
                         if (placeTags) {
@@ -579,6 +584,8 @@
                                     }
                                 }
 
+                                const lineDuration = end - start;
+
                                 // Compute effective start and end (intersection)
                                 if (!currentInterval) {
                                     start = undefined;
@@ -628,10 +635,12 @@
                                     indexInfo.origin = indexDoc._id;
                                     indexInfo.start = start;
                                     indexInfo.end = end;
+                                    indexInfo.lineDuration = lineDuration;
                                     indexInfo.tags = tags;
                                     indexInfo.timeLinkTags = timeLinkTags;
                                     indexInfo.color = color;
                                     indexInfo.tagGroupColors = tagGroupColors;
+                                    indexInfo.relatedImage = relatedImage;
                                     indexInfo.scaleFactor = _scaleFactor;
                                     referencedDocInfo.newCineIndex.push(indexInfo);
                                 }

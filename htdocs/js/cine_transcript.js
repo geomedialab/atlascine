@@ -426,10 +426,13 @@
                     /* Entering a new transcript segment - highlight it. */
                     $transcriptElem.addClass('highlight');
                     /* Check if it has a colour, if so, emit event to be able to center the view on the generated donut */
-                    if (document.querySelector(`#${_this.transcriptId} > div.highlight`).hasAttribute('style')) {
-                        _this.dispatchService.send(DH, {
-                            type: 'renderStyledTranscript'
-                        });
+                    const currentHighlightedLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
+                    if (currentHighlightedLine !== null) {
+                        if (currentHighlightedLine.hasAttribute('style')) {
+                            _this.dispatchService.send(DH, {
+                                type: 'renderStyledTranscript'
+                            });
+                        }
                     }
                     if ($.now() - _this.lastTimeUserScroll > 5000) {
                         _this._scrollToView($transcriptElem);
