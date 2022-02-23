@@ -291,3 +291,8 @@ div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent
 	-o-transition-property: none;
 	transition-property: none;
 }
+
+/* Faux ol-active style since the actual ol-active affects the functionality */ 
+.ol-toggle.ol-button.ol-unselectable.ol-control.faux-ol-active > button {
+	background-color: rgba(60, 136, 0, 0.7);
+}
