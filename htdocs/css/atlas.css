@@ -255,6 +255,7 @@ div.ol-unselectable.ol-control.layer-switcher.shown > button {
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification {
 	top: 1%;
 	bottom: auto;
+	left: 30.5%;
 }
 
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification span.closeBox {
