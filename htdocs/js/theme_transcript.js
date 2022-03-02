@@ -418,7 +418,6 @@
                 this.dispatchService.register(DH, 'mediaTimeChanged', f);
                 this.dispatchService.register(DH, 'documentContent', f);
                 this.dispatchService.register(DH, 'changeCineViaDonut', f);
-                this.dispatchService.register(DH, 'renderStyledTranscript', f);
                 this.dispatchService.register(DH, 'themeChanged', f);
 
                 if (this.intervalChangeEventName) {
@@ -1060,17 +1059,6 @@
                 var $transcriptElem = $('#'+transcriptElem.id);
                 if(n_cur >= transcriptElem.start && n_cur < transcriptElem.fin) {
                     $transcriptElem.addClass('highlight');
-
-                    const styledLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
-                    /* var color = #ffffff is set earlier but that turns into this rgb format instead */
-                    if (styledLine && styledLine.hasAttribute('style')) {
-                        if (styledLine.style.backgroundColor !== "rgb(255, 255, 255)") {
-                            _this.dispatchService.send(DH, {
-                                type: 'renderStyledTranscript'
-                            });
-                        }
-                    }
-
                     if ($.now() - _this.lastTimeUserScroll > 5000) {
                         _this._scrollToView($transcriptElem);
                     }

@@ -355,6 +355,8 @@
                     var l = cidx.start, r = cidx.end;
                     var ldata_tmp = {
                         start: cidx.start,
+                        transcriptStart: cidx.transcriptStart,
+                        transcriptEnd: cidx.transcriptEnd,
                         lineDuration: cidx.lineDuration,
                         tags: cidx.tags,
                         timeLinkTags: cidx.timeLinkTags,

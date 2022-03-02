@@ -631,10 +631,16 @@
                                         })
                                     );
 
+                                    const secStart = $n2.utils.convertSMPTEtoSeconds(timeLink.starttime);                                   
+                                    const transcriptStart = (secStart === 0) ? 0.000 : secStart;
+                                    const transcriptEnd = $n2.utils.convertSMPTEtoSeconds(timeLink.endtime);
+
                                     var indexInfo = {};
                                     indexInfo.origin = indexDoc._id;
                                     indexInfo.start = start;
                                     indexInfo.end = end;
+                                    indexInfo.transcriptStart = transcriptStart;
+                                    indexInfo.transcriptEnd = transcriptEnd;
                                     indexInfo.lineDuration = lineDuration;
                                     indexInfo.tags = tags;
                                     indexInfo.timeLinkTags = timeLinkTags;

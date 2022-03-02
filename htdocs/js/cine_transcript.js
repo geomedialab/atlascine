@@ -13,6 +13,162 @@
         return;
     }
 
+    const SubtitleFileParser = {
+        srt: {
+            parse: function (srtData) {
+                var reTimeCode = /^([0-9]{2}:[0-9]{2}:[0-9]{2}([,.][0-9]{1,3})?) --\> ([0-9]{2}:[0-9]{2}:[0-9]{2}([,.][0-9]{3})?)(.*)$/;
+                var json = [];
+                var lines = srtData.split(/\r?\n/);
+                if (!$n2.isArray(lines)) {
+                    throw new Error('srtFile data processing error');
+                }
+                var cur = -1;
+                var totalLength = lines.length;
+
+                var curSentence = "";
+                while (++cur < (totalLength - 1)) {
+                    if (lines[cur].replace(/^\s+|\s+$/g, '') === "") {
+                        continue;
+                    } else {
+                        var tmpIdx = lines[cur].replace(/^\s+|\s+$/g, '');
+                        var tmpTimecode = lines[++cur].replace(/^\s+|\s+$/g, '');
+                        var matcher = reTimeCode.exec(tmpTimecode);
+                        if (tmpIdx.search(/[0-9]+/i) === -1
+                            || !matcher) {
+                            continue;
+
+                        } else {
+                            var curEntry = {
+                                "start": null,
+                                "startTimeCode": matcher[1],
+                                "fin": null,
+                                "finTimeCode": matcher[3],
+                                "text": ""
+                            };
+
+                            curEntry.start = $n2.utils.convertSMPTEtoSeconds(matcher[1]);
+                            curEntry.fin = $n2.utils.convertSMPTEtoSeconds(matcher[3]);
+                            while (++cur < totalLength) {
+                                curSentence = lines[cur];
+                                if (curSentence.replace(/^\s+|\s+$/g, '') === "") {
+                                    curEntry.text += ' ';
+                                    break;
+                                }
+                                curEntry.text += curSentence;
+                            }
+
+                            json.push(curEntry);
+                        }
+                    }
+                }
+                return json;
+            }
+        },
+
+        webvtt: {
+            pattern_identifier: /^([a-zA-z]+-)?[0-9]+$/
+            , pattern_timecode: /^([0-9]{2}:[0-9]{2}:[0-9]{2}([,.][0-9]{1,3})?) --\> ([0-9]{2}:[0-9]{2}:[0-9]{2}([,.][0-9]{3})?)(.*)$/
+            , parse: function (trackText) {
+                var i = 0,
+                    lines = trackText.split(/\r?\n/),
+                    entries = [],
+                    timecode,
+                    text;
+
+                for (; i < lines.length; i++) {
+                    timecode = this.pattern_timecode.exec(lines[i]);
+                    if (timecode && i < lines.length) {
+                        i++;
+                        text = lines[i];
+                        i++;
+
+                        while (lines[i] !== '' && i < lines.length) {
+                            text = text + '\n' + lines[i];
+                            i++;
+                        }
+                        entries.push({
+                            'start': ($n2.utils.convertSMPTEtoSeconds(timecode[1]) == 0) ? 0.000 : $n2.utils.convertSMPTEtoSeconds(timecode[1]),
+                            'fin': $n2.utils.convertSMPTEtoSeconds(timecode[3]),
+                            'startTimeCode': timecode[1],
+                            'finTimeCode': timecode[3],
+                            'settings': timecode[5],
+                            'text': text
+                        });
+                    }
+                }
+                return entries;
+            }
+        }
+    }
+
+    /*
+	    For controlling what events are emitted from the transcript since that got out of hand
+    */
+    const TranscriptEventControl = $n2.Construct('TranscriptEventControl', {
+        transcriptLines: [],
+        currentLine: {},
+        hasCurrentLineUsedColour: false,
+
+        initialize: function() {},
+
+        setLines(lines) {
+            this.transcriptLines = lines;
+            this.currentLine = {};
+            this.hasCurrentLineUsedColour = false;
+        },
+
+        _setCurrentLine(line) {
+            this.currentLine = line;
+        },
+
+        _getCurrentLine() {
+            return this.currentLine;
+        },
+
+        _getLineFromTime(time) {
+            return this.transcriptLines.find(line => {
+                return ((time >= line.numStart) && (time < line.numEnd))
+            });
+        },
+
+        joinColours(colours) {
+            this.transcriptLines = this.transcriptLines.map(line => {
+                const { id, fin, finTimeCode, start, startTimeCode } = line;
+                const cleanedLine = {
+                    numStart: start,
+                    numEnd: fin,
+                    stringStart: startTimeCode,
+                    stringEnd: finTimeCode
+                };
+
+                const matchingColourLine = colours[id];
+
+                if (matchingColourLine) {
+                    const matchedLineColour = matchingColourLine.color;
+                    cleanedLine.colour = matchedLineColour ? matchedLineColour : null;
+                }
+
+                return cleanedLine;
+            });
+        },
+
+        styledLineEventEmitType() {
+            if (this.hasCurrentLineUsedColour) return false;
+            this.hasCurrentLineUsedColour = true;
+            return this.currentLine.colour;
+        },
+
+        shouldEventEmit(currentTime) {
+            const numCurrentTime = Number(currentTime);
+            const activeLine = this._getLineFromTime(numCurrentTime);
+            if (activeLine === undefined) return false;
+            if (activeLine === this._getCurrentLine()) return false;
+            this._setCurrentLine(activeLine);
+            this.hasCurrentLineUsedColour = false;
+            return true;
+        }
+    });
+
     $n2.Class({
         initialize: function (opts_) {
             var opts = $n2.extend({
@@ -206,6 +362,7 @@
     
             const _this = this;
     
+            this.transcriptEventControl = new TranscriptEventControl();
             this.dispatchService = opts.dispatchService;
             this.attachmentService = opts.attachmentService;
             this.name = opts.name;
@@ -341,6 +498,142 @@
     
             this._documentChanged();
         },
+
+        _documentChanged: function(){
+            if (!this.docId){
+                $n2.log('n2.widgetTranscript initial document change');
+                return;
+            } 
+            else if( !this.doc || this.docId !== this.doc._id ){
+                this.doc = undefined;
+                this.dispatchService.send(DH, {
+                    'type': 'requestDocument',
+                    'docId': this.docId
+                });
+                this._reInstallSubtitleSel();
+            }
+            else if( !this.transcript ){
+                this._loadVideoFile();
+                this._loadTranscript(this.doc);
+            }
+            else if( !this.srtData ){
+                let attSrt = undefined;
+                if (this.attachmentService
+                    && this.transcript 
+                    && this.transcript.fromMediaDoc){
+                    attSrt = this.attachmentService.getAttachment(this.doc, this.transcript.srtAttName);
+                }
+                else if( this.attachmentService
+                    && this.transcript 
+                    && this.transcript.srtAttName ){
+                    attSrt = this.attachmentService.getAttachment(this.srtDocs[this.transcript.srtDocId], this.transcript.srtAttName);
+                }
+                let srtUrl = undefined;
+                if( attSrt ){
+                    srtUrl = attSrt.computeUrl();
+                }
+    
+                if( srtUrl ){
+                    $.ajax({
+                        url: srtUrl
+                        ,type: 'GET'
+                        ,async: true
+                        ,traditional: true
+                        ,data: {}
+                        ,dataType: 'text'
+                        ,success: (srtData) => {
+                            this.srtData = srtData;
+                            this.subtitleFormat = this.subtitleFormat || 'SRT';
+                            switch(this.subtitleFormat){
+                                case 'SRT':
+                                    this.transcript_array = SubtitleFileParser.srt.parse(srtData);
+                                    this.transcriptEventControl.setLines(this.transcript_array);
+                                    break;
+                                case 'WEBVTT':
+                                    this.transcript_array = SubtitleFileParser.webvtt.parse(srtData);
+                                    this.transcriptEventControl.setLines(this.transcript_array);
+                                    break;
+                            }
+                            this._documentChanged();
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            this._documentChanged();
+                        }
+                    });
+    
+                } else {
+                    $n2.log('Can not find any valid SRT/WEBVTT file');
+                }
+            }
+            this.dispatchService.send(DH, {
+                type: 'renderStyledTranscript',
+                hideImage: true
+            })
+            this._refresh();
+        },
+
+        _handle: function (m, addr, dispatcher) {
+            const {
+                type,
+                doc,
+                docId,
+                modelId
+            } = m;
+
+            if ('mediaTimeChanged' === type) {
+                if (m.name == this.name) {
+                    this._timeChanged(m.currentTime, m.origin);
+                }
+            } else if ('documentContent' === type) {
+                if (docId === this.docId) {
+                    if (!this.doc) {
+                        this.doc = doc;
+                        this._documentChanged();
+                    } else if (this.doc._rev !== doc._rev) {
+                        this.doc = doc;
+                        this._documentChanged();
+                    }
+                }
+            } else if (this.intervalChangeEventName === type) {
+                if (m.value) {
+                    this.intervalMin = m.value.min;
+                    this.intervalMax = m.value.max;
+                    const videoTime = this._convertTimeToVideoTime(this.intervalMin);
+                    if (typeof videoTime == 'number') {
+                        this._timeChanged(videoTime, 'model');
+                    }
+                }
+            } else if ('modelStateUpdated' === type) {
+                if (this.sourceModelId === modelId) {
+                    const mediaDocChanged = this._cinemapUpdated(m.state);
+                    if (mediaDocChanged) {
+                        this.timeTable = [];
+                        this.transcript = undefined;
+                        this.srtData = undefined;
+                        this.subtitleFormat = undefined;
+                        this._refresh();
+                        this._documentChanged();
+                    }
+                } else if (this.subtitleModelId === modelId) {
+                    this._updateMediaToSrtMap(m.state);
+                    this._reInstallSubtitleSel();
+                }
+            } else if ('selected' === type) {
+                if (docId !== this.docId) {
+                    this.docId = docId;
+                    this.doc = doc;
+                    this.timeTable = [];
+                    this.transcript = undefined;
+                    this.srtData = undefined;
+                    this.subtitleFormat = undefined;
+                    this._documentChanged();
+                }
+            } else if ('replyColorForDisplayedSentences' === type) {
+                this.transcriptEventControl.joinColours(m.data);
+                this._color_transcript(m.data);
+            }
+        },
+
         _reInstallSubtitleSel: function () {
             var _this = this;
             var $elem = this._getSubtitleSelectionDiv();
@@ -382,37 +675,7 @@
                 })
             }
         },
-        _updateCurrentTime: function (currentTime, origin) {
-            /* Override n2.widgetTranscript's _updateCurrentTime */
-            this.dispatchService.send(DH, {
-                type: 'mediaTimeChanged'
-                , name: this.name
-                , currentTime: currentTime
-                , origin: origin
-            });
-            if (!this.intervalSetEventName) return;
-            let max = currentTime;
-            if (typeof max === 'number') {
-                if (max === 0) {
-                    /*  
-                        max being zero means video is not playing or just started playing 
-                        (and will very quickly move out of time zero)
-                        so retrieve all documents instead.
-                        This operates under the assumption that the documents will live within
-                        the range of 0 to Number.MAX_SAFE_INTEGER.
-                    */
-                   max = Number.MAX_SAFE_INTEGER;
-                }
-                this.dispatchService.send(DH, {
-                    type: this.intervalSetEventName
-                    , value: new $n2.date.DateInterval({
-                        min: 0
-                        , max: max
-                        , ongoing: false
-                    })
-                });
-            }
-        },
+
         _timeChanged: function (currentTime, origin) {
             const $video = $('#' + this.videoId);
             const _this = this;
@@ -423,42 +686,55 @@
             $n2.utils.processLargeArrayAsync(_this.transcript_array, function (transcriptElem, _index_, _array_) {
                 const $transcriptElem = $('#' + transcriptElem.id);
                 if (numCurrentTime >= transcriptElem.start && numCurrentTime < transcriptElem.fin) {
-                    /* Entering a new transcript segment - highlight it. */
                     $transcriptElem.addClass('highlight');
-                    /* Check if it has a colour, if so, emit event to be able to center the view on the generated donut */
-                    const currentHighlightedLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
-                    if (currentHighlightedLine !== null) {
-                        if (currentHighlightedLine.hasAttribute('style')) {
-                            _this.dispatchService.send(DH, {
-                                type: 'renderStyledTranscript'
-                            });
-                        }
-                    }
                     if ($.now() - _this.lastTimeUserScroll > 5000) {
                         _this._scrollToView($transcriptElem);
                     }
                 }
             });
 
-            if ('model' === origin) {
+            
+            if ('video' === origin) {
+                if (numCurrentTime === 0) return;
+                const eventType = this.transcriptEventControl.styledLineEventEmitType();
+                if (eventType === null){
+                    this.dispatchService.send(DH, {
+                        type: 'renderStyledTranscript',
+                        hideImage: true
+                    })
+                }
+                else if (eventType !== false) {
+                    this.dispatchService.synchronousCall(DH, {
+                        type: 'renderStyledTranscript',
+                        hideImage: true
+                    })
+                    this.dispatchService.send(DH, {
+                        type: 'renderStyledTranscript',
+                        currentTime: numCurrentTime
+                    })
+                }
+            }
+            else if ('model' === origin) {
                 const currentVideoTime = $video[0].currentTime;
                 if (Math.abs(currentVideoTime - currentTime) < 0.5) {
                 } else {
                     $video[0].currentTime = currentTime;
                     $video[0].play();
                 }
-
-            } else if ('text' === origin) {
+            }
+            else if ('text' === origin) {
                 $video[0].currentTime = currentTime;
                 $video[0].play();
-
-            } else if ('text-oneclick' === origin) {
+            }
+            else if ('text-oneclick' === origin) {
                 _this.pauseVideo($video[0], currentTime);
 
-            } else if ('startEditing' === origin) {
+            }
+            else if ('startEditing' === origin) {
                 _this._lastCtxTime = currentTime;
 
-            } else if ('savedState' === origin) {
+            }
+            else if ('savedState' === origin) {
                 $video[0].load();
                 $video[0].currentTime = currentTime;
 
@@ -474,6 +750,42 @@
                         clearInterval(inid);
                     }
                 }, 100);
+            }
+        },
+
+        _updateCurrentTime: function (currentTime, origin) {
+            /* Override n2.widgetTranscript's _updateCurrentTime */
+            this.dispatchService.send(DH, {
+                type: 'mediaTimeChanged'
+                , name: this.name
+                , currentTime: currentTime
+                , origin: origin
+            });
+            if (!this.intervalSetEventName) return;
+            if (typeof currentTime === 'number') {
+                if (currentTime === 0) {
+                    /* Initial load all features on map */
+                    /*  
+                        max being zero means video is not playing or just started playing 
+                        (and will very quickly move out of time zero)
+                        so retrieve all documents instead.
+                        This operates under the assumption that the documents will live within
+                        the range of 0 to Number.MAX_SAFE_INTEGER.
+                    */
+                    currentTime = Number.MAX_SAFE_INTEGER;
+                }
+                else {
+                    /* Otherwise, restrict updating the map only when new line is encountered */
+                    if (!this.transcriptEventControl.shouldEventEmit(currentTime)) return;
+                }
+                this.dispatchService.send(DH, {
+                    type: this.intervalSetEventName
+                    , value: new $n2.date.DateInterval({
+                        min: 0
+                        , max: currentTime
+                        , ongoing: false
+                    })
+                });
             }
         }
     });

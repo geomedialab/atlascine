@@ -324,15 +324,6 @@
                         opacity: 0.5
                     };
 
-                    if (doc.hasOwnProperty("atlascine_place")) {
-                        if (doc.atlascine_place.hasOwnProperty("zoomScale")) {
-                            const zoomScale = doc.atlascine_place.zoomScale;
-                            if ((typeof zoomScale === "string") && ((!isNaN(zoomScale)) && (!isNaN(parseFloat(zoomScale))))) {
-                                ldata_tmp.placeZoomScale = Number(zoomScale);
-                            }
-                        }
-                    }
-
                     donutDocInfo.doc._ldata = ldata_tmp;
                     donutDocInfo.doc._storyTitle = cidx.title,
                         donutDocInfo.doc._storyId = cidx.origin,
