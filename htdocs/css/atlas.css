@@ -253,9 +253,9 @@ div.ol-unselectable.ol-control.layer-switcher.shown > button {
 /* Image Notification (ol-ext Notification) */
 
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification {
-	top: 1%;
+	top: 0;
 	bottom: auto;
-	left: 30.5%;
+	right: 0px;
 }
 
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification span.closeBox {
@@ -265,7 +265,13 @@ div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent
 }
 
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification div.ol-close {
+	margin-right: 0.5em;
+	margin-top: 0.5em;
 	padding-right: 0.5em;
+	transform: none;
+	-webkit-transform: unset;
+	right: 0;
+	left: unset;
 }
 
 div#content div.n2_content_map div.ol-viewport div.ol-overlaycontainer-stopevent div.ol-image-notification.ol-notification.ol-collapsed > div {
