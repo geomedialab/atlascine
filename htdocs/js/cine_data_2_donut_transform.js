@@ -359,12 +359,11 @@
                         transcriptEnd: cidx.transcriptEnd,
                         lineDuration: cidx.lineDuration,
                         tags: cidx.tags,
+                        tagGroupColors: cidx.tagGroupColors,
                         timeLinkTags: cidx.timeLinkTags,
                         scaleFactor: cidx.scaleFactor,
                         relatedImage: cidx.relatedImage ? cidx.relatedImage : ""
                     };
-                    
-                    ldata_tmp.tagGroupColors = cidx.tagGroupColors;
 
                     // 15 is the magic number for the ring to be drawn on map
                     // need to make sure duration calculated accordingly to make sure item to be drawn
@@ -385,6 +384,8 @@
                             if ((typeof zoomScale === "string") && ((!isNaN(zoomScale)) && (!isNaN(parseFloat(zoomScale))))) {
                                 ldata_tmp.placeZoomScale = Number(zoomScale);
                             }
+                        } else {
+                            ldata_tmp.placeZoomScale = cidx.defaultPlaceZoomLevel;
                         }
                     }
                     
