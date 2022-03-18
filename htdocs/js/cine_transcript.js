@@ -344,7 +344,7 @@
         }
     });
 
-    const CineTranscript = $n2.Class('ThemeTranscript', $n2.widgetTranscript.TranscriptWidget, {    
+    const CineTranscript = $n2.Class('CineTranscript', $n2.widgetTranscript.TranscriptWidget, {    
         initialize: function(opts_){
             const opts = {
                 containerClass: undefined
@@ -361,7 +361,7 @@
             };
     
             const _this = this;
-    
+            this.DH = 'CineTranscript';
             this.transcriptEventControl = new TranscriptEventControl();
             this.dispatchService = opts.dispatchService;
             this.attachmentService = opts.attachmentService;
@@ -444,7 +444,7 @@
                         , modelId: this.sourceModelId
                         , modelInfo: null
                     };
-                    this.dispatchService.synchronousCall(DH, modelInfoRequest);
+                    this.dispatchService.synchronousCall(this.DH, modelInfoRequest);
                     const sourceModelInfo = modelInfoRequest.modelInfo;
 
                     if (sourceModelInfo
@@ -474,14 +474,15 @@
                     _this._handle(m, addr, dispatcher);
                 };
     
-                this.dispatchService.register(DH, 'modelStateUpdated', f);
-                this.dispatchService.register(DH, 'mediaTimeChanged', f);
-                this.dispatchService.register(DH, 'renderStyledTranscript', f);
-                this.dispatchService.register(DH, 'documentContent', f);
-                this.dispatchService.register(DH, 'replyColorForDisplayedSentences', f);
+                this.dispatchService.register(this.DH, 'modelStateUpdated', f);
+                this.dispatchService.register(this.DH, 'mediaTimeChanged', f);
+                this.dispatchService.register(this.DH, 'mapStoryTimelineBarClick', f);
+                this.dispatchService.register(this.DH, 'renderStyledTranscript', f);
+                this.dispatchService.register(this.DH, 'documentContent', f);
+                this.dispatchService.register(this.DH, 'replyColorForDisplayedSentences', f);
     
                 if (this.intervalChangeEventName) {
-                    this.dispatchService.register(DH, this.intervalChangeEventName, f);
+                    this.dispatchService.register(this.DH, this.intervalChangeEventName, f);
                 }
 
                 if (!this.docId) {
@@ -506,7 +507,7 @@
             } 
             else if( !this.doc || this.docId !== this.doc._id ){
                 this.doc = undefined;
-                this.dispatchService.send(DH, {
+                this.dispatchService.send(this.DH, {
                     'type': 'requestDocument',
                     'docId': this.docId
                 });
@@ -565,7 +566,7 @@
                     $n2.log('Can not find any valid SRT/WEBVTT file');
                 }
             }
-            this.dispatchService.send(DH, {
+            this.dispatchService.send(this.DH, {
                 type: 'renderStyledTranscript',
                 hideImage: true
             })
@@ -581,10 +582,11 @@
             } = m;
 
             if ('mediaTimeChanged' === type) {
-                if (m.name == this.name) {
+                if (m.name === this.name) {
                     this._timeChanged(m.currentTime, m.origin);
                 }
-            } else if ('documentContent' === type) {
+            }
+            else if ('documentContent' === type) {
                 if (docId === this.docId) {
                     if (!this.doc) {
                         this.doc = doc;
@@ -594,7 +596,11 @@
                         this._documentChanged();
                     }
                 }
-            } else if (this.intervalChangeEventName === type) {
+            }
+            else if ("mapStoryTimelineBarClick" === type) {
+                this._updateCurrentTime(m.currentTime, m.origin);
+            }
+            else if (this.intervalChangeEventName === type) {
                 if (m.value) {
                     this.intervalMin = m.value.min;
                     this.intervalMax = m.value.max;
@@ -603,7 +609,8 @@
                         this._timeChanged(videoTime, 'model');
                     }
                 }
-            } else if ('modelStateUpdated' === type) {
+            }
+            else if ('modelStateUpdated' === type) {
                 if (this.sourceModelId === modelId) {
                     const mediaDocChanged = this._cinemapUpdated(m.state);
                     if (mediaDocChanged) {
@@ -618,7 +625,8 @@
                     this._updateMediaToSrtMap(m.state);
                     this._reInstallSubtitleSel();
                 }
-            } else if ('selected' === type) {
+            }
+            else if ('selected' === type) {
                 if (docId !== this.docId) {
                     this.docId = docId;
                     this.doc = doc;
@@ -628,7 +636,8 @@
                     this.subtitleFormat = undefined;
                     this._documentChanged();
                 }
-            } else if ('replyColorForDisplayedSentences' === type) {
+            }
+            else if ('replyColorForDisplayedSentences' === type) {
                 this.transcriptEventControl.joinColours(m.data);
                 this._color_transcript(m.data);
             }
@@ -698,21 +707,25 @@
                 if (numCurrentTime === 0) return;
                 const eventType = this.transcriptEventControl.styledLineEventEmitType();
                 if (eventType === null){
-                    this.dispatchService.send(DH, {
+                    this.dispatchService.send(this.DH, {
                         type: 'renderStyledTranscript',
                         hideImage: true
                     })
                 }
                 else if (eventType !== false) {
-                    this.dispatchService.synchronousCall(DH, {
+                    this.dispatchService.synchronousCall(this.DH, {
                         type: 'renderStyledTranscript',
                         hideImage: true
                     })
-                    this.dispatchService.send(DH, {
+                    this.dispatchService.send(this.DH, {
                         type: 'renderStyledTranscript',
                         currentTime: numCurrentTime
                     })
                 }
+            }
+            else if ('MapStoryFilterableLegendWidgetWithGraphic' === origin) {
+                $video[0].currentTime = currentTime;
+                $video[0].play();
             }
             else if ('model' === origin) {
                 const currentVideoTime = $video[0].currentTime;
@@ -755,7 +768,7 @@
 
         _updateCurrentTime: function (currentTime, origin) {
             /* Override n2.widgetTranscript's _updateCurrentTime */
-            this.dispatchService.send(DH, {
+            this.dispatchService.send(this.DH, {
                 type: 'mediaTimeChanged'
                 , name: this.name
                 , currentTime: currentTime
@@ -778,7 +791,7 @@
                     /* Otherwise, restrict updating the map only when new line is encountered */
                     if (!this.transcriptEventControl.shouldEventEmit(currentTime)) return;
                 }
-                this.dispatchService.send(DH, {
+                this.dispatchService.send(this.DH, {
                     type: this.intervalSetEventName
                     , value: new $n2.date.DateInterval({
                         min: 0

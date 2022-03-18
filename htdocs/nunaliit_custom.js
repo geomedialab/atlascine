@@ -85,6 +85,8 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'themeTranscript') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
+            m.isAvailable = true;
         }
     }
 
@@ -101,14 +103,7 @@
             options.dispatchService = cfg.directory.dispatchService;
         }
 
-        if (m.widgetType === 'donutGroupTagLegendWidget') {
-            if (isDirectoryPresent) {
-                options.showService = cfg.directory.showService;
-            }
-            options.containerId = m.containerId;
-            new $n2.atlascine.DonutGroupTagLegendWidget(options);
-        }
-        else if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
+        if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
             if (isDirectoryPresent) {
                 options.showService = cfg.directory.showService;
             }
@@ -126,6 +121,9 @@
                 options.attachmentService = cfg.directory.attachmentService;
             }
             new $n2.atlascine.ThemeTranscript(options);
+        }
+        else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
+            new $n2.atlascine.MapStoryFilterableLegendWidgetWithGraphic(options);
         }
     }
 

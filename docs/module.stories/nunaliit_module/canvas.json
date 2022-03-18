@@ -1,5 +1,6 @@
 {
 	"canvasType": "map",
+	"canvasName": "mapStories",
 	"coordinates": {
 		"initialBounds": [
 			-157,
