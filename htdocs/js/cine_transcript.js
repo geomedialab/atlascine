@@ -776,21 +776,7 @@
             });
             if (!this.intervalSetEventName) return;
             if (typeof currentTime === 'number') {
-                if (currentTime === 0) {
-                    /* Initial load all features on map */
-                    /*  
-                        max being zero means video is not playing or just started playing 
-                        (and will very quickly move out of time zero)
-                        so retrieve all documents instead.
-                        This operates under the assumption that the documents will live within
-                        the range of 0 to Number.MAX_SAFE_INTEGER.
-                    */
-                    currentTime = Number.MAX_SAFE_INTEGER;
-                }
-                else {
-                    /* Otherwise, restrict updating the map only when new line is encountered */
-                    if (!this.transcriptEventControl.shouldEventEmit(currentTime)) return;
-                }
+                if (!this.transcriptEventControl.shouldEventEmit(currentTime)) return;
                 this.dispatchService.send(this.DH, {
                     type: this.intervalSetEventName
                     , value: new $n2.date.DateInterval({
