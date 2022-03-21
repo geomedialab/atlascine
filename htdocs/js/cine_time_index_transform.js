@@ -522,6 +522,11 @@
                             relatedImage = timeLink.relatedImage;
                         }
 
+                        let mediaCaption = "";
+                        if (timeLink.mediaCaption) {
+                            mediaCaption = timeLink.mediaCaption;
+                        }
+
                         var referenceDocTags = timeLink.tags;
                         var placeTags = findPlaceDocTags(referenceDocTags);
                         if (placeTags) {
@@ -651,6 +656,7 @@
                                         , color
                                         , tagGroupColors
                                         , relatedImage
+                                        , mediaCaption
                                         , scaleFactor: _scaleFactor
                                         , defaultPlaceZoomLevel: _defaultPlaceZoomLevel
                                     };

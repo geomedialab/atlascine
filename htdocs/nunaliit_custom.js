@@ -261,7 +261,7 @@
         'js/cine_multi_stories_display.js',
         'js/cine_data_2_donut_transform.js',
         'js/cinema_selection_redirector.js',
-        'js/theme_data_2_donut_transform.js',
+        'js/theme_data_2_donut_transform.js'
     ]);
 
 })(jQuery, nunaliit2);
