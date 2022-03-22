@@ -166,6 +166,7 @@
 
             const availableChoices = this.state.availableChoices.map(choice => choice.id);
 
+            if (preparedData === undefined) return;
             Object.entries(preparedData).forEach(entry => {
                 if (legendChildren.length < 2) return;
                 
