@@ -239,3 +239,15 @@
 	z-index: 10;
 	display: none;
 }
+
+/* MediaElement control alignment with the timeline */
+
+.mejs__controls .mejs__button {
+	width: 72px;
+	display: flex;
+	justify-content: center;
+}
+
+.mejs__controls .mejs__time-rail {
+	margin: 0 0 0 10px;
+}
