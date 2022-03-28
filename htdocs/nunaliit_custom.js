@@ -248,20 +248,29 @@
     $n2.atlascine = {};
 
     $n2.scripts.loadCustomScripts([
-        'js/utilities.js',
-        'js/cine_transcript.js',
-        'js/theme_transcript.js',
-        'js/cine_map_filter.js',
-        'js/donut_tag_legend.js',
-        'js/theme_map_filter.js',
-        'js/cine_stories_display.js',
-        'js/theme_index_transform.js',
-        'js/theme_donut_tag_legend.js',
-        'js/cine_time_index_transform.js',
-        'js/cine_multi_stories_display.js',
-        'js/cine_data_2_donut_transform.js',
-        'js/cinema_selection_redirector.js',
-        'js/theme_data_2_donut_transform.js'
+        'js/utilities.js'
+        , 'js/cinema_selection_redirector.js'
     ]);
+
+    if ($n2.url.getParamValue("module") === "module.stories") {
+        $n2.scripts.loadCustomScripts([
+            'js/cine_transcript.js'
+            , 'js/cine_map_filter.js'
+            , 'js/donut_tag_legend.js'
+            , 'js/cine_stories_display.js'
+            , 'js/cine_time_index_transform.js'
+            , 'js/cine_data_2_donut_transform.js'
+        ]);
+    }
+    else if ($n2.url.getParamValue("module") === "module.multiStories") {
+        $n2.scripts.loadCustomScripts([
+            'js/theme_transcript.js'
+            , 'js/theme_map_filter.js'
+            , 'js/theme_index_transform.js'
+            , 'js/theme_donut_tag_legend.js'
+            , 'js/cine_multi_stories_display.js'
+            , 'js/theme_data_2_donut_transform.js'
+        ]);
+    }
 
 })(jQuery, nunaliit2);
