@@ -620,6 +620,24 @@
                         this.subtitleFormat = undefined;
                         this._refresh();
                         this._documentChanged();
+                        const {
+                            state: {
+                                added
+                            }
+                        } = m;
+                        if (added.length < 1) return;
+                        const {
+                            atlascine_cinemap: {
+                                settings: {
+                                    globalInitialMapExtent
+                                }
+                            }
+                        } = added[0];
+                        if (!globalInitialMapExtent) return;
+                        this.dispatchService.send(this.DH, {
+                            type: "mapFitExtent"
+                            , value: globalInitialMapExtent
+                        });
                     }
                 } else if (this.subtitleModelId === modelId) {
                     this._updateMediaToSrtMap(m.state);
