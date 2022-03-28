@@ -208,7 +208,7 @@
 }
 
 /* Custom timeline specific styling */
-div#content .n2_filterableLegendWidgetWithGraphic div#n2_filterableLegendWidgetGraphic div.n2_CustomGraphic {
+#n2_filterableLegendWidgetGraphic div.n2_CustomGraphic {
 	display: flex;
 	flex-direction: column;
 	border-radius: 2px;
@@ -218,7 +218,7 @@ div#content .n2_filterableLegendWidgetWithGraphic div#n2_filterableLegendWidgetG
 	padding-bottom: 10px;
 }
 
-div#content .n2_filterableLegendWidgetWithGraphic div#n2_filterableLegendWidgetGraphic div#filterableLegendWidgetGraphicArea div.timeline_map_tag_row:nth-child(n+2):nth-last-child(n+2) {
+#filterableLegendWidgetGraphicArea div.timeline_map_tag_row:nth-child(n+2):nth-last-child(n+2) {
 	height: 100%;
 }
 

@@ -6,7 +6,7 @@
     "use strict";
 
     // Localization
-    const _loc = function (str, args) { return $n2.loc(str, 'nunaliit2-couch', args); };
+    const _loc = function (str, args) { return $n2.loc(str, "nunaliit2-couch", args); };
 
     class MapStoryFilterableLegendWidgetWithGraphic extends nunaliit2.filterableLegendWidget.filterableLegendWidgetWithGraphic {
         constructor(options) {
@@ -26,6 +26,8 @@
             this.cinemapSelectionSetEventName = `${this.cinemapModelId}_selectedChoices_set`;
             this.dispatchService.register(this.DH, this.cinemapSelectionSetEventName, this.dispatchHandler)
             this.dispatchService.register(this.DH, "transcriptVideoDurationChange", this.dispatchHandler);
+
+            window.addEventListener("resize", () => { this._drawGraphic() })
             
             this._preloadOtherWidgetData(this.dispatchService);
         }
@@ -64,7 +66,6 @@
             }
             else if (type === "transcriptVideoDurationChange") {
                 if (this.isGraphicNone) return;
-                if (this.mediaDuration === value) return;
                 this.mediaDuration = value;
 
                 if (this.graphicContainer === null) return;
@@ -76,7 +77,7 @@
                 this.graphic = graphic;
                 this.graphic.classList.add("n2_CustomGraphic");
 
-                this.drawCustom(this.prepareGraphicData(this.state.sourceModelDocuments));
+                this._drawCustom();
             }
             else if (type === this.cinemapSelectionSetEventName) {
                 this._preloadOtherWidgetData(this.dispatchService);
@@ -217,8 +218,8 @@
                         popup.style("display", "block");
                     })
                     .on("mousemove", () => {
-                        popup.style('top', (D3V3.event.pageY - 30) + 'px')
-                        .style('left', (D3V3.event.pageX - 50) + 'px');
+                        popup.style("top", (D3V3.event.pageY - 30) + "px")
+                        .style("left", (D3V3.event.pageX - 50) + "px");
                     })
                     .on("mouseout", () => {
                         popup.style("display", "none");
@@ -320,7 +321,7 @@
 
 
 
-    const DonutFilterByGroupTag = $n2.Class('DonutFilterByGroupTag', $n2.modelFilter.SelectableDocumentFilter, {
+    const DonutFilterByGroupTag = $n2.Class("DonutFilterByGroupTag", $n2.modelFilter.SelectableDocumentFilter, {
 
         dispatchService: null,
 
@@ -335,7 +336,7 @@
 
             $n2.modelFilter.SelectableDocumentFilter.prototype.initialize.call(this, opts);
 
-            $n2.log('DonutFilterByGroupTag', this);
+            $n2.log("DonutFilterByGroupTag", this);
         },
 
         /**
