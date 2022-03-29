@@ -40,12 +40,7 @@
                 globalScaleFactor: 1
                 , globalTimeOffset: 0.5
                 , globalDefaultPlaceZoomLevel: 10
-                , globalInitialMapExtent: [
-					-23251423.797684122,
-					-10687036.27380429,
-					24885559.13518848,
-					18390832.27832932
-				]
+                , globalInitialMapExtent: [0]
             };
 
             // Register to events

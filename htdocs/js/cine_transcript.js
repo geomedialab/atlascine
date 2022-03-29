@@ -634,6 +634,8 @@
                             }
                         } = added[0];
                         if (!globalInitialMapExtent) return;
+                        if (globalInitialMapExtent.length === 1 
+                            && globalInitialMapExtent[0] === 0) return;
                         this.dispatchService.send(this.DH, {
                             type: "mapFitExtent"
                             , value: globalInitialMapExtent
