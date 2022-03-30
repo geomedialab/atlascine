@@ -251,3 +251,8 @@
 .mejs__controls .mejs__time-rail {
 	margin: 0 0 0 10px;
 }
+
+/* This drawer open button can be seen very rarely when the map is loading or very zoomed out. */
+.n2widget_drawer_open_button {
+	display: none;
+}
