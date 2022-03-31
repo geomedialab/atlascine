@@ -626,6 +626,7 @@
                             }
                         } = m;
                         if (added.length < 1) return;
+                        if (!added[0].atlascine_cinemap || !added[0].atlascine_cinemap.settings) return;
                         const {
                             atlascine_cinemap: {
                                 settings: {
