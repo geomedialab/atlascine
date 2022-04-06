@@ -168,7 +168,9 @@
             const availableChoices = this.state.availableChoices.map(choice => choice.id);
 
             if (preparedData === undefined) return;
-            Object.entries(preparedData).forEach(entry => {
+            Object.entries(preparedData)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .forEach(entry => {
                 if (legendChildren.length < 2) return;
                 
                 const [mapTag, themeArray] = entry;
