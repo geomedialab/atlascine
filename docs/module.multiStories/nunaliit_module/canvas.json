@@ -1,5 +1,6 @@
 {
     "canvasType": "map",
+    "canvasName": "multiMapStories",
     "coordinates": {
         "initialBounds": [
             -157,
@@ -7,6 +8,7 @@
             75,
             67
         ],
+        "srsName": "EPSG:4326",
         "autoInitialBounds": false
     },
     "renderOrderBasedOn": "=doc._ldata.start",
