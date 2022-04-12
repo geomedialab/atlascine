@@ -240,6 +240,10 @@
 	display: none;
 }
 
+#n2_filterableLegendWidgetGraphic {
+	background-color: rgb(255, 255, 255, 0.85);
+}
+
 /* MediaElement control alignment with the timeline */
 
 .mejs__controls .mejs__button {
