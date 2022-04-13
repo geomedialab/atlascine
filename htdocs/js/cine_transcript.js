@@ -637,9 +637,14 @@
                         if (!globalInitialMapExtent) return;
                         if (globalInitialMapExtent.length === 1 
                             && globalInitialMapExtent[0] === 0) return;
+                        const webProjection = nunaliit2.n2es6.ol_proj_transformExtent(
+                            globalInitialMapExtent,
+                            new nunaliit2.n2es6.ol_proj_Projection({code: "EPSG:4326"}),
+                            new nunaliit2.n2es6.ol_proj_Projection({code: "EPSG:3857"})
+                        );
                         this.dispatchService.send(this.DH, {
                             type: "mapFitExtent"
-                            , value: globalInitialMapExtent
+                            , value: webProjection
                         });
                     }
                 } else if (this.subtitleModelId === modelId) {
