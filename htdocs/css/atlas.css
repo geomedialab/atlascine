@@ -260,3 +260,9 @@
 .n2widget_drawer_open_button {
 	display: none;
 }
+
+/* Hide "Add or Edit a Map Feature" in the OL6 Canvases */
+.nunaliit_module_module_056stories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch,
+.nunaliit_module_module_056multiStories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch {
+	display: none !important;
+}
