@@ -8,7 +8,8 @@
 	,"type":"html"
 	,"content":{
 		"nunaliit_type":"localized"
-		,"en":"<b>Site under development<br>For how to use the platform, refer to the Tutorial page.<br>Contact us by writing to <i>sebastien.caquard@concordia.ca<i/></b>"
-		,"fr":"<b>Site en construction. Pour toute question, contactez sebastien.caquard@concordia.ca</b>"
+		,"en":"This atlas is built using Atlascine. You can refer to our <a href='https://github.com/geomedialab/atlascine/wiki' target='_blank'>tutorials</a> on how to <b><a href='https://github.com/geomedialab/atlascine/wiki/How-to-use-Atlascine' target='_blank'>use</a></b>, <b><a href='https://github.com/geomedialab/atlascine/wiki/Managing-an-atlas-in-Atlascine' target='_blank'>manage</a></b> or <b><a href='https://github.com/geomedialab/atlascine/wiki/How-to-deploy-Atlascine' target='_blank'>deploy</a></b> an Atlascine atlas.<br><br>For any additional support or collaboration inquiries, please write to Sébastien directly at sebastien.caquard@concordia.ca."
+		,"fr":"Cet atlas est fait avec Atlascine. Veuillez consulter nos <a href='https://github.com/geomedialab/atlascine/wiki' target='_blank'>tutoriels</a> sur comment <b><a href='https://github.com/geomedialab/atlascine/wiki/How-to-use-Atlascine' target='_blank'>utiliser</a></b>, <b><a href='https://github.com/geomedialab/atlascine/wiki/Managing-an-atlas-in-Atlascine' target='_blank'>administrer</a></b> ou <b><a href='https://github.com/geomedialab/atlascine/wiki/How-to-deploy-Atlascine' target='_blank'>déployer</a></b> des atlas avec Atlascine.<br><br>Pour toute autre forme d'assistance ou collaboration, veuillez contacter Sébastien directement à sebastien.caquard@concordia.ca."
+	
 	}
 }
