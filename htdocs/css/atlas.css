@@ -266,3 +266,8 @@
 .nunaliit_module_module_056multiStories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch {
 	display: none !important;
 }
+
+/* Hide the "Default" Language in the Language Selection */
+.n2Lang_langSelect_dialog > div.mdc-dialog__container > div.mdc-dialog__surface > div.mdc-dialog__content > div.mdc-form-field > *:nth-last-child(-n+2) {
+	display: none;
+}
