@@ -1,8 +1,8 @@
 [
 	{
-		"widgetType": "singleFilterSelectionWidget"
+		"widgetType": "singleFilterSelectionWidgetWithAutoSelectFirst"
 		,"sourceModelId":"cineMapFilter"
-		,"containerClass": "nunaliit_module_title"
+		,"containerId": "module_title_bar"
 		,"suppressAllChoices": true
 		,"suppressNoChoice": true
 	}
