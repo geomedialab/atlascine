@@ -17,16 +17,18 @@
                 if( value ){
                     this._setAvailableChoices(value);
                     this._throttledAvailableChoicesUpdated();
-                    const selectEl = document.querySelector(`#${this.elemId} > select`);
-                    const options = selectEl.options;
-                    for (let i = 0; i < options.length; i++) {
-                        if (options[i].value === "__UNKNOWN_CHOICE_SELECTED__") {
-                            continue;
-                        }
-                        else {
-                            selectEl.value = options[i].value;
-                            this._selectionChanged();
-                            break;
+                    if (nunaliit2.storage.getLocalStorage().getItem(this.sourceModelId) === null) {
+                        const selectEl = document.querySelector(`#${this.elemId} > select`);
+                        const options = selectEl.options;
+                        for (let i = 0; i < options.length; i++) {
+                            if (options[i].value === "__UNKNOWN_CHOICE_SELECTED__") {
+                                continue;
+                            }
+                            else {
+                                selectEl.value = options[i].value;
+                                this._selectionChanged();
+                                break;
+                            }
                         }
                     }
                 };
