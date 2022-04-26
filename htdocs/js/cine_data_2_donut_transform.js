@@ -385,6 +385,9 @@
                             if ((typeof zoomScale === "string") && ((!isNaN(zoomScale)) && (!isNaN(parseFloat(zoomScale))))) {
                                 ldata_tmp.placeZoomScale = Number(zoomScale);
                             }
+                            else if (Number.isFinite(zoomScale)) {
+                                ldata_tmp.placeZoomScale = zoomScale;
+                            }
                         } else {
                             ldata_tmp.placeZoomScale = cidx.defaultPlaceZoomLevel;
                         }
