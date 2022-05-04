@@ -89,6 +89,8 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            m.isAvailable = true;
         }
     }
 
@@ -129,6 +131,9 @@
         }
         else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
             new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirst(options);
+        }
+        else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing(options);
         }
     }
 

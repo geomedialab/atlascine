@@ -1,6 +1,6 @@
 [
 	{
-		"widgetType": "singleFilterSelectionWidgetWithAutoSelectFirst"
+		"widgetType": "singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing"
 		,"sourceModelId":"cineMapFilter"
 		,"containerId": "module_title_bar"
 		,"suppressAllChoices": true
