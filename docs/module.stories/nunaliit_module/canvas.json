@@ -11,6 +11,13 @@
 		"srsName": "EPSG:4326",
 		"autoInitialBounds": false
 	},
+	"initialFeatureDisplay": "donut",
+	"initialCinemapToMapSettings": {
+		"fitMap": true,
+		"animateFitMap": true,
+		"displayMedia": true,
+		"zoomThreshold": false
+	},
 	"renderOrderBasedOn": "=doc._ldata.start",
 	"backgrounds": [
 		{
