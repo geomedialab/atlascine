@@ -1,6 +1,8 @@
 (function ($, $n2) {
     "use strict";
 
+    const _loc = function (str, args) { return $n2.loc(str, "nunaliit2-couch", args); };
+
     const SingleFilterSelectionWidgetWithAutoSelectFirst = $n2.Class("SingleFilterSelectionWidgetWithAutoSelectFirst", $n2.widgetSelectableFilter.SingleFilterSelectionWidget, {
         initialize: function (opts_) {
             const opts = { ...opts_ };
@@ -107,8 +109,8 @@
                         }
                         else {
                             new nunaliit2.mdc.MDCDialog({
-                                dialogTitle: "Cinemap Not Found",
-                                dialogHtmlContent: `The cinemap was not found.<br>${cinemapId}`,
+                                dialogTitle: _loc("Cinemap Not Found"),
+                                dialogHtmlContent: `${_loc("The cinemap was not found.")}<br>${cinemapId}`,
                                 closeBtn: true
                             });
                             /* If it's not found, continue with the autoselect below. */
