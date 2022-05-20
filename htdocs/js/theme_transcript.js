@@ -581,7 +581,8 @@
             }
 
             var attMediaDesc = null;
-            var data = this.doc; // shorthand
+            var data = this.doc;
+            let mediaType = "none";
             if (data
                 && data.nunaliit_attachments
                 && data.nunaliit_attachments.files
@@ -591,6 +592,9 @@
                 if (attMediaDesc
                     && (attMediaDesc.fileClass !== 'video' && attMediaDesc.fileClass !== 'audio')) {
                     attMediaDesc = undefined;
+                }
+                else if (attMediaDesc && attMediaDesc.fileClass) {
+                    mediaType = attMediaDesc.fileClass;
                 }
             }
 
@@ -626,8 +630,27 @@
                     .attr('id', this.videoId)
                     .attr('controls', 'controls')
                     .attr('width', '100%')
-                    .attr('height', '360px')
+				    .attr('height', '360px')
+                    .attr('preload', 'metadata')
                     .appendTo($mediaDiv);
+
+                const subtitles = document.getElementById(this.subtitleDivId);
+                if (mediaType === "video") {
+                    $video
+                    .attr('width', '100%')
+                    .attr('height', '360px');
+    
+                    subtitles.style.height = "55vh";
+                    subtitles.style.overflowY = "scroll";
+                }
+                else if (mediaType === "audio") {
+                    $video
+                    .attr('width', '0px')
+                    .attr('height', '0px');
+    
+                    subtitles.style.height = "auto";
+                    subtitles.style.overflowY = "visible";
+                }
 
                 var $videoSource = $('<source>')
                     .attr('src', attVideoUrl)
