@@ -8,6 +8,7 @@
 			75,
 			67
 		],
+		"srsName": "EPSG:4326",
 		"autoInitialBounds": false
 	},
 	"renderOrderBasedOn": "=doc._ldata.start",

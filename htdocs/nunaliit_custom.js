@@ -87,6 +87,10 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
+            m.isAvailable = true;
+        } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            m.isAvailable = true;
         }
     }
 
@@ -124,6 +128,12 @@
         }
         else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
             new $n2.atlascine.MapStoryFilterableLegendWidgetWithGraphic(options);
+        }
+        else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
+            new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirst(options);
+        }
+        else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing(options);
         }
     }
 
@@ -260,6 +270,7 @@
             , 'js/cine_stories_display.js'
             , 'js/cine_time_index_transform.js'
             , 'js/cine_data_2_donut_transform.js'
+            , 'js/cinemap_selection_widget.js'
         ]);
     }
     else if ($n2.url.getParamValue("module") === "module.multiStories") {
@@ -270,6 +281,7 @@
             , 'js/theme_donut_tag_legend.js'
             , 'js/cine_multi_stories_display.js'
             , 'js/theme_data_2_donut_transform.js'
+            , 'js/cinemap_selection_widget.js'
         ]);
     }
 

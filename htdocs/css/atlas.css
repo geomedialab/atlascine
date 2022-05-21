@@ -240,6 +240,10 @@
 	display: none;
 }
 
+#n2_filterableLegendWidgetGraphic {
+	background-color: rgb(255, 255, 255, 0.85);
+}
+
 /* MediaElement control alignment with the timeline */
 
 .mejs__controls .mejs__button {
@@ -250,4 +254,20 @@
 
 .mejs__controls .mejs__time-rail {
 	margin: 0 0 0 10px;
+}
+
+/* This drawer open button can be seen very rarely when the map is loading or very zoomed out. */
+.n2widget_drawer_open_button {
+	display: none;
+}
+
+/* Hide "Add or Edit a Map Feature" in the OL6 Canvases */
+.nunaliit_module_module_056stories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch,
+.nunaliit_module_module_056multiStories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch {
+	display: none !important;
+}
+
+/* Hide the "Default" Language in the Language Selection */
+.n2Lang_langSelect_dialog > div.mdc-dialog__container > div.mdc-dialog__surface > div.mdc-dialog__content > div.mdc-form-field > *:nth-last-child(-n+2) {
+	display: none;
 }

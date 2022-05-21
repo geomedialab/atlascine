@@ -7,6 +7,7 @@
 
     // Localization
     const _loc = function (str, args) { return $n2.loc(str, "nunaliit2-couch", args); };
+    const ALL_CHOICES = "__ALL_SELECTED__";
 
     class MapStoryFilterableLegendWidgetWithGraphic extends nunaliit2.filterableLegendWidget.filterableLegendWidgetWithGraphic {
         constructor(options) {
@@ -82,6 +83,34 @@
             else if (type === this.cinemapSelectionSetEventName) {
                 this._preloadOtherWidgetData(this.dispatchService);
             }
+        }
+
+        _drawLegend() {
+            if (this.legendContainer === null) return;
+            this.legendContainer.innerHTML = "";
+            const legend = document.createElement("div");
+            legend.setAttribute("class", "n2widgetLegend_outer");
+            this.legend = legend; 
+            
+            let selectAllLabel = this.selectAllLabel || "All";
+            selectAllLabel = _loc(selectAllLabel);
+    
+            const legendFragment = document.createDocumentFragment();
+            this._drawLegendOption(legendFragment, ALL_CHOICES, selectAllLabel, null)
+    
+            this.state.availableChoices.forEach(choice => {
+                const label = choice.label || choice.id;
+                const colour = choice.color;
+                this._drawLegendOption(legendFragment, choice.id, _loc(label), colour);
+            });
+    
+            legend.append(legendFragment);
+            this.legendContainer.append(legend);
+
+            const legendOffsetWidth = this.legend.offsetWidth;
+            [...document.querySelectorAll(".mejs__controls > .mejs__button")].forEach(button => {
+                button.style.width = Math.floor(legendOffsetWidth / 2) - 2 + "px";
+            });
         }
 
         _drawCustom() {
@@ -168,7 +197,9 @@
             const availableChoices = this.state.availableChoices.map(choice => choice.id);
 
             if (preparedData === undefined) return;
-            Object.entries(preparedData).forEach(entry => {
+            Object.entries(preparedData)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .forEach(entry => {
                 if (legendChildren.length < 2) return;
                 
                 const [mapTag, themeArray] = entry;
