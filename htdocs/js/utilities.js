@@ -104,7 +104,7 @@
             this.showService = opts.showService;
             this.sourceModelId = opts.sourceModelId;
             this.colorProfile = undefined;
-            this.tagsBysentenceSpanIds = {};
+            this.tagsBySentenceSpanIds = {};
 
             if (!this.dispatchService) {
                 throw new Error('ColorUtility requires dispatchService');
@@ -269,11 +269,11 @@
                             color = '#e6e6e6';
                         }
 
-                        this.tagsBySentenceSpanIds[spanId] = $n2.extend(this.tagsBySentenceSpanIds[spanId],
-                            {
-                                color: color,
-                                tags: tags
-                            });
+                        this.tagsBySentenceSpanIds[spanId] = {
+                            ...this.tagsBySentenceSpanIds[spanId]
+                            , color
+                            , tags
+                        };
                     }
                 }
             }

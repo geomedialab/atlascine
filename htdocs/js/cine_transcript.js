@@ -127,28 +127,20 @@
 
         _getLineFromTime(time) {
             return this.transcriptLines.find(line => {
-                return ((time >= line.numStart) && (time < line.numEnd))
+                return ((time >= line.start) && (time < line.fin))
             });
         },
 
         joinColours(colours) {
             this.transcriptLines = this.transcriptLines.map(line => {
-                const { id, fin, finTimeCode, start, startTimeCode } = line;
-                const cleanedLine = {
-                    numStart: start,
-                    numEnd: fin,
-                    stringStart: startTimeCode,
-                    stringEnd: finTimeCode
-                };
-
-                const matchingColourLine = colours[id];
+                const matchingColourLine = colours[line.id];
 
                 if (matchingColourLine) {
                     const matchedLineColour = matchingColourLine.color;
-                    cleanedLine.colour = matchedLineColour ? matchedLineColour : null;
+                    line.colour = matchedLineColour ? matchedLineColour : null;
                 }
 
-                return cleanedLine;
+                return line;
             });
         },
 
@@ -647,7 +639,8 @@
                             , value: webProjection
                         });
                     }
-                } else if (this.subtitleModelId === modelId) {
+                }
+                else if (this.subtitleModelId === modelId) {
                     this._updateMediaToSrtMap(m.state);
                     this._reInstallSubtitleSel();
                 }
