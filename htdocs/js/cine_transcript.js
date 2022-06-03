@@ -514,7 +514,7 @@
                 this._reInstallSubtitleSel();
             }
             else if( !this.transcript ){
-                this._loadVideoFile();
+                this._loadMediaFile();
                 this._loadTranscript(this.doc);
             }
             else if( !this.srtData ){

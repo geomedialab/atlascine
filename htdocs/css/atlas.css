@@ -245,7 +245,6 @@
 }
 
 /* MediaElement control alignment with the timeline */
-
 .mejs__controls .mejs__button {
 	width: 72px;
 	display: flex;
@@ -270,4 +269,14 @@
 /* Hide the "Default" Language in the Language Selection */
 .n2Lang_langSelect_dialog > div.mdc-dialog__container > div.mdc-dialog__surface > div.mdc-dialog__content > div.mdc-form-field > *:nth-last-child(-n+2) {
 	display: none;
+}
+
+/* MediaElement player detects and changes class on time hover if it's a long video (>1hr) */
+.mejs__time-float,
+.mejs__time-float-current {
+	width: 64px;
+}
+
+.mejs__long-video .mejs__time-float {
+	margin-left: 0px;
 }
