@@ -7,10 +7,6 @@
 	cursor: pointer;
 }
 
-.nunaliit_module_module_056stories .n2widgetLegend {
-	bottom: 50px;
-}
-
 .mejs__controls{
     position: fixed;
     bottom: 20px;
@@ -207,40 +203,80 @@
 	display: none;
 }
 
-.n2widgetLegend_outer {
+.nunaliit_module_module_056multiStories .n2widgetLegend_outer {
     margin-bottom: 30px;
 }
 
-/* Layer Switcher / Basemap Selector and Overlays */
-div.ol-unselectable.ol-control.layer-switcher,
-div.ol-unselectable.ol-control.layer-switcher.shown,
-div.ol-unselectable.ol-control.layer-switcher.shown.layer-switcher-activation-mode-click {
-	position: absolute;
-	top: 10.4em;
-	left: 0.5em;
-	right: unset;
-}
-
-div.ol-unselectable.ol-control.layer-switcher > button {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAACE1BMVEX///8A//8AgICA//8AVVVAQID///8rVVVJtttgv98nTmJ2xNgkW1ttyNsmWWZmzNZYxM4gWGgeU2JmzNNr0N1Rwc0eU2VXxdEhV2JqytQeVmMhVmNoydUfVGUgVGQfVGQfVmVqy9hqy9dWw9AfVWRpydVry9YhVmMgVGNUw9BrytchVWRexdGw294gVWQgVmUhVWPd4N6HoaZsy9cfVmQgVGRrytZsy9cgVWQgVWMgVWRsy9YfVWNsy9YgVWVty9YgVWVry9UgVWRsy9Zsy9UfVWRsy9YgVWVty9YgVWRty9Vsy9aM09sgVWRTws/AzM0gVWRtzNYgVWRuy9Zsy9cgVWRGcHxty9bb5ORbxdEgVWRty9bn6OZTws9mydRfxtLX3Nva5eRix9NFcXxOd4JPeINQeIMiVmVUws9Vws9Vw9BXw9BYxNBaxNBbxNBcxdJexdElWWgmWmhjyNRlx9IqXGtoipNpytVqytVryNNrytZsjZUuX210k5t1y9R2zNR3y9V4lp57zth9zdaAnKOGoaeK0NiNpquV09mesrag1tuitbmj1tuj19uktrqr2d2svcCu2d2xwMO63N+7x8nA3uDC3uDFz9DK4eHL4eLN4eIyYnDX5OM5Z3Tb397e4uDf4uHf5uXi5ePi5+Xj5+Xk5+Xm5+Xm6OY6aHXQ19fT4+NfhI1Ww89gx9Nhx9Nsy9ZWw9Dpj2abAAAAWnRSTlMAAQICAwQEBgcIDQ0ODhQZGiAiIyYpKywvNTs+QklPUlNUWWJjaGt0dnd+hIWFh4mNjZCSm6CpsbW2t7nDzNDT1dje5efr7PHy9PT29/j4+Pn5+vr8/f39/f6DPtKwAAABTklEQVR4Xr3QVWPbMBSAUTVFZmZmhhSXMjNvkhwqMzMzMzPDeD+xASvObKePPa+ffHVl8PlsnE0+qPpBuQjVJjno6pZpSKXYl7/bZyFaQxhf98hHDKEppwdWIW1frFnrxSOWHFfWesSEWC6R/P4zOFrix3TzDFLlXRTR8c0fEEJ1/itpo7SVO9Jdr1DVxZ0USyjZsEY5vZfiiAC0UoTGOrm9PZLuRl8X+Dq1HQtoFbJZbv61i+Poblh/97TC7n0neCcK0ETNUrz1/xPHf+DNAW9Ac6t8O8WH3Vp98f5lCaYKAOFZMLyHL4Y0fe319idMNgMMp+zWVSybUed/+/h7I4wRAG1W6XDy4XmjR9HnzvDRZXUAYDFOhC1S/Hh+fIXxen+eO+AKqbs+wAo30zDTDvDxKoJN88sjUzDFAvBzEUGFsnADoIvAJzoh2BZ8sner+Ke/vwECuQAAAABJRU5ErkJggg==');
-	background-position: 0;
-	background-color: rgba(0,60,136,0.5);
-	background-size: 19px 19px;
-    width: 1.375em;
-    height: 1.375em;
+/* Custom timeline specific styling */
+#n2_filterableLegendWidgetGraphic div.n2_CustomGraphic {
+	display: flex;
+	flex-direction: column;
 	border-radius: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-div.ol-unselectable.ol-control.layer-switcher > button:hover {
-	background-color: rgba(0,60,136,0.7);
+#filterableLegendWidgetGraphicArea div.timeline_map_tag_row:nth-child(n+2):nth-last-child(n+2) {
+	height: 100%;
 }
 
-div.ol-unselectable.ol-control.layer-switcher.shown > button:hover {
-	box-shadow: 0 0 0 3px rgba(255,255,255,0.6);
+.timeline_bar {
+	cursor: pointer;
 }
 
-div.ol-unselectable.ol-control.layer-switcher.shown > button {
-	box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
-	margin-left: 3px;
-	margin-top: 1px;
+.timeline_popup {
+	background: #fff;
+	border: 1px solid #69F;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #999999;
+	color: #333;
+	font-size: 12px;
+	padding: 0.25em 0.5em;
+	position: absolute;
+	text-align: center;
+	z-index: 10;
+	display: none;
+}
+
+#n2_filterableLegendWidgetGraphic {
+	background-color: rgb(255, 255, 255, 0.85);
+}
+
+/* MediaElement control alignment with the timeline */
+.mejs__controls .mejs__button {
+	width: 72px;
+	display: flex;
+	justify-content: center;
+}
+
+.mejs__controls .mejs__time-rail {
+	margin: 0 0 0 10px;
+}
+
+/* This drawer open button can be seen very rarely when the map is loading or very zoomed out. */
+.n2widget_drawer_open_button {
+	display: none;
+}
+
+/* Hide "Add or Edit a Map Feature" in the OL6 Canvases */
+.nunaliit_module_module_056stories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch,
+.nunaliit_module_module_056multiStories > div > div.n2_content_map_interaction > input.n2map_map_interaction_switch {
+	display: none !important;
+}
+
+/* Hide the "Default" Language in the Language Selection */
+.n2Lang_langSelect_dialog > div.mdc-dialog__container > div.mdc-dialog__surface > div.mdc-dialog__content > div.mdc-form-field > *:nth-last-child(-n+2) {
+	display: none;
+}
+
+/* MediaElement player detects and changes class on time hover if it's a long video (>1hr) */
+.mejs__time-float,
+.mejs__time-float-current {
+	width: 64px;
+}
+
+.mejs__long-video .mejs__time-float {
+	margin-left: 0px;
 }

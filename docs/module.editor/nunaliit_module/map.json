@@ -33,6 +33,7 @@
 		}
 	]
 	,"addPointsOnly": false
+	,"enableWheelZoom": true
 	,"toggleClick": true
 	,"styles":[
 		{

@@ -39,6 +39,8 @@
             this.__DEFAULT_TAGSETTINGS__ = {
                 globalScaleFactor: 1
                 , globalTimeOffset: 0.5
+                , globalDefaultPlaceZoomLevel: 10
+                , globalInitialMapExtent: [0]
             };
 
             // Register to events
@@ -317,7 +319,7 @@
             var currentInterval = this.getInterval();
             var tagGroupsProfile = undefined;
             var tagColorProfile = undefined;
-            var _scaleFactor, _timeOffset;
+            var _scaleFactor, _timeOffset, _defaultPlaceZoomLevel;
 
             /**
              * Finds all tags of type 'place' or 'location'.
@@ -493,13 +495,16 @@
                 // Calculates the scale factor and time offset values for the cinemap
                 if (indexDoc.atlascine_cinemap.settings) {
                     _scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
-                    var offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+                    const offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
                     _timeOffset = offsetInSetting ? offsetInSetting : 0.5;
+                    const defaultPlaceZoom = indexDoc.atlascine_cinemap.settings.globalDefaultPlaceZoomLevel;
+                    _defaultPlaceZoomLevel = defaultPlaceZoom ? defaultPlaceZoom : 10;
 
                 } else {
                     indexDoc.atlascine_cinemap.settings = _this.__DEFAULT_TAGSETTINGS__;
                     _scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
                     _timeOffset = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+                    _defaultPlaceZoomLevel = indexDoc.atlascine_cinemap.settings.globalDefaultPlaceZoomLevel;
                 }
 
                 // Iterate through each timeLink associated with the cinemap document
@@ -511,6 +516,16 @@
                         // Find referenced document
                         if (!timeLink || !timeLink.starttime || !timeLink.endtime || !timeLink.tags) {
                             return;
+                        }
+
+                        let relatedImage = "";
+                        if (timeLink.relatedImage) {
+                            relatedImage = timeLink.relatedImage;
+                        }
+
+                        let mediaCaption = "";
+                        if (timeLink.mediaCaption) {
+                            mediaCaption = timeLink.mediaCaption;
                         }
 
                         var referenceDocTags = timeLink.tags;
@@ -579,6 +594,8 @@
                                     }
                                 }
 
+                                const lineDuration = end - start;
+
                                 // Compute effective start and end (intersection)
                                 if (!currentInterval) {
                                     start = undefined;
@@ -624,15 +641,26 @@
                                         })
                                     );
 
-                                    var indexInfo = {};
-                                    indexInfo.origin = indexDoc._id;
-                                    indexInfo.start = start;
-                                    indexInfo.end = end;
-                                    indexInfo.tags = tags;
-                                    indexInfo.timeLinkTags = timeLinkTags;
-                                    indexInfo.color = color;
-                                    indexInfo.tagGroupColors = tagGroupColors;
-                                    indexInfo.scaleFactor = _scaleFactor;
+                                    const secStart = $n2.utils.convertSMPTEtoSeconds(timeLink.starttime);                                   
+                                    const transcriptStart = (secStart === 0) ? 0.000 : secStart;
+                                    const transcriptEnd = $n2.utils.convertSMPTEtoSeconds(timeLink.endtime);
+
+                                    const indexInfo = {
+                                        origin: indexDoc._id
+                                        , start
+                                        , end
+                                        , transcriptStart
+                                        , transcriptEnd
+                                        , lineDuration
+                                        , tags
+                                        , timeLinkTags
+                                        , color
+                                        , tagGroupColors
+                                        , relatedImage
+                                        , mediaCaption
+                                        , scaleFactor: _scaleFactor
+                                        , defaultPlaceZoomLevel: _defaultPlaceZoomLevel
+                                    };
                                     referencedDocInfo.newCineIndex.push(indexInfo);
                                 }
                             });

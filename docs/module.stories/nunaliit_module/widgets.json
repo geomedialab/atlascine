@@ -1,8 +1,8 @@
 [
 	{
-		"widgetType": "singleFilterSelectionWidget"
+		"widgetType": "singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing"
 		,"sourceModelId":"cineMapFilter"
-		,"containerClass": "nunaliit_module_title"
+		,"containerId": "module_title_bar"
 		,"suppressAllChoices": true
 		,"suppressNoChoice": true
 	}
@@ -27,12 +27,15 @@
 				,"timeEnd": "2018-12-31"
 			}
 		]
-	}
-	,{
-		"widgetType": "donutGroupTagLegendWidget",
+	},
+	{
+		"widgetType": "mapStoryFilterableLegendWidgetWithGraphic",
+		"name": "MapStoriesFilterableLegendWidgetWithGraphic",
 		"containerId": "content",
 		"sourceModelId": "donutFilterByGroupTag",
-		"noChoiceLabel": "Select Donut Group Tags",
-		"allChoicesLabel": "All Group Tags"
+		"cinemapModelId": "cineMapFilter",
+		"designatedCanvasName": "mapStories",
+		"allLabel": "All Group Tags",
+		"graphicType": "custom"
 	}
 ]

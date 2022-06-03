@@ -418,7 +418,6 @@
                 this.dispatchService.register(DH, 'mediaTimeChanged', f);
                 this.dispatchService.register(DH, 'documentContent', f);
                 this.dispatchService.register(DH, 'changeCineViaDonut', f);
-                this.dispatchService.register(DH, 'renderStyledTranscript', f);
                 this.dispatchService.register(DH, 'themeChanged', f);
 
                 if (this.intervalChangeEventName) {
@@ -512,7 +511,7 @@
                 });
                 this._reInstallSubtitleSel();
             } else if (!this.transcript) {
-                this._loadVideoFile();
+                this._loadMediaFile();
                 this._loadTranscript(this.doc);
             } else if (!this.srtData) {
                 var attSrt = undefined;
@@ -572,33 +571,37 @@
                 return;
             }
 
-            if (!this.transcript || !this.transcript.videoAttName) {
+            if (!this.transcript || !this.transcript.mediaAttName) {
                 return;
             }
 
-            var attVideoName = undefined;
+            var attMediaName = undefined;
             if (this.transcript) {
-                attVideoName = this.transcript.videoAttName;
+                attMediaName = this.transcript.mediaAttName;
             }
 
-            var attVideoDesc = null;
-            var data = this.doc; // shorthand
+            var attMediaDesc = null;
+            var data = this.doc;
+            let mediaType = "none";
             if (data
                 && data.nunaliit_attachments
                 && data.nunaliit_attachments.files
-                && attVideoName) {
-                attVideoDesc = data.nunaliit_attachments.files[attVideoName];
+                && attMediaName) {
+                attMediaDesc = data.nunaliit_attachments.files[attMediaName];
 
-                if (attVideoDesc
-                    && attVideoDesc.fileClass !== 'video') {
-                    attVideoDesc = undefined;
+                if (attMediaDesc
+                    && (attMediaDesc.fileClass !== 'video' && attMediaDesc.fileClass !== 'audio')) {
+                    attMediaDesc = undefined;
+                }
+                else if (attMediaDesc && attMediaDesc.fileClass) {
+                    mediaType = attMediaDesc.fileClass;
                 }
             }
 
             var thumbnailUrl = null;
-            if (attVideoDesc
-                && attVideoDesc.thumbnail) {
-                var attThumb = this.attachmentService.getAttachment(this.doc, attVideoDesc.thumbnail);
+            if (attMediaDesc
+                && attMediaDesc.thumbnail) {
+                var attThumb = this.attachmentService.getAttachment(this.doc, attMediaDesc.thumbnail);
 
                 if (attThumb) {
                     thumbnailUrl = attThumb.computeUrl();
@@ -606,9 +609,9 @@
             }
 
             var attVideoUrl = undefined;
-            if (attVideoDesc
-                && attVideoDesc.status === 'attached') {
-                var attVideo = this.attachmentService.getAttachment(this.doc, attVideoName);
+            if (attMediaDesc
+                && attMediaDesc.status === 'attached') {
+                var attVideo = this.attachmentService.getAttachment(this.doc, attMediaName);
 
                 if (attVideo) {
                     attVideoUrl = attVideo.computeUrl();
@@ -627,15 +630,34 @@
                     .attr('id', this.videoId)
                     .attr('controls', 'controls')
                     .attr('width', '100%')
-                    .attr('height', '360px')
+				    .attr('height', '360px')
+                    .attr('preload', 'metadata')
                     .appendTo($mediaDiv);
+
+                const subtitles = document.getElementById(this.subtitleDivId);
+                if (mediaType === "video") {
+                    $video
+                    .attr('width', '100%')
+                    .attr('height', '360px');
+    
+                    subtitles.style.height = "55vh";
+                    subtitles.style.overflowY = "scroll";
+                }
+                else if (mediaType === "audio") {
+                    $video
+                    .attr('width', '0px')
+                    .attr('height', '0px');
+    
+                    subtitles.style.height = "auto";
+                    subtitles.style.overflowY = "visible";
+                }
 
                 var $videoSource = $('<source>')
                     .attr('src', attVideoUrl)
                     .appendTo($video);
 
-                if (attVideoDesc.mimeType) {
-                    $videoSource.attr('type', attVideoDesc.mimeType);
+                if (attMediaDesc.mimeType) {
+                    $videoSource.attr('type', attMediaDesc.mimeType);
                 }
 
                 $video.mediaelementplayer({
@@ -1060,17 +1082,6 @@
                 var $transcriptElem = $('#'+transcriptElem.id);
                 if(n_cur >= transcriptElem.start && n_cur < transcriptElem.fin) {
                     $transcriptElem.addClass('highlight');
-
-                    const styledLine = document.querySelector(`#${_this.transcriptId} > div.highlight`);
-                    /* var color = #ffffff is set earlier but that turns into this rgb format instead */
-                    if (styledLine && styledLine.hasAttribute('style')) {
-                        if (styledLine.style.backgroundColor !== "rgb(255, 255, 255)") {
-                            _this.dispatchService.send(DH, {
-                                type: 'renderStyledTranscript'
-                            });
-                        }
-                    }
-
                     if ($.now() - _this.lastTimeUserScroll > 5000) {
                         _this._scrollToView($transcriptElem);
                     }

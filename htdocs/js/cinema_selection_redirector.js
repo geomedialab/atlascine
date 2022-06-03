@@ -106,21 +106,21 @@
                         , onError: function (err) { }
                     }, opts_);
                     var feature = opts.feature;
-                    if (feature &&
-                        feature.data._ldata &&
-                        feature.data._ldata.timeLinkTags &&
-                        feature.data._ldata.timeLinkTags.themeTags) {
-                        var contentArr = feature.data._ldata.timeLinkTags.themeTags;
-                        if (feature.data._ldata.timeLinkTags.placeTag) {
-                            contentArr.push(feature.data._ldata.timeLinkTags.placeTag);
-                        }
-                        contentArr = contentArr.filter((a, b) => contentArr.indexOf(a) === b);
-                        var content = contentArr.join(', ');
-                        if (content && '' !== content) {
-                            opts.onSuccess(content);
-                        }
-                        return;
+                    if (feature === undefined) return;
+                    if (feature.data === undefined) return;
+                    if (feature.data._ldata === undefined) return;
+                    if (feature.data._ldata.timeLinkTags === undefined) return;
+                    if (feature.data._ldata.timeLinkTags.themeTags === undefined) return;
+                    var contentArr = feature.data._ldata.timeLinkTags.themeTags;
+                    if (feature.data._ldata.timeLinkTags.placeTag) {
+                        contentArr.push(feature.data._ldata.timeLinkTags.placeTag);
                     }
+                    contentArr = contentArr.filter((a, b) => contentArr.indexOf(a) === b);
+                    var content = contentArr.join(', ');
+                    if (content && '' !== content) {
+                        opts.onSuccess(content);
+                    }
+                    return;
                 });
             }
         },

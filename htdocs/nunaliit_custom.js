@@ -85,6 +85,12 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'themeTranscript') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
+            m.isAvailable = true;
+        } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
+            m.isAvailable = true;
+        } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            m.isAvailable = true;
         }
     }
 
@@ -101,14 +107,7 @@
             options.dispatchService = cfg.directory.dispatchService;
         }
 
-        if (m.widgetType === 'donutGroupTagLegendWidget') {
-            if (isDirectoryPresent) {
-                options.showService = cfg.directory.showService;
-            }
-            options.containerId = m.containerId;
-            new $n2.atlascine.DonutGroupTagLegendWidget(options);
-        }
-        else if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
+        if (m.widgetType === 'themeDonutGroupTagLegendWidget') {
             if (isDirectoryPresent) {
                 options.showService = cfg.directory.showService;
             }
@@ -126,6 +125,15 @@
                 options.attachmentService = cfg.directory.attachmentService;
             }
             new $n2.atlascine.ThemeTranscript(options);
+        }
+        else if (m.widgetType === 'mapStoryFilterableLegendWidgetWithGraphic') {
+            new $n2.atlascine.MapStoryFilterableLegendWidgetWithGraphic(options);
+        }
+        else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirst') {
+            new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirst(options);
+        }
+        else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
+            new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing(options);
         }
     }
 
@@ -250,20 +258,31 @@
     $n2.atlascine = {};
 
     $n2.scripts.loadCustomScripts([
-        'js/utilities.js',
-        'js/cine_transcript.js',
-        'js/theme_transcript.js',
-        'js/cine_map_filter.js',
-        'js/donut_tag_legend.js',
-        'js/theme_map_filter.js',
-        'js/cine_stories_display.js',
-        'js/theme_index_transform.js',
-        'js/theme_donut_tag_legend.js',
-        'js/cine_time_index_transform.js',
-        'js/cine_multi_stories_display.js',
-        'js/cine_data_2_donut_transform.js',
-        'js/cinema_selection_redirector.js',
-        'js/theme_data_2_donut_transform.js',
+        'js/utilities.js'
+        , 'js/cinema_selection_redirector.js'
     ]);
+
+    if ($n2.url.getParamValue("module") === "module.stories") {
+        $n2.scripts.loadCustomScripts([
+            'js/cine_transcript.js'
+            , 'js/cine_map_filter.js'
+            , 'js/donut_tag_legend.js'
+            , 'js/cine_stories_display.js'
+            , 'js/cine_time_index_transform.js'
+            , 'js/cine_data_2_donut_transform.js'
+            , 'js/cinemap_selection_widget.js'
+        ]);
+    }
+    else if ($n2.url.getParamValue("module") === "module.multiStories") {
+        $n2.scripts.loadCustomScripts([
+            'js/theme_transcript.js'
+            , 'js/theme_map_filter.js'
+            , 'js/theme_index_transform.js'
+            , 'js/theme_donut_tag_legend.js'
+            , 'js/cine_multi_stories_display.js'
+            , 'js/theme_data_2_donut_transform.js'
+            , 'js/cinemap_selection_widget.js'
+        ]);
+    }
 
 })(jQuery, nunaliit2);

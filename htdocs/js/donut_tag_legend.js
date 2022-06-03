@@ -1,374 +1,358 @@
 /** 
  * Name: donut-tag-legend.js
- * -----------------------------------------------------------------------------
- * Description: A custom widget to filter donuts by tag groups. The widget
- * connects to a selection filter which creates a collection of available
- * choices based on donut documents stored in the model. This widget provides a
- * UI for users to filter donuts from the map based on those available choices.
- * 
- * This widget's design is inspired by both the
- * MultiFilterSelectionDropDownWidget and the LegendWidget which exist in
- * Nunaliit.
- * -----------------------------------------------------------------------------
  */
 
 ; (function ($, $n2) {
     "use strict";
 
     // Localization
-    var _loc = function (str, args) { return $n2.loc(str, 'nunaliit2-couch', args); };
+    const _loc = function (str, args) { return $n2.loc(str, "nunaliit2-couch", args); };
+    const ALL_CHOICES = "__ALL_SELECTED__";
 
-    // Define Dispatcher Handle
-    var DH = 'Donut Tag Group Legend Filter';
+    class MapStoryFilterableLegendWidgetWithGraphic extends nunaliit2.filterableLegendWidget.filterableLegendWidgetWithGraphic {
+        constructor(options) {
+            super(options);
+            this.cinemapModelId = options.cinemapModelId;
+            this.DH = "MapStoryFilterableLegendWidgetWithGraphic";
+            this.themeToColourMap = null;
+            this.themeToWordMap = null;
+            this.mediaDuration = 0;
+            this.popup = null;
+            this.preloadCallback = this._preloadOtherWidgetData;
 
-    var ALL_CHOICES = '__ALL_CHOICES__';
-
-    var DonutGroupTagLegendWidget = $n2.Class('DonutGroupTagLegendWidget', {
-
-        dispatchService: null,
-
-        showService: null,
-
-        sourceModelId: null,
-
-        elemId: null,
-
-        selectedChoicesChangeEventName: null,
-
-        selectedChoicesSetEventName: null,
-
-        allSelectedChangeEventName: null,
-
-        allSelectedSetEventName: null,
-
-        availableChoicesChangeEventName: null,
-
-        availableChoices: null,
-
-        selectedChoices: null,
-
-        selectedChoiceIdMap: null,
-
-        allSelected: null,
-
-        allChoicesLabel: null,
-
-        /**
-         * These are versions of functions that are throttled. These
-         * functions touch the DOM structure and should not be called too
-         * often as they affect performance.
-         */
-        _throttledAvailableChoicesUpdated: null,
-
-        initialize: function (opts_) {
-            var opts = $n2.extend({
-                containerId: null
-                , dispatchService: null
-                , showService: null
-                , sourceModelId: null
-                , allChoicesLabel: null
-            }, opts_);
-
-            var _this = this;
-            var paramInfo;
-
-            this.dispatchService = opts.dispatchService;
-            this.showService = opts.showService;
-            this.sourceModelId = opts.sourceModelId;
-            this.allChoicesLabel = opts.allChoicesLabel;
-
-            this.availableChoices = [];
-            this.selectedChoices = [];
-            this.selectedChoiceIdMap = {};
-            this._throttledAvailableChoicesUpdated = $n2.utils.throttle(this._availableChoicesUpdated, 1500);
-
-            // Set up model listener
-            if (this.dispatchService) {
-                // Get model info
-                var modelInfoRequest = {
-                    type: 'modelGetInfo'
-                    , modelId: this.sourceModelId
-                    , modelInfo: null
-                };
-                this.dispatchService.synchronousCall(DH, modelInfoRequest);
-                var sourceModelInfo = modelInfoRequest.modelInfo;
-
-                if (sourceModelInfo
-                    && sourceModelInfo.parameters
-                    && sourceModelInfo.parameters.availableChoices) {
-                    paramInfo = sourceModelInfo.parameters.availableChoices;
-                    this.availableChoicesChangeEventName = paramInfo.changeEvent;
-
-                    if (paramInfo.value) {
-                        this.availableChoices = paramInfo.value;
-                    }
-                }
-
-                if (sourceModelInfo
-                    && sourceModelInfo.parameters
-                    && sourceModelInfo.parameters.selectedChoices) {
-                    paramInfo = sourceModelInfo.parameters.selectedChoices;
-                    this.selectedChoicesChangeEventName = paramInfo.changeEvent;
-                    this.selectedChoicesSetEventName = paramInfo.setEvent;
-
-                    if (paramInfo.value) {
-                        this.selectedChoices = paramInfo.value;
-                        this.selectedChoiceIdMap = {};
-                        this.selectedChoices.forEach(function (choiceId) {
-                            _this.selectedChoiceIdMap[choiceId] = true;
-                        });
-                    }
-                }
-
-                if (sourceModelInfo
-                    && sourceModelInfo.parameters
-                    && sourceModelInfo.parameters.allSelected) {
-                    paramInfo = sourceModelInfo.parameters.allSelected;
-                    this.allSelectedChangeEventName = paramInfo.changeEvent;
-                    this.allSelectedSetEventName = paramInfo.setEvent;
-
-                    if (typeof paramInfo.value === 'boolean') {
-                        this.allSelected = paramInfo.value;
-                    }
-                }
-
-                var fn = function (m, addr, dispatcher) {
-                    _this._handle(m, addr, dispatcher);
-                };
-
-                if (this.availableChoicesChangeEventName) {
-                    this.dispatchService.register(DH, this.availableChoicesChangeEventName, fn);
-                }
-
-                if (this.selectedChoicesChangeEventName) {
-                    this.dispatchService.register(DH, this.selectedChoicesChangeEventName, fn);
-                }
-
-                if (this.allSelectedChangeEventName) {
-                    this.dispatchService.register(DH, this.allSelectedChangeEventName, fn);
-                }
+            if (!this.cinemapModelId) {
+                throw new Error("cinemapModelId must be specified");
             }
 
-            // Get container
-            var containerId = opts.containerId;
-            if (!containerId) {
-                throw new Error('containerId must be specified');
-            }
-            var $container = $('#' + containerId);
+            this.cinemapSelectionSetEventName = `${this.cinemapModelId}_selectedChoices_set`;
+            this.dispatchService.register(this.DH, this.cinemapSelectionSetEventName, this.dispatchHandler)
+            this.dispatchService.register(this.DH, "transcriptVideoDurationChange", this.dispatchHandler);
 
-            this.elemId = $n2.getUniqueId();
+            window.addEventListener("resize", () => { this._drawGraphic() })
+            
+            this._preloadOtherWidgetData(this.dispatchService);
+        }
 
-            $('<div>')
-                .attr('id', this.elemId)
-                .addClass('n2widgetLegend')
-                .appendTo($container);
-
-            this._throttledAvailableChoicesUpdated();
-
-            $n2.log(this._classname, this);
-        },
-
-        // Get the element id for widget legend container.
-        _getElem: function () {
-            return $('#' + this.elemId);
-        },
-
-        /**
-         * This function adds a new legend option, based on provided arguments.
-         * @param {object} container - jQuery element reference to the
-         * container for the legend entry items.
-         * @param {string} choiceId - legend entry choiceId.
-         * @param {string} label - legend entry label.
-         * @param {string} color - donut icon hash color code.
-         */
-        _addLegendOption: function (container, choiceId, label, color) {
-            var _this = this;
-            var entryId = $n2.getUniqueId();
-            var $div = $('<div>')
-                .addClass('n2widgetLegend_legendEntry')
-                .addClass('n2widgetLegend_optionSelected')
-                .attr('data-n2-choiceId', choiceId)
-                .css('cursor', 'pointer')
-                .appendTo(container);
-
-            $('<input>')
-                .attr('type', 'checkbox')
-                .attr('checked', 'checked')
-                .attr('id', entryId)
-                .click(function () {
-                    _this._selectionChanged(choiceId);
-                })
-                .appendTo($div);
-
-            var $chkboxLabel = $('<label>')
-                .attr('for', entryId)
-                .css('padding-left', '5px')
-                .appendTo($div);
-
-            var $symbolColumn = $('<div>')
-                .addClass('n2widgetLegend_symbolColumn')
-                .css('width', '25px')
-                .appendTo($chkboxLabel);
-
-            // Add SVG donut icon and update donut color.
-            if (color) {
-                var $donut = $('<svg version="1.1" viewBox="-7 -7 14 14" class="n2widgetLegend_svg"><circle r="5" stroke="#ff0000" stroke-width="2" fill-opacity="1" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="solid" pointerEvents="visiblePainted" pointer-events="visiblePainted"></circle></svg>')
-                    .appendTo($symbolColumn);
-
-                $donut.find('circle')
-                    .attr('stroke', color)
-            }
-
-            var $labelColumn = $('<div>')
-                .addClass('n2widgetLegend_labelColumn')
-                .appendTo($chkboxLabel);
-
-            $('<div>')
-                .addClass('n2widgetLegend_label')
-                .text(label)
-                .appendTo($labelColumn);
-        },
-
-        // Add legend entry options based on available choices provided by the
-        // DonutFilterByGroupTag selectable document filter.
-        _availableChoicesUpdated: function () {
-            var color;
-            var $elem = this._getElem();
-            $elem.empty();
-
-            var $outer = $('<div>')
-                .addClass('n2widgetLegend_outer')
-                .appendTo($elem);
-
-            // Add All Choices Option
-            var allChoicesLabel = _loc('All');
-            if (this.allChoicesLabel) {
-                allChoicesLabel = _loc(this.allChoicesLabel);
-            }
-
-            this._addLegendOption($outer, ALL_CHOICES, allChoicesLabel, color);
-
-            // Loop through all available choices and add each as a legend item
-            for (var i = 0, e = this.availableChoices.length; i < e; i += 1) {
-                var label;
-                var choice = this.availableChoices[i];
-
-                if (!choice.label) {
-                    label = choice.id;
-                } else {
-                    label = choice.label;
+        _handle (message, addr, dispatcher) {
+            const { type, value, modelId, state } = message;
+            if (type === this.eventNames.changeAvailableChoices) {
+                if (value) {
+                    this.state.availableChoices = value;
+                    this._drawLegend();
+                    this._adjustSelectedItem();
+                    this._drawGraphic();
                 }
-
-                if (choice.color) {
-                    color = choice.color;
-                }
-
-                this._addLegendOption($outer, choice.id, label, color);
-            }
-
-            this._adjustSelectedItem();
-        },
-
-        // Adjust appearance of selected legend items.
-        _adjustSelectedItem: function () {
-            var allSelected = this.allSelected;
-
-            var selectedChoiceIdMap = {};
-            this.selectedChoices.forEach(function (selectedChoice) {
-                selectedChoiceIdMap[selectedChoice] = true;
-            });
-
-            var $elem = this._getElem();
-            $elem.find('.n2widgetLegend_legendEntry').each(function () {
-                var $legendEntry = $(this);
-                var value = $legendEntry.attr('data-n2-choiceId');
-                if (allSelected || selectedChoiceIdMap[value]) {
-                    if ($legendEntry.find('input').prop('checked') !== true) {
-                        $legendEntry.find('input').prop('checked', 'checked');
-                    }
-
-                    $legendEntry.find('label').css('color', '#ffffff');
-
-                } else {
-                    if ($legendEntry.find('input').prop('checked') === true) {
-                        $legendEntry.find('input').prop('checked', false);
-                    }
-
-                    $legendEntry.find('label').css('color', '#aaaaaa');
-                }
-            });
-        },
-
-        // This is called when the selected option within the legend is changed
-        _selectionChanged: function (choiceId) {
-            if (ALL_CHOICES === choiceId) {
-                if (this.allSelected) {
-                    // Toggle off all selected if already selected
-                    this.dispatchService.send(DH, {
-                        type: this.selectedChoicesSetEventName
-                        , value: []
+            } 
+            else if (type === this.eventNames.changeSelectedChoices) {
+                if (value) {
+                    this.state.selectedChoices = value;
+                    this.state.selectedChoiceIdMap = {};
+                    this.state.selectedChoices.forEach((choiceText) => {
+                        this.state.selectedChoiceIdMap[choiceText] = true;
                     });
-                } else {
-                    // Select all
-                    this.dispatchService.send(DH, {
-                        type: this.allSelectedSetEventName
-                        , value: true
-                    });
-                }
-            } else {
-                var selectedChoiceIds = [];
-                var removed = false;
-
-                this.selectedChoices.forEach(function (selectedChoiceId) {
-                    if (selectedChoiceId === choiceId) {
-                        removed = true;
-                    } else {
-                        selectedChoiceIds.push(selectedChoiceId);
-                    }
-                });
-
-                if (!removed) {
-                    selectedChoiceIds.push(choiceId);
-                }
-
-                this.dispatchService.send(DH, {
-                    type: this.selectedChoicesSetEventName
-                    , value: selectedChoiceIds
-                });
-            }
-        },
-
-        _handle: function (m, addr, dispatcher) {
-            var _this = this;
-
-            if (this.availableChoicesChangeEventName === m.type) {
-                if (m.value) {
-                    this.availableChoices = m.value;
-                    this._throttledAvailableChoicesUpdated();
-                }
-
-            } else if (this.selectedChoicesChangeEventName === m.type) {
-                if (m.value) {
-                    this.selectedChoices = m.value;
-                    this.selectedChoiceIdMap = {};
-                    this.selectedChoices.forEach(function (choiceId) {
-                        _this.selectedChoiceIdMap[choiceId] = true;
-                    });
-
                     this._adjustSelectedItem();
                 }
-
-            } else if (this.allSelectedChangeEventName === m.type) {
-                if (typeof m.value === 'boolean') {
-                    this.allSelected = m.value;
+            } 
+            else if (type === this.eventNames.changeAllSelected) {
+                if (typeof value === "boolean") {
+                    if (value === this.state.allSelected) return;
+                    this.state.allSelected = value;
                     this._adjustSelectedItem();
                 }
+            }
+            else if (type === "modelStateUpdated" && this.hasPerformedInitialDraw) {
+                if (modelId === this.sourceModelId) {
+                    this._sourceModelUpdated(state);
+                }
+            }
+            else if (type === "transcriptVideoDurationChange") {
+                if (this.isGraphicNone) return;
+                this.mediaDuration = value;
+
+                if (this.graphicContainer === null) return;
+                this.graphicContainer.innerHTML = "";
+                const graphic = document.createElement("div");
+                graphic.setAttribute("class", "n2_FilterableLegendWidgetGraphicArea");
+                graphic.setAttribute("id", "filterableLegendWidgetGraphicArea");
+                this.graphicContainer.append(graphic);
+                this.graphic = graphic;
+                this.graphic.classList.add("n2_CustomGraphic");
+
+                this._drawCustom();
+            }
+            else if (type === this.cinemapSelectionSetEventName) {
+                this._preloadOtherWidgetData(this.dispatchService);
             }
         }
-    });
 
-    // Donut filter by group tag
-    var DonutFilterByGroupTag = $n2.Class('DonutFilterByGroupTag', $n2.modelFilter.SelectableDocumentFilter, {
+        _drawLegend() {
+            if (this.legendContainer === null) return;
+            this.legendContainer.innerHTML = "";
+            const legend = document.createElement("div");
+            legend.setAttribute("class", "n2widgetLegend_outer");
+            this.legend = legend; 
+            
+            let selectAllLabel = this.selectAllLabel || "All";
+            selectAllLabel = _loc(selectAllLabel);
+    
+            const legendFragment = document.createDocumentFragment();
+            this._drawLegendOption(legendFragment, ALL_CHOICES, selectAllLabel, null)
+    
+            this.state.availableChoices.forEach(choice => {
+                const label = choice.label || choice.id;
+                const colour = choice.color;
+                this._drawLegendOption(legendFragment, choice.id, _loc(label), colour);
+            });
+    
+            legend.append(legendFragment);
+            this.legendContainer.append(legend);
+
+            const legendOffsetWidth = this.legend.offsetWidth;
+            [...document.querySelectorAll(".mejs__controls > .mejs__button")].forEach(button => {
+                button.style.width = Math.floor(legendOffsetWidth / 2) - 2 + "px";
+            });
+        }
+
+        _drawCustom() {
+            this.drawCustom(this.prepareGraphicData(this.state.sourceModelDocuments));
+        }
+
+        _preloadOtherWidgetData(dispatchService) {
+            const message = {
+                type: "modelGetInfo",
+                modelId: this.cinemapModelId,
+                modelInfo: null
+            };
+            dispatchService.synchronousCall(this.DH, message);
+            const {
+                modelInfo: {
+                    parameters: {
+                        selectedChoices: {
+                            value
+                        }
+                    }
+                }
+            } = message;
+            if (value.length < 1) return;
+            const cinemapDocumentRequest = {
+                type: "cacheRetrieveDocument",
+                docId: value[0],
+                doc: null
+            };
+            dispatchService.synchronousCall(this.DH, cinemapDocumentRequest);
+            if (cinemapDocumentRequest.doc === null) return;
+            const {
+                atlascine_cinemap : {
+                    tagColors,
+                    tagGroups
+                }
+            } = cinemapDocumentRequest.doc;
+            this.themeToColourMap = tagColors;
+            this.themeToWordMap = tagGroups;
+        }
+
+        drawCustom(preparedData) {
+            const D3V3 = window.d3;
+            if (!D3V3) {
+                alert("D3 V3 library is not available!");
+                return;
+            }
+            // 10 * 2 because there's 10px left padding for the legend (and thus should be the same on the right side)
+            // 5 for some padding * 2 on either side = 10
+            const graphicWidth = document.querySelector(".n2_content_map").offsetWidth - this.legendContainer.offsetWidth - (10 * 2) - 10;
+            this.graphic.style.width = graphicWidth + "px";
+
+            // 20 because of the 10px top and bottom padding
+            this.graphic.style.height = (this.legendContainer.offsetHeight - 20) + "px";
+
+            const legendChildren = this.legend.children;
+            if (!legendChildren || legendChildren.length < 1) return;
+
+            const allSelectionRow = document.createElement("div");
+            allSelectionRow.setAttribute("class", "timeline_map_tag_row");
+            const legendAllSelectedHeight = legendChildren[0].offsetHeight;
+            allSelectionRow.style.height = legendAllSelectedHeight + "px";
+
+            const xScale = D3V3.scale
+            .linear()
+            .domain([0, this.mediaDuration])
+            .range([0, graphicWidth]);
+
+            this.graphic.append(allSelectionRow);
+            D3V3.select(allSelectionRow)
+            .append("svg")
+            .attr("width", graphicWidth)
+            .attr("height", legendAllSelectedHeight);
+            
+            if (this.popup !== null && this.popup !== undefined) {
+                this.popup.remove();
+            }
+            // Popup partially adapted from https://bl.ocks.org/arpitnarechania/4b4aa79b04d2e79f30765674b4c24ace
+            const popup = D3V3.select("body")
+            .append("div")
+            .attr("class", "timeline_popup");
+            popup.append("div").attr("class", "timeline_popup_tags");
+            this.popup = popup;
+
+            const availableChoices = this.state.availableChoices.map(choice => choice.id);
+
+            if (preparedData === undefined) return;
+            Object.entries(preparedData)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .forEach(entry => {
+                if (legendChildren.length < 2) return;
+                
+                const [mapTag, themeArray] = entry;
+                if (!availableChoices.includes(mapTag.toLowerCase())) return;
+
+                let rowHeight = legendChildren[1].offsetHeight;
+                
+                const mapTagRow = document.createElement("div");
+                mapTagRow.setAttribute("class", "timeline_map_tag_row");
+                mapTagRow.setAttribute("data-map-tag", mapTag);
+                mapTagRow.style.height = rowHeight + "px";
+                this.graphic.append(mapTagRow);
+
+                const svg = D3V3.select(mapTagRow)
+                    .append("svg")
+                    .attr("width", graphicWidth)
+                    .attr("height", rowHeight)
+                
+                themeArray.forEach(themedLine => {
+                    svg.selectAll("g")
+                    .data([themedLine])
+                    .enter()
+                    .append("rect")
+                        .attr("class", "timeline_bar")
+                        .attr("height", rowHeight)
+                        .attr("width", (line) => {
+                            return xScale(line.transcriptEnd - line.transcriptStart);
+                        })
+                        .attr("x", (line) => {
+                            return xScale(line.transcriptStart);
+                        })
+                        .style("fill", (line) => {
+                            return this.themeToColourMap[line.group] || "#000";
+                        })
+                    .on("click", (line) => {
+                        this.dispatchService.send(this.DH, {
+                            type: "mapStoryTimelineBarClick",
+                            name: this.name,
+                            currentTime: line.transcriptStart,
+                            origin: this.DH
+                        });
+                    })
+                    .on("mouseover", (line) => {
+                        popup.select(".timeline_popup_tags").html(
+                            `<div>${[line.theme, line.placeTag].join(", ")}</div>`
+                        );
+                        popup.style("display", "block");
+                    })
+                    .on("mousemove", () => {
+                        popup.style("top", (D3V3.event.pageY - 30) + "px")
+                        .style("left", (D3V3.event.pageX - 50) + "px");
+                    })
+                    .on("mouseout", () => {
+                        popup.style("display", "none");
+                    });
+                });
+            });
+        }
+
+        prepareGraphicData(docs) {
+            if (this.preloadCallback !== this._preloadOtherWidgetData) return {};
+
+            // Timing issue
+            if (this.themeToWordMap === null || this.themeToWordMap === undefined) return;
+            const groupedData = Object.keys(this.themeToWordMap)
+            .sort((a, b) => a.localeCompare(b))
+            .reduce((accumulator, current) => {
+                accumulator[current] = [];
+                return accumulator;
+            }, {});
+
+            Object.values(docs).forEach(doc => {
+                const {
+                    _ldata: {
+                        transcriptEnd,
+                        transcriptStart,
+                        timeLinkTags: {
+                            groupTags,
+                            themeTags,
+                            placeTag
+                        }
+                    }
+                } = doc;
+
+                groupTags.forEach(group => {
+                    themeTags.forEach(theme => {
+                        if (this.themeToWordMap[group].includes(theme)) {
+                            groupedData[group].push({
+                                transcriptEnd,
+                                transcriptStart,
+                                group,
+                                theme,
+                                placeTag
+                            });
+                        }
+                    });
+                });
+            });
+
+            /*
+                groupedData should now look like:
+                {
+                    map_tag_name: [
+                        {
+                            transcriptStart: ...,
+                            transcriptEnd: ...,
+                            group: ...,
+                            theme: ...,
+                            placeTag: ...
+                        }
+                    ]
+                }
+             */
+            const dedupedGroupedData = Object.keys(this.themeToWordMap)
+            .sort((a, b) => a.localeCompare(b))
+            .reduce((accumulator, current) => {
+                accumulator[current] = [];
+                return accumulator;
+            }, {});
+            Object.entries(groupedData).forEach(groupData => {
+                const [mapTagName, unitArray] = groupData;
+                const dedupedTimes = [...new Set(unitArray.map(unit => {
+                    return `${unit.transcriptStart.toString()}|${unit.transcriptEnd.toString()}`;
+                }))];
+                dedupedTimes.forEach(time => {
+                    const [start, end] = time.split("|");
+                    let newUnit = {
+                        transcriptStart: start,
+                        transcriptEnd: end,
+                        group: [],
+                        theme: [],
+                        placeTag: []
+                    };
+                    unitArray.forEach(oldUnit => {
+                        if (start === oldUnit.transcriptStart.toString() && end === oldUnit.transcriptEnd.toString()) {
+                            if (!newUnit.group.includes(oldUnit.group)) newUnit.group.push(oldUnit.group);
+                            if (!newUnit.theme.includes(oldUnit.theme)) newUnit.theme.push(oldUnit.theme);
+                            if (!newUnit.placeTag.includes(oldUnit.placeTag)) newUnit.placeTag.push(oldUnit.placeTag);
+                        }
+                    });
+                    newUnit.group = newUnit.group.join(", ");
+                    newUnit.theme = newUnit.theme.join(", ");
+                    newUnit.placeTag = newUnit.placeTag.join(", ");
+                    dedupedGroupedData[mapTagName].push(newUnit);
+                })
+            });
+            return dedupedGroupedData;
+        }
+    }
+
+
+
+    const DonutFilterByGroupTag = $n2.Class("DonutFilterByGroupTag", $n2.modelFilter.SelectableDocumentFilter, {
 
         dispatchService: null,
 
@@ -383,7 +367,7 @@
 
             $n2.modelFilter.SelectableDocumentFilter.prototype.initialize.call(this, opts);
 
-            $n2.log('DonutFilterByGroupTag', this);
+            $n2.log("DonutFilterByGroupTag", this);
         },
 
         /**
@@ -481,7 +465,7 @@
     });
 
     Object.assign($n2.atlascine, {
-        DonutGroupTagLegendWidget: DonutGroupTagLegendWidget,
+        MapStoryFilterableLegendWidgetWithGraphic: MapStoryFilterableLegendWidgetWithGraphic,
         DonutFilterByGroupTag: DonutFilterByGroupTag
     });
 

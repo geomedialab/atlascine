@@ -62,6 +62,7 @@
 		,"sourceModelId":"atlascine_cinemaps"
 		,"initialSelection": []
 		,"saveSelection": true
+		,"_comment": "If saveSelection is set to false, the dropdown widget will not auto-select the first available entry"
 	},
 	{
 		"modelType": "cineTimeIndexTransform"
