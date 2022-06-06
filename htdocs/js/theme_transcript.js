@@ -349,6 +349,7 @@
             if (this.isInsideContentTextPanel) {
                 var $elem = $('<div>')
                     .attr('id', this.elemId)
+                    .css({"height": "100%"})
                     .appendTo($container);
 
                 $('<div>')
@@ -374,6 +375,7 @@
             } else {
                 $('<div>')
                     .attr('id', this.elemId)
+                    .css({"height": "100%"})
                     .addClass('n2widgetTranscript')
                     .appendTo($container);
             }
@@ -619,7 +621,6 @@
             }
 
             if (attVideoUrl) {
-                var mediaDivId = this.mediaDivId;
                 this.videoId = $n2.getUniqueId();
                 this.transcriptId = this.subtitleDivId;
 
@@ -630,26 +631,19 @@
                     .attr('id', this.videoId)
                     .attr('controls', 'controls')
                     .attr('width', '100%')
-				    .attr('height', '360px')
+				    .attr('height', '240px')
                     .attr('preload', 'metadata')
                     .appendTo($mediaDiv);
 
-                const subtitles = document.getElementById(this.subtitleDivId);
                 if (mediaType === "video") {
                     $video
                     .attr('width', '100%')
-                    .attr('height', '360px');
-    
-                    subtitles.style.height = "55vh";
-                    subtitles.style.overflowY = "scroll";
+                    .attr('height', '240px');
                 }
                 else if (mediaType === "audio") {
                     $video
                     .attr('width', '0px')
                     .attr('height', '0px');
-    
-                    subtitles.style.height = "auto";
-                    subtitles.style.overflowY = "visible";
                 }
 
                 var $videoSource = $('<source>')
@@ -664,7 +658,7 @@
                     poster: thumbnailUrl
                     , alwaysShowControls: true
                     , pauseOtherPlayers: false
-                    , features: ['playpause', 'progress', 'volume', 'sourcechooser', 'fullscreen']
+                    , features: ['playpause', 'progress', 'volume', 'sourcechooser']
                 });
 
                 $video

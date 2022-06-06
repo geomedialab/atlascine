@@ -400,6 +400,7 @@
             if (this.isInsideContentTextPanel) {
                 const $elem = $('<div>')
                     .attr('id', this.elemId)
+                    .css({"height": "100%"})
                     .appendTo($container);
 
                 $('<div>')

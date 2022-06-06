@@ -286,3 +286,11 @@
 .nunaliit_module_module_056multiStories #search_panel {
 	display: none;
 }
+
+/* Stories and MultiStories sidebar do not overflow */
+.nunaliit_module_module_056stories .n2_content_text,
+.nunaliit_module_module_056stories .n2_content_contains_map .n2_content_text
+.nunaliit_module_module_056multiStories .n2_content_text,
+.nunaliit_module_module_056multiStories .n2_content_contains_map .n2_content_text {
+	overflow: visible !important;
+}
