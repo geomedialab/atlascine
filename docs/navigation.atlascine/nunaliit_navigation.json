@@ -8,45 +8,27 @@
 	"items": [
 		{
 			"title": {
-				"nunaliit_type": "localized",
-				"en": "Home",
-				"fr": "Accueil"
+				"nunaliit_type":"localized"
+				,"en": "Stories"
+				,"fr": "Récits"
 			},
-			"module": "module.home"
+			"module": "module.stories"
 		},
+                {
+			"title": {
+       		        	"nunaliit_type": "localized"
+	                       ,"en": "Themes"
+        	                ,"fr": "Thèmes"
+			},
+			"module": "module.multiStories"
+       		},
 		{
 			"title": {
-				"nunaliit_type": "localized",
-				"en": "Atlas",
-				"fr": "Atlas"
+				"nunaliit_type": "localized"
+				,"en": "Data"
+				,"fr": "Données"
 			},
-			"module": "module.stories",
-			"items": [
-				{
-					"title": {
-						"nunaliit_type": "localized",
-						"en": "Map stories",
-						"fr": "Cartographier"
-					},
-					"module": "module.stories"
-				},
-				{
-					"title": {
-						"nunaliit_type": "localized",
-						"en": "Compare maps",
-						"fr": "Comparer les cartes"
-					},
-					"module": "module.multiStories"
-				},
-				{
-					"title": {
-						"nunaliit_type": "localized",
-						"en": "Editor",
-						"fr": "Éditeur"
-					},
-					"module": "module.editor"
-				}
-			]
+			"module": "module.editor"
 		},
 		{
 			"title": {
