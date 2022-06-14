@@ -280,3 +280,9 @@
 .mejs__long-video .mejs__time-float {
 	margin-left: 0px;
 }
+
+/* Hide Search on Stories and MultiStories modules */
+.nunaliit_module_module_056stories #search_panel,
+.nunaliit_module_module_056multiStories #search_panel {
+	display: none;
+}
