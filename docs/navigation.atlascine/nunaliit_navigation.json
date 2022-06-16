@@ -33,28 +33,10 @@
 		{
 			"title": {
 				"nunaliit_type": "localized",
-				"en": "Tutorials",
-				"fr": "Tutoriels"
+				"en": "Wiki",
+				"fr": "Wiki"
 			},
-			"href": "https://github.com/geomedialab/atlascine/wiki",
-			"items": [
-				{
-					"title": {
-						"nunaliit_type": "localized",
-						"en": "How to use Atlascine",
-						"fr": "Comment utiliser Atlascine"
-					},
-					"href": "https://github.com/geomedialab/atlascine/wiki/How-to-use-Atlascine"
-				},
-				{
-					"title": {
-						"nunaliit_type": "localized",
-						"en": "How to deploy Atlascine",
-						"fr": "Comment déployer Atlascine"
-					},
-					"href": "https://github.com/geomedialab/atlascine/wiki/How-to-deploy-Atlascine"
-				}
-			]
+			"href": "https://github.com/geomedialab/atlascine/wiki"
 		},
 		{
 			"title": {
