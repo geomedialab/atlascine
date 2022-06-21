@@ -78,6 +78,11 @@
                 this.graphic = graphic;
                 this.graphic.classList.add("n2_CustomGraphic");
 
+                if (!this.graphicVisibility) {
+                    this.graphic.classList.add("filterableLegendWidgetGraphicAreaHidden");
+                }
+
+                this._drawGraphicToggle()
                 this._drawCustom();
             }
             else if (type === this.cinemapSelectionSetEventName) {

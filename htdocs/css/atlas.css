@@ -294,3 +294,12 @@
 .nunaliit_module_module_056multiStories .n2_content_contains_map .n2_content_text {
 	overflow: visible !important;
 }
+
+/* Reduce horizontal padding and make cinemap language selection div float right */
+.nunaliit_atlas .nunaliit_module_title .cinemapTranscriptLanguageDiv {
+	float: right;
+	padding: 4px 10px;
+}
+.nunaliit_atlas .nunaliit_module_title .n2widget_singleFilterSelection {
+	padding: 4px 10px;
+}
