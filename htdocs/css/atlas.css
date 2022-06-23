@@ -222,6 +222,10 @@
 	height: 100%;
 }
 
+#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
+	padding-top: 0.05em;
+}
+
 .timeline_bar {
 	cursor: pointer;
 }
