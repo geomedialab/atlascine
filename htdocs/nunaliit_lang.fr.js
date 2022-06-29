@@ -41,5 +41,13 @@
 		,"home_vetter":"home_vérificateur"
 		,"model":"modèle"
 		,"rwanda_administrator":"rwanda_administrateur"
+		,"Tag Selection...":"Sélection des tags..."
+		,"Group Tags...":"Les tags de groupe..."
+		,"Settings...":"Paramètres..."
+		,"The selected document is not an image.":"Le document sélectionné n'est pas une image."
+		,"Select Related Image":"Sélectionner l'image associée"
+		,"Remove Related Image":"Supprimer l'image associée"
+		,"No related image.":"Pas d'image associée."
+		,"Image Caption":"Légende de l'image"
 	});
 })(nunaliit2);

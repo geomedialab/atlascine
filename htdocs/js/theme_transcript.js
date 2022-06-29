@@ -3,7 +3,7 @@
 
     var DH = 'n2.widgetTranscript';
 
-    var context_menu_text = ['Tag Selection...', 'Map Tags...', 'Settings...'];
+    var context_menu_text = ['Tag Selection...', 'Group Tags...', 'Settings...'];
 
     var showService;
 
@@ -596,7 +596,7 @@
                 var transcript_context_menu_list = $('<ul>');
                 $.each(context_menu_text, function (i) {
                     $('<li/>')
-                        .text(context_menu_text[i])
+                        .text(_loc(context_menu_text[i]))
                         .click(function () {
                             var senDataArr = contextMenu.data().value;
                             if (senDataArr && senDataArr.length == 1) {
