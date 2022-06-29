@@ -42,7 +42,7 @@
 		,"model":"modèle"
 		,"rwanda_administrator":"rwanda_administrateur"
 		,"Tag Selection...":"Sélection des tags..."
-		,"Group Tags...":"Les tags de groupe..."
+		,"Group Tags...":"Les tags en groupe..."
 		,"Settings...":"Paramètres..."
 		,"The selected document is not an image.":"Le document sélectionné n'est pas une image."
 		,"Select Related Image":"Sélectionner l'image associée"
