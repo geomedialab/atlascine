@@ -226,6 +226,7 @@
             this.subtitleSelectionDivId = $n2.getUniqueId();
             this.srtSelectionId = $n2.getUniqueId();
             this.srtSelector = undefined;
+            this.loadingDiv = null;
             
             if (this.isInsideContentTextPanel) {
                 const $elem = $('<div>')
@@ -253,6 +254,11 @@
                     .addClass('n2widgetTranscript_transcript')
                     .appendTo($mediaAndSubtitleDiv);
 
+                this.loadingDiv = document.createElement("div");
+                this.loadingDiv.setAttribute("id", $n2.getUniqueId());
+                this.loadingDiv.setAttribute("class", "loading");
+                $mediaAndSubtitleDiv.append(this.loadingDiv);
+
                 this._reInstallSubtitleSel();
             }
             else {
@@ -260,6 +266,11 @@
                     .attr('id', this.elemId)
                     .addClass('n2widgetTranscript')
                     .appendTo($container);
+                
+                this.loadingDiv = document.createElement("div");
+                this.loadingDiv.setAttribute("id", $n2.getUniqueId());
+                this.loadingDiv.setAttribute("class", "loading");
+                $container.append(this.loadingDiv);
             }
 
             if (this.dispatchService) {
@@ -439,6 +450,7 @@
                 if (this.sourceModelId === modelId) {
                     const mediaDocChanged = this._cinemapUpdated(m.state);
                     if (mediaDocChanged) {
+                        this.loadingDiv.style.display = "";
                         this.timeTable = [];
                         this.transcript = undefined;
                         this.srtData = undefined;
