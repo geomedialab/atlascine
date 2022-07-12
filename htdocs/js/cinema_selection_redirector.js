@@ -100,25 +100,35 @@
             // Install map pop-up replacement
             if (this.customService && this.showService) {
                 this.customService.setOption('mapFeaturePopupCallback', function (opts_) {
-                    var opts = $n2.extend({
+                    const opts = $n2.extend({
                         feature: null
                         , onSuccess: function (text) { }
                         , onError: function (err) { }
                     }, opts_);
-                    var feature = opts.feature;
+
+                    const feature = opts.feature;
                     if (feature === undefined) return;
-                    if (feature.data === undefined) return;
-                    if (feature.data._ldata === undefined) return;
-                    if (feature.data._ldata.timeLinkTags === undefined) return;
-                    if (feature.data._ldata.timeLinkTags.themeTags === undefined) return;
-                    var contentArr = feature.data._ldata.timeLinkTags.themeTags;
-                    if (feature.data._ldata.timeLinkTags.placeTag) {
-                        contentArr.push(feature.data._ldata.timeLinkTags.placeTag);
+                    if (feature.getGeometry() === undefined) return;
+
+                    const type = feature.getGeometry().getType();
+                    let popupContent = "Popup Content Placeholder";
+                    if (type === "LineString") {
+                        const places = feature?.get("places");
+                        if (!places) return;
+                        if (places.length < 2) return;
+                        popupContent = places.join(", ");
                     }
-                    contentArr = contentArr.filter((a, b) => contentArr.indexOf(a) === b);
-                    var content = contentArr.join(', ');
-                    if (content && '' !== content) {
-                        opts.onSuccess(content);
+                    else if (type === "Point" || type === "MultiPoint") {
+                        const tlTags = feature?.data?._ldata?.timeLinkTags;
+                        if (!tlTags) return;
+                        popupContent = Array.from(new Set([...tlTags.themeTags, tlTags.placeTag])).join(", ");
+                    }
+                    else {
+                        opts.onError(`Unhandled feature type: ${type}`);
+                    }
+
+                    if (popupContent && popupContent !== "") {
+                        opts.onSuccess(popupContent);
                     }
                     return;
                 });
