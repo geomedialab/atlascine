@@ -54,6 +54,14 @@
 			"options": {
 				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			}
+		},
+		{
+			"name": "Bing Satellite",
+			"type": "bing",
+			"options": {
+				"key": "your key goes here",
+				"imagerySet": "Aerial"
+			}
 		}
 	],
 	"overlays": [
