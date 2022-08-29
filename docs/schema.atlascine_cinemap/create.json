@@ -1,6 +1,7 @@
 {
 	"atlascine_cinemap": {
 		"description": "",
+		"published": false,
 		"title": ""
 	},
 	"nunaliit_schema": "atlascine_cinemap"

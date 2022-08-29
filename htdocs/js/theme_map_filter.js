@@ -27,6 +27,7 @@
             var choiceLabelsById = {};
             docs.forEach(function (doc) {
                 if (doc && doc.atlascine_cinemap) {
+                    if (doc.atlascine_cinemap.published === false) return;
                     var tagGroups = doc.atlascine_cinemap.tagGroups;
                     if (typeof tagGroups === 'object') {
                         tagGroups = Object.keys(tagGroups);
@@ -34,7 +35,6 @@
                     }
                 }
             });
-
             var availableChoices = [];
             for (var id in choiceLabelsById) {
                 var label = choiceLabelsById[id];

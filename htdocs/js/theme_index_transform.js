@@ -321,6 +321,8 @@
 
             for (var indexId in this.themeIndexByDocId) {
                 var indexDoc = this.themeIndexByDocId[indexId];
+                if (indexDoc?.atlascine_cinemap?.published === false) continue;
+
                 if (colors.length > 0) {
                     indexDoc._color = colors.shift();
                 } else {

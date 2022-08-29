@@ -188,6 +188,76 @@
                 const optionText = selectEl[selectEl.selectedIndex].text;
                 this._updateURL(val, optionText);
             }
+        },
+
+        _availableChoicesUpdated: function () {
+            var _this = this;
+            var $elem = this._getElem();
+            $elem.empty();
+
+            var $selector = $('<select>')
+                .appendTo($elem)
+                .change(function () {
+                    _this._selectionChanged();
+                });
+
+            if (this.tooltip) {
+                $selector.attr('title', this.tooltip);
+            }
+
+            if (!this.suppressNoChoice) {
+                var noChoiceLabel = _loc('--');
+                if (this.noChoiceLabel) {
+                    noChoiceLabel = _loc(this.noChoiceLabel);
+                }
+                $('<option>')
+                    .addClass('n2widget_singleFilterSelection_optionNoChoice')
+                    .text(noChoiceLabel)
+                    .val(NO_CHOICE)
+                    .appendTo($selector);
+            };
+
+            if (!this.suppressAllChoices) {
+                var allChoicesLabel = _loc('All');
+                if (this.allChoicesLabel) {
+                    allChoicesLabel = _loc(this.allChoicesLabel);
+                }
+                $('<option>')
+                    .addClass('n2widget_singleFilterSelection_optionAllChoices')
+                    .text(allChoicesLabel)
+                    .val(ALL_CHOICES)
+                    .appendTo($selector);
+            };
+
+            for (var i = 0, e = this.availableChoices.length; i < e; ++i) {
+                var choice = this.availableChoices[i];
+                var label = choice.label;
+
+                if (!label) {
+                    label = choice.id;
+                }
+
+                var $option = $('<option>')
+                    .text(label)
+                    .val(choice.id)
+                    .appendTo($selector);
+
+                if (choice.published === false) {
+                    $option.css("display", "none");
+                }
+            }
+
+            if (this.availableChoices.length > 0) {
+                $elem
+                    .removeClass('n2widget_singleFilterSelection_noChoiceAvailable')
+                    .addClass('n2widget_singleFilterSelection_atLeastOneChoiceAvailable');
+            }
+            else {
+                $elem
+                    .removeClass('n2widget_singleFilterSelection_atLeastOneChoiceAvailable')
+                    .addClass('n2widget_singleFilterSelection_noChoiceAvailable');
+            };
+            this._adjustSelectedItem();
         }
 
     });

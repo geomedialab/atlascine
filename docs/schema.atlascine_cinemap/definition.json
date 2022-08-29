@@ -24,6 +24,11 @@
 			"placeholder": "Description"
 		},
 		{
+			"type": "checkbox",
+			"label": "Published",
+			"id": "published"
+		},
+		{
 			"type": "reference",
 			"label": "Media Document",
 			"id": "media_doc_ref",

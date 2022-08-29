@@ -10,6 +10,11 @@
 		"type": "text"
 	},
 	{
+		"select": "atlascine_cinemap.published",
+		"label": "published",
+		"type": "json"
+	},
+	{
 		"select": "atlascine_cinemap.media_doc_ref.doc",
 		"label": "media_doc_ref",
 		"type": "text"
