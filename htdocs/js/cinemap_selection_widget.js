@@ -26,6 +26,9 @@
                             if (options[i].value === "__UNKNOWN_CHOICE_SELECTED__") {
                                 continue;
                             }
+                            else if (options[i].style.display === "none") {
+                                continue;
+                            }
                             else {
                                 selectEl.value = options[i].value;
                                 this._selectionChanged();
@@ -120,6 +123,9 @@
                         /* If it's your first time visiting, try and select the first option. */
                         for (let i = 0; i < options.length; i++) {
                             if (options[i].value === this.unknownChoice) {
+                                continue;
+                            }
+                            else if (options[i].style.display === "none") {
                                 continue;
                             }
                             else {
