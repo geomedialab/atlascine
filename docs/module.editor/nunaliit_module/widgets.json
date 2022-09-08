@@ -1,10 +1,5 @@
 [
 	{
-		"widgetType": "createDocument"
-		,"containerClass": "nunaliit_module_title"
-		,"showAsLink": true
-	},
-	{
 		"widgetType": "editorSelectionWidget",
 		"containerId": "module_title_bar",
 		"targetContainerId": "recentSchemaDocuments",
@@ -30,5 +25,10 @@
 				"nunaliit_type": "localized"
 			}
 		]
+	},
+	{
+		"widgetType": "createDocument"
+		,"containerClass": "nunaliit_module_title"
+		,"showAsLink": true
 	}
 ]

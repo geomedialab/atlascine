@@ -313,3 +313,10 @@
 	float: right;
 	padding: 4px 10px;
 }
+
+/* Make it look like all the other selects */
+.nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget > select {
+	border-width: 1px;
+    border-radius: 2px;
+    background-color: #F1F1F1;
+}

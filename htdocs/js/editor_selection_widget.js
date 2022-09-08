@@ -61,7 +61,7 @@
                 () => {
                     this._createListQueryEvent()
                 }
-            )
+            );
         }
 
         _draw() {
