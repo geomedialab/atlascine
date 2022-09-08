@@ -4,10 +4,6 @@
 		,"layerId": "public"
 	},
 	{
-		"utilityType": "selectDocumentOnModuleIntroduction"
-		,"docId": "insert_wiki_doc_id"
-	},
-	{
 		"utilityType": "mapClusterClickToMultiSelect"
 	}
 ]

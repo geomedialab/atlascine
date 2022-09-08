@@ -49,5 +49,6 @@
 		,"Remove Related Image":"Supprimer l'image associée"
 		,"No related image.":"Pas d'image associée."
 		,"Image Caption":"Légende de l'image"
+		,"module.multiStories.introduction.content": "Pour voir où les récits se croisent sur la carte, il faut d'abord sélectionner un thème dans le menu déroulant (ci-dessus), puis sélectionner les récits qui nous intéressent dans la légende (en bas à gauche). On peut alors cliquer sur chaque anneau cartographique pour écouter les différents récits."
 	});
 })(nunaliit2);

@@ -1,4 +1,9 @@
 <span class="atlascine_subtitle_brief">
 	<span class="n2s_localize atlascine_subtitle_brief_decoration">Subtitle (</span>
+	{{#atlascine_subtitle}}
+		{{#if name}}
+			<span class="atlascine_subtitle_name">{{name}}</span>
+		{{/if}}
+	{{/atlascine_subtitle}}
 	<span class="atlascine_subtitle_brief_decoration">)</span>
 </span>

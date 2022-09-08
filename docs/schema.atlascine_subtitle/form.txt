@@ -2,6 +2,13 @@
 	<div class="n2_layoutFloat">
 		<div class="atlascine_subtitle">
 			{{#atlascine_subtitle}}
+				<div class="atlascine_subtitle_name">
+					<div class="value">
+						{{#:field}}name,id=name,label=Name{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_subtitle}}
+			{{#atlascine_subtitle}}
 				<div class="atlascine_subtitle_language">
 					<div class="value">
 						<div class="mdc-select mdc-select--outlined n2s_attachMDCSelect">

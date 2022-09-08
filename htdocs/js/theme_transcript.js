@@ -193,7 +193,7 @@
                     .addClass('n2widgetTranscript n2widgetTranscript_insideTextPanel')
                     .appendTo($elem);
 
-                $('<div>')
+                const mediaDiv = $('<div>')
                     .attr('id', this.mediaDivId)
                     .appendTo($mediaAndSubtitleDiv);
 
@@ -201,6 +201,10 @@
                     .attr('id', this.subtitleDivId)
                     .addClass('n2widgetTranscript_transcript')
                     .appendTo($mediaAndSubtitleDiv);
+
+                mediaDiv.append($.parseHTML(
+                    `<h3>${_loc('module.multiStories.introduction.content')}</h3>`
+                ));
 
                 this._reInstallSubtitleSel();
 

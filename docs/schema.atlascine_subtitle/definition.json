@@ -6,6 +6,12 @@
 	,"initialLayers": []
 	,"attributes": [
 		{
+			"id": "name",
+			"label": "Name",
+			"type": "string",
+			"includedInBrief": true
+		},
+		{
 			"type":"selection"
 			,"id":"language"
 			,"label":"Language"

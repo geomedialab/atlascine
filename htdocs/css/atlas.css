@@ -307,3 +307,9 @@
 .nunaliit_atlas .nunaliit_module_title .n2widget_singleFilterSelection {
 	padding: 4px 10px;
 }
+
+/* Move Editor module selection */
+.nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget {
+	float: right;
+	padding: 4px 10px;
+}

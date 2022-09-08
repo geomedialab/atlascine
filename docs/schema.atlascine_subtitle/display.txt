@@ -2,6 +2,15 @@
 	<div class="n2_layoutFloat">
 		<div class="atlascine_subtitle">
 			{{#atlascine_subtitle}}
+				{{#if name}}
+					<div class="atlascine_subtitle_name">
+						<div class="label n2s_localize mdc-typography--subtitle2">Name</div>
+						<div class="value">{{name}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_subtitle}}
+			{{#atlascine_subtitle}}
 				{{#if language}}
 					<div class="atlascine_subtitle_language">
 						<div class="label n2s_localize mdc-typography--subtitle2">Language</div>
