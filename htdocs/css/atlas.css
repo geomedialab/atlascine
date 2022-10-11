@@ -320,3 +320,16 @@
     border-radius: 2px;
     background-color: #F1F1F1;
 }
+
+/* Mobile stuff to make it at least look presentable */
+@media screen and (max-width: 759px) {
+	.nunaliit_atlas .nunaliit_title {
+		line-height: normal;
+	}
+
+	.n2_content_contains_map .n2_content_text {
+		left: 0;
+		right: 0;
+		width: auto;
+	}
+}

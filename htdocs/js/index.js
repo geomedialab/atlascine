@@ -81,6 +81,17 @@ function main_init(config, atlasDoc) {
         };
     };
 
+    let isMobileWidth = window.matchMedia("only screen and (max-width: 759px)").matches;
+    let isMobileHeight = window.matchMedia("only screen and (max-height: 629px)").matches;
+
+    if (isMobileWidth || isMobileHeight) {
+        new nunaliit2.mdc.MDCDialog({
+            dialogTitle: _loc("global.resolution.warning.dialog.title"),
+            dialogHtmlContent: `${_loc("global.resolution.warning.dialog.textContent")}`,
+            closeBtn: true
+        });
+    }
+
     new $n2.couchModule.ModuleDisplay({
         moduleName: moduleName
         , config: config
