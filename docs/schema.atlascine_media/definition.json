@@ -9,18 +9,24 @@
 			"label": "Media"
 		},
 		{
+			"id": "name",
+			"label": "Name",
+			"type": "string",
+			"includedInBrief": true
+		},
+		{
 			"type": "string",
 			"label": "Caption",
 			"id": "caption",
 			"textarea": true,
-			"includedInBrief": true,
+			"includedInBrief": false,
 			"placeholder": "Caption"
 		},
 		{
 			"type": "string",
 			"label": "Credit",
 			"id": "credit",
-			"includedInBrief": true,
+			"includedInBrief": false,
 			"placeholder": "Credit"
 		},
 		{

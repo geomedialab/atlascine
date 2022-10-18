@@ -1,5 +1,10 @@
 [
 	{
+		"select": "atlascine_media.name",
+		"label": "name",
+		"type": "text"
+	},
+	{
 		"select": "atlascine_media.caption",
 		"label": "caption",
 		"type": "text"

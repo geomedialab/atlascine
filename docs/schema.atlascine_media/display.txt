@@ -6,6 +6,15 @@
 				<div class="end"></div>
 			</div>
 			{{#atlascine_media}}
+				{{#if name}}
+					<div class="atlascine_media_name">
+						<div class="label n2s_localize mdc-typography--subtitle2">Name</div>
+						<div class="value">{{name}}</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_media}}
+			{{#atlascine_media}}
 				{{#if caption}}
 					<div class="atlascine_media_caption">
 						<div class="label n2s_localize mdc-typography--subtitle2">Caption</div>

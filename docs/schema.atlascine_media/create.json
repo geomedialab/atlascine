@@ -5,6 +5,7 @@
 	},
 	"nunaliit_schema": "atlascine_media",
 	"atlascine_media": {
+		"name": "",
 		"caption": "",
 		"credit": ""
 	}

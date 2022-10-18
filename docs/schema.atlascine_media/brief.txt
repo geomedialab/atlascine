@@ -1,8 +1,8 @@
 <span class="atlascine_media_brief">
 	<span class="n2s_localize atlascine_media_brief_decoration">Media (</span>
 	{{#atlascine_media}}
-		{{#if caption}}
-			<span class="atlascine_media_caption">{{caption}}</span>
+		{{#if name}}
+			<span class="atlascine_media_name">{{name}}</span>
 		{{/if}}
 	{{/atlascine_media}}
 	{{#atlascine_media}}
