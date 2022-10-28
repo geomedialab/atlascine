@@ -362,8 +362,7 @@
                         tagGroupColors: cidx.tagGroupColors,
                         timeLinkTags: cidx.timeLinkTags,
                         scaleFactor: cidx.scaleFactor,
-                        relatedImage: cidx.relatedImage ? cidx.relatedImage : "",
-                        mediaCaption: cidx.mediaCaption ? cidx.mediaCaption : ""
+                        relatedImage: cidx.relatedImage ? cidx.relatedImage : []
                     };
 
                     // 15 is the magic number for the ring to be drawn on map

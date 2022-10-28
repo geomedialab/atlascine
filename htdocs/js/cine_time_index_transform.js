@@ -518,14 +518,9 @@
                             return;
                         }
 
-                        let relatedImage = "";
+                        let relatedImage = [];
                         if (timeLink.relatedImage) {
                             relatedImage = timeLink.relatedImage;
-                        }
-
-                        let mediaCaption = "";
-                        if (timeLink.mediaCaption) {
-                            mediaCaption = timeLink.mediaCaption;
                         }
 
                         var referenceDocTags = timeLink.tags;
@@ -657,7 +652,6 @@
                                         , color
                                         , tagGroupColors
                                         , relatedImage
-                                        , mediaCaption
                                         , scaleFactor: _scaleFactor
                                         , defaultPlaceZoomLevel: _defaultPlaceZoomLevel
                                     };
