@@ -8,6 +8,53 @@
     let globalAtlasDesign = null;
     let globalDispatchService = null;
 
+    const authMenuFix = $n2.Class($n2.couchAuth.AuthWidgetMenu, {
+        initialize: function(_opts) {
+            $n2.couchAuth.AuthWidgetMenu.prototype.initialize.call(this, _opts);
+        },
+
+        _addMenuItems: function () {
+            var _this = this;
+            var _logoutFn = function () {
+                _this.authService.logout();
+                return false;
+            }
+            var _editUserFn = function () {
+                _this.authService.editUser({
+                    userName: null // current user
+                });
+                return false;
+            }
+            var _closeMenu = function () {
+                _this.dispatchService.synchronousCall(DH, { type: 'closeUserMenu' });
+            }
+            $('<li>')
+                .text(_loc('Edit Account'))
+                .click(_closeMenu)
+                .click(_editUserFn)
+                .appendTo(this.authLoginMenuList);
+            if ($('body').hasClass('nunaliit_user_advanced') || $('body').hasClass('nunaliit_user_administrator')) {
+                var toolsPageLink = $('<li></li>')
+                    .appendTo(this.authLoginMenuList);
+                var protocol = window.location.protocol;
+                var host = window.location.host;
+                const subAtlas = window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/"));
+                $('<a>')
+                    .text(_loc('Tools'))
+                    .attr('href', protocol + '//' + host + subAtlas + '/tools/index.html')
+                    .appendTo(toolsPageLink);
+            }
+            var logoutLink = $('<li>')
+                .appendTo(this.authLoginMenuList);
+            $('<a>')
+                .text(_loc('Logout'))
+                .attr('href', 'javascript:Logout')
+                .click(_closeMenu)
+                .click(_logoutFn)
+                .appendTo(logoutLink);
+        }
+    });
+
     function handleUtilityCreate(m) {
         let options = {};
         if ('utilityCreate' === m.type) {
