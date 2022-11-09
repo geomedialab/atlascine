@@ -225,6 +225,12 @@
 #filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
 	padding-top: 0.05em;
 }
+/* Firefox only - do not set padding due to rendering differences */
+@-moz-document url-prefix() {
+	#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
+		padding-top: 0;
+	}
+}
 
 .timeline_bar {
 	cursor: pointer;
@@ -321,6 +327,12 @@
     background-color: #F1F1F1;
 }
 
+/* Hide OL2 Line and Polygon Creation Buttons */
+.olControlEditingToolbar .olControlDrawFeaturePathItemInactive,
+.olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive {
+	display: none;
+}
+
 /* Mobile stuff to make it at least look presentable */
 @media screen and (max-width: 759px) {
 	.nunaliit_atlas .nunaliit_title {
@@ -331,5 +343,30 @@
 		left: 0;
 		right: 0;
 		width: auto;
+	}
+
+	#content .n2_filterableLegendWidgetWithGraphic {
+		display: none;
+	}
+
+	.nunaliit_content > .n2widgetLegend {
+		display: none;
+	}
+
+	.nunaliit_atlas .nunaliit_module_title .n2widget_singleFilterSelection {
+		padding: 0;
+	}
+
+	.nunaliit_atlas .nunaliit_module_title .n2widget_singleFilterSelection > select {
+		width: 100%;
+	}
+
+	.nunaliit_module_title .n2widget_singleFilterSelection {
+		float: none;
+		padding: 0;
+	}
+
+	.nunaliit_login .nunaliit_login_greeting_outer_container .nunaliit_login_greeting_inner_container > button span.mdc-button__label {
+		display: none;
 	}
 }
