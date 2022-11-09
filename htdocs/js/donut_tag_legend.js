@@ -423,14 +423,8 @@
             });
 
             // Sort the availableChoices array
-            availableChoices.sort(function (a, b) {
-                if (a.label < b.label) {
-                    return -1;
-                }
-                if (a.label > b.label) {
-                    return 1;
-                }
-                return 0;
+            availableChoices.sort((a, b) => {
+                return a.label.localeCompare(b.label)
             });
 
             this.currentCallback = callbackFn;
