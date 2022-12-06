@@ -80,6 +80,15 @@
 
         _initializeBehaviour() {
             this.select.onchange = () => {
+                this.dispatchService.synchronousCall(this.DH, {
+                    type: "searchDeactivated"
+                });
+                this.dispatchService.send(this.DH, {
+                    type: "userUnselect"
+                });
+                this.dispatchService.send(this.DH, {
+                    type: "editCancel"
+                });
                 this._createListQueryEvent();
             }
         }
