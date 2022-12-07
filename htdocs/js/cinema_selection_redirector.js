@@ -116,7 +116,8 @@
                         const places = feature?.get("places");
                         if (!places) return;
                         if (places.length < 2) return;
-                        popupContent = places.join(", ");
+                        if (feature?.get("linkStrength") > 1) return;
+                        popupContent = places.join(" ↔ ");
                     }
                     else if (type === "Point" || type === "MultiPoint") {
                         const tlTags = feature?.data?._ldata?.timeLinkTags;

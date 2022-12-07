@@ -254,8 +254,10 @@
                         popup.style("display", "block");
                     })
                     .on("mousemove", () => {
-                        popup.style("top", (D3V3.event.pageY - 30) + "px")
-                        .style("left", (D3V3.event.pageX - 50) + "px");
+                        const popupHeight = popup?.[0]?.[0]?.offsetHeight || 20;
+                        const popupWidth = popup?.[0]?.[0]?.offsetWidth || 50;
+                        popup.style("top", (D3V3.event.pageY - (10 + popupHeight) + "px"))
+                        .style("left", (D3V3.event.pageX - ((popupWidth / 2) - 5)) + "px");
                     })
                     .on("mouseout", () => {
                         popup.style("display", "none");

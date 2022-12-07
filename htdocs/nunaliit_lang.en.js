@@ -8,5 +8,15 @@
 		, "Global Time Offset": "Ring Animation Duration"
 		, "global.time.offset.tooltip": "Duration in seconds for rings to scale in size"
 		, "global.default.place.zoom.level.tooltip": "Default zoom level of map if animating to a place without specified zoomScale"
+		, "widget.annotationEditor.contextMenu.timeLink": "Annotations"
+		, "widget.annotationEditor.contextMenu.mapThemes": "Themes"
+		, "widget.annotationEditor.contextMenu.settings": "Settings"
+		, "widget.annotationEditor.mapThemeName": "Theme"
+		, "widget.annotationEditor.mapThemeAssociatedTags": "Associated Tags"
+		, "widget.annotationEditor.mapThemeAddNewTheme": "New Theme"
+		, "widget.annotationEditor.settingsViewAllTimelinksNoAnnotationsText": "No annotations to display."
+		, "gazetteer.dialog.title": "Search for a place name"
+		, "mapAndControls.feature.addOrEdit.label": "Add Place"
+		, "mapAndControls.feature.cancelEdit.label": "Cancel"
 	});
 })(nunaliit2);

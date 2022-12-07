@@ -358,7 +358,7 @@
                                 var referencedDoc = _this._placeDocIdMap[_name];
 
                                 if (_name) {
-                                    timeLinkTags.placeTag = _name[0].toUpperCase() + _name.substring(1);
+                                    timeLinkTags.placeTag = placeName;
                                 }
 
                                 if (!referencedDoc) return;

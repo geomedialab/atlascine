@@ -82,7 +82,7 @@ function main_init(config, atlasDoc) {
     };
 
     let isMobileWidth = window.matchMedia("only screen and (max-width: 759px)").matches;
-    let isMobileHeight = window.matchMedia("only screen and (max-height: 629px)").matches;
+    let isMobileHeight = window.matchMedia("only screen and (max-height: 499px)").matches;
 
     if (isMobileWidth || isMobileHeight) {
         new nunaliit2.mdc.MDCDialog({

@@ -3,7 +3,7 @@
 	for this atlas.
  */
 
- .nunaliit_atlas .nunaliit_header-nav>ul>li>ul>li>a:hover {
+.nunaliit_atlas .nunaliit_header-nav>ul>li>ul>li>a:hover {
 	cursor: pointer;
 }
 
@@ -85,7 +85,7 @@
 .transcript-context-menu li:last-child { border:none; }
 .transcript-context-menu li  {
     display:block;
-    padding:5px 10px; 
+    padding: 7px 10px; 
     text-decoration:none;
     color:blue;
 }
@@ -235,12 +235,6 @@
 #filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
 	padding-top: 0.05em;
 }
-/* Firefox only - do not set padding due to rendering differences */
-@-moz-document url-prefix() {
-	#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
-		padding-top: 0;
-	}
-}
 
 .timeline_bar {
 	cursor: pointer;
@@ -378,5 +372,31 @@
 
 	.nunaliit_login .nunaliit_login_greeting_outer_container .nunaliit_login_greeting_inner_container > button span.mdc-button__label {
 		display: none;
+	}
+}
+
+/* Hide Help Button on all modules */
+#help_button {
+	display: none;
+}
+
+/* Context Menu odd ul spacing */
+div.transcript-context-menu > ul li {
+	margin-bottom: 0px;
+}
+
+/* Make username area larger width */
+section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
+	max-width: 400px;
+}
+
+.nunaliit_atlas .nunaliit_header_container .nunaliit_login_greeting_outer_container {
+	max-width: 300px;
+}
+
+/* Firefox only - do not set padding due to rendering differences */
+@-moz-document url-prefix() {
+	#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
+		padding-top: 0;
 	}
 }
