@@ -114,7 +114,8 @@ function main_init(config, atlasDoc) {
                     , srsName: srsName
                     , reset: true
                 });
-            };
+            }
+            document.title = "Atlascine";
         }
         , onError: function (err) { alert('Unable to display module(' + moduleName + '): ' + err); }
     });

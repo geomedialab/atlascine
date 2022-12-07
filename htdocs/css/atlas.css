@@ -112,7 +112,7 @@
 
 /* -------------------- Homepage Style Rules for JR Slider ------------------ */
 .nunaliit_module_module_056home #jr_slideshow {
-	height: 800px;
+	height: 600px;
 }
 
 .nunaliit_module_module_056home #jr_slideshow .jr_slideshow_container:not(.active):not(.last-active) {
@@ -205,6 +205,16 @@
 
 .nunaliit_module_module_056multiStories .n2widgetLegend_outer {
     margin-bottom: 30px;
+}
+
+/* Show wiki document on home page */
+.nunaliit_module_module_056home .n2ModuleIntro > .intro > .n2s_fullDisplayed > .n2_documentDisplay > .n2_layoutFloat .n2s_wikiTransformed {
+	color: white;
+}
+
+.nunaliit_module_module_056home .n2ModuleIntro > .intro > .n2s_fullDisplayed > .n2_documentDisplay > .n2_layoutFloat .atlascine_wikidoc_content {
+	overflow-y: scroll;
+	max-height: 200px;
 }
 
 /* Custom timeline specific styling */
