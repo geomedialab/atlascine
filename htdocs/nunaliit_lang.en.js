@@ -18,5 +18,8 @@
 		, "gazetteer.dialog.title": "Search for a place name"
 		, "mapAndControls.feature.addOrEdit.label": "Add Place"
 		, "mapAndControls.feature.cancelEdit.label": "Cancel"
+		, "gazetteer.dialog.subtitle.part1": "Search for a place in the "
+		, "gazetteer.dialog.subtitle.urlText": "Geonames gazetteer"
+		, "gazetteer.dialog.subtitle.part2": " to retrieve its coordinates."
 	});
 })(nunaliit2);
