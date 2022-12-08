@@ -443,15 +443,18 @@
                 // filter. Otherwise each document needs to be checked to see
                 // if its filters based on its contents.
                 if (allSelected) {
+                    this._setDonutFillColour(doc, selectedChoiceIdMap);
                     return true;
-
-                } else if (doc._ldata.timeLinkTags
+                }
+                else if (doc._ldata.timeLinkTags
                     && doc._ldata.timeLinkTags.groupTags
                     && $n2.isArray(doc._ldata.timeLinkTags.groupTags)
                     && doc._ldata.timeLinkTags.groupTags.length) {
-                    for (var i = 0; i < doc._ldata.timeLinkTags.groupTags.length; i += 1) {
-                        var tag = doc._ldata.timeLinkTags.groupTags[i].toLowerCase().trim();
+                    const groupTags = doc._ldata.timeLinkTags.groupTags;
+                    for (var i = 0; i < groupTags.length; i += 1) {
+                        var tag = groupTags[i].toLowerCase().trim();
                         if (selectedChoiceIdMap[tag]) {
+                            this._setDonutFillColour(doc, selectedChoiceIdMap);
                             return true;
                         }
                     }
@@ -462,6 +465,23 @@
 
             // All other docs in the source model, let them through the filter
             return true;
+        },
+
+        /*
+            If selections are made on the filter, the donut/ring colour
+            needs to change to always take the lastmost group tag that is also
+            currently actively selected and set the donut/ring colour of that group.
+         */
+        _setDonutFillColour: function(doc, selections) {
+            const groupTags = doc._ldata.timeLinkTags.groupTags;
+            const tagGroupColors = doc._ldata.tagGroupColors;
+            for (let i = groupTags.length - 1; i >= 0; i--) {
+                const tag = groupTags[i].toLowerCase().trim();
+                if (selections.hasOwnProperty(tag) && tagGroupColors.hasOwnProperty(tag)) {
+                    doc._ldata.style.fillColor = tagGroupColors[tag];
+                    break;
+                }
+            }
         }
     });
 

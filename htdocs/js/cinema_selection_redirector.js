@@ -117,12 +117,15 @@
                         if (!places) return;
                         if (places.length < 2) return;
                         if (feature?.get("linkStrength") > 1) return;
-                        popupContent = places.join(" ↔ ");
+                        popupContent = places.join(" — ");
                     }
                     else if (type === "Point" || type === "MultiPoint") {
                         const tlTags = feature?.data?._ldata?.timeLinkTags;
                         if (!tlTags) return;
-                        popupContent = Array.from(new Set([...tlTags.themeTags, tlTags.placeTag])).join(", ");
+                        popupContent = tlTags.placeTag
+                        if (tlTags.themeTags.length) {
+                            popupContent += ` [${Array.from(new Set(tlTags.themeTags)).join(", ")}]`;
+                        }
                     }
                     else {
                         opts.onError(`Unhandled feature type: ${type}`);
