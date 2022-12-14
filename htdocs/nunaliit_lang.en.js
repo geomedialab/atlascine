@@ -21,5 +21,9 @@
 		, "gazetteer.dialog.subtitle.part1": "Search for a place in the "
 		, "gazetteer.dialog.subtitle.urlText": "Geonames gazetteer"
 		, "gazetteer.dialog.subtitle.part2": " to retrieve its coordinates."
+		, "css.dialog.theme_selector.title": "Choose a style"
+		, "css.theme.legacy": "Classic"
+		, "css.theme.dark": "Dark"
+		, "css.theme.light": "Light"
 	});
 })(nunaliit2);

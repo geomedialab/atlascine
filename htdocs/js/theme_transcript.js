@@ -669,7 +669,7 @@
                     var target_start = $n2.atlascine.convertTimecodeToMs(transcriptElem.startTimeCode);
                     var target_end = $n2.atlascine.convertTimecodeToMs(transcriptElem.finTimeCode);
                     var query = target_start + '-' + target_end;
-                    var color = '#ffffff';
+                    var color = null;
                     if (query in timeLinksMap) {
                         var timeLink = timeLinksMap[query];
                         var timeLinkTags = timeLink.tags;
@@ -683,7 +683,7 @@
                         }
                     }
 
-                    $('<div>')
+                    const line = $('<div>')
                         .attr('id', id)
                         .attr('data-start', transcriptElem.start)
                         .attr('data-fin', transcriptElem.fin)
@@ -691,9 +691,11 @@
                         .attr('data-fincode', transcriptElem.finTimeCode)
                         .addClass('n2-transcriptWidget-sentence')
                         .addClass('n2transcript_sentence_' + $n2.utils.stringToHtmlId(id))
-                        .css('background-color',color)
                         .html(transcriptElem.text + " ")
                         .appendTo($transcript)
+                    if (color !== null) {
+                        line.css('background-color',color);
+                    }
                 }
 
                 $('div#' + _this.transcriptId).multiSelect({

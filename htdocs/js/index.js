@@ -1,4 +1,4 @@
-var _loc = function (str, args) { return $n2.loc(str, 'nunaliit_demo', args); };
+var _loc = function (str, args) { return $n2.loc(str, 'nunaliit_index.js', args); };
 var DH = 'index.js';
 var atlasDoc;
 
@@ -116,10 +116,104 @@ function main_init(config, atlasDoc) {
                 });
             }
             document.title = "Atlascine";
+            prepareThemeToggle("theme_toggler")
         }
         , onError: function (err) { alert('Unable to display module(' + moduleName + '): ' + err); }
     });
 };
+
+function prepareThemeToggle(selector) {
+    const NUNALIIT_COOKIE_NAME = "nunaliit-atlascine-theme";
+    const cfg = [
+        {
+            name: "css.theme.legacy", files: [
+            ]
+        }
+        , {
+            name: "css.theme.light", files: [
+                , "css/atlascine.css"
+                , "css/light-mode.css"
+            ]
+        }
+        , {
+            name: "css.theme.dark", files: [
+                , "css/atlascine.css"
+                , "css/dark-mode.css"
+            ]
+        }
+    ]
+    const themeToggler = document.getElementById(selector);
+    if (themeToggler === null) {
+        $n2.logError(`Unable to create the theme toggler (Unable to find element with id: ${selector})`);
+        return;
+    }
+    let themeCookie = getThemeCookie();
+    const setExistingTheme = cfg.find(theme => theme.name === themeCookie);
+    if (setExistingTheme !== undefined) {
+        updateLinkElements(setExistingTheme.files);
+    }
+    $(themeToggler)
+        .attr("href", "#")
+        .click(() => {
+            const dialog = new $n2.mdc.MDCDialog({
+                dialogTitle: _loc("css.dialog.theme_selector.title")
+                , closeBtn: true
+            });
+            const themeSelect = new $n2.mdc.MDCFormField({
+                parentElem: $(`#${dialog.getContentId()}`)
+            });
+            const themeSelectId = themeSelect.getId();
+            cfg.forEach(theme => {
+                themeCookie = getThemeCookie();
+                const isChecked = (themeCookie !== null && themeCookie === theme.name);
+                const radio = new $n2.mdc.MDCRadio({
+                    parentElem: $(`#${themeSelectId}`),
+                    radioChecked: isChecked,
+                    radioLabel: _loc(theme.name),
+                    radioName: "themeSelect",
+                    onRadioClick: function() {
+                        const id = this.getAttribute("id");
+                        $(`#${id}`).attr("checked", "checked");
+                        setThemeCookie(theme.name);
+                        updateLinkElements(theme.files);
+                    }
+                });
+                const radioInput = $(`#${radio.getInputId()}`);
+                radioInput.attr("n2-atlascine-theme", theme.name);
+            });
+        });
+    
+    function getThemeCookie() {
+        return $n2.cookie.getCookie(NUNALIIT_COOKIE_NAME);
+    }
+
+    function setThemeCookie(cookieValue) {
+        const oneYearLater = new Date();
+        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+        $n2.cookie.setCookie({
+            name: NUNALIIT_COOKIE_NAME
+            , value: cookieValue
+            , end: oneYearLater
+            , path: "/"
+        });
+    }
+
+    function updateLinkElements(paths) {
+        const cssElement = document.getElementById("customStylesheetContainer");
+        if (cssElement === null) {
+            $n2.logError("Cannot find custom stylesheet container element, unable to switch themes")
+            return;
+        }
+        cssElement.innerHTML = "";
+        paths.forEach(path => {
+            const link = document.createElement("link");
+            link.setAttribute("rel", "stylesheet");
+            link.setAttribute("type", "text/css");
+            link.setAttribute("href", path);
+            cssElement.append(link);
+        });
+    }
+}
 
 jQuery().ready(function () {
     nunaliitConfigure({

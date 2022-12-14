@@ -400,3 +400,14 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 		padding-top: 0;
 	}
 }
+
+/* Theme Toggler */
+.nunaliit_atlas #theme_toggler {
+	background-image: url(../images/ic_preview.png);
+	background-repeat: no-repeat;
+	background-size: 2em;
+	height: 2em;
+	cursor: pointer;
+	margin-left: 0.5em;
+	padding: 0px 20px;
+}

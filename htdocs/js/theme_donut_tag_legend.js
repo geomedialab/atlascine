@@ -175,7 +175,7 @@
                 .appendTo($chkboxLabel);
 
             if (color) {
-                var $donut = $('<svg version="1.1" viewBox="-7 -7 14 14" class="n2widgetLegend_svg"><circle r="5" stroke="#ff0000" stroke-width="2" fill-opacity="1" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="solid" pointerEvents="visiblePainted" pointer-events="visiblePainted"></circle></svg>')
+                var $donut = $('<svg version="1.1" viewBox="-7 -7 14 14" class="n2widgetLegend_svg"><circle r="5" fill="none" stroke="#ff0000" stroke-width="2" fill-opacity="1" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="solid" pointerEvents="visiblePainted" pointer-events="visiblePainted"></circle></svg>')
                     .appendTo($symbolColumn);
 
                 $donut.find('circle')

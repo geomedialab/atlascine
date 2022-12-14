@@ -249,7 +249,7 @@
                     })
                     .on("mouseover", (line) => {
                         popup.select(".timeline_popup_tags").html(
-                            `<div>${[line.theme, line.placeTag].join(", ")}</div>`
+                            `<div>${line.placeTag} [${line.theme}]</div>`
                         );
                         popup.style("display", "block");
                     })

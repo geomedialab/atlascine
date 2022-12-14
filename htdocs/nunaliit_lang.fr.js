@@ -99,12 +99,16 @@
 		, "Zoom Scale": "Niveau de zoom"
 		, "Made with ": "Fait avec "
 		, " using ": " et "
-		, "Atlascine": "Atlasciné"
+		, "Atlascine": "Atlascine"
 		, "gazetteer.dialog.title": "Chercher un nom de lieu"
 		, "mapAndControls.feature.addOrEdit.label": "Ajouter un lieu"
 		, "mapAndControls.feature.cancelEdit.label": "Annuler"
 		, "gazetteer.dialog.subtitle.part1": "Chercher un lieu dans le "
 		, "gazetteer.dialog.subtitle.urlText": "répertoire géographique Geonames"
 		, "gazetteer.dialog.subtitle.part2": " pour saisir ses coordonnées."
+		, "css.dialog.theme_selector.title": "Choisir un style"
+		, "css.theme.legacy": "Classique"
+		, "css.theme.dark": "Foncé"
+		, "css.theme.light": "Éclairé"
 	});
 })(nunaliit2);
