@@ -8,23 +8,30 @@
     // Localization
     const _loc = function (str, args) { return $n2.loc(str, "nunaliit2-couch", args); };
     const ALL_CHOICES = "__ALL_SELECTED__";
+    const TIMELINE_TOGGLE_RENDER = "__TOGGLE_TIMELINE_LOGIC__";
 
     class MapStoryFilterableLegendWidgetWithGraphic extends nunaliit2.filterableLegendWidget.filterableLegendWidgetWithGraphic {
         constructor(options) {
             super(options);
             this.cinemapModelId = options.cinemapModelId;
+            this.downstreamModelId = options.downstreamModelId;
             this.DH = "MapStoryFilterableLegendWidgetWithGraphic";
             this.themeToColourMap = null;
             this.themeToWordMap = null;
             this.mediaDuration = 0;
             this.popup = null;
+            this.timelineRenderState = true;
             this.preloadCallback = this._preloadOtherWidgetData;
-
+            
             if (!this.cinemapModelId) {
                 throw new Error("cinemapModelId must be specified");
             }
-
+            if (!this.downstreamModelId) {
+                throw new Error("downstreamModelId must be specified");
+            }
+            
             this.cinemapSelectionSetEventName = `${this.cinemapModelId}_selectedChoices_set`;
+            this.downstreamSetEvent = `${this.downstreamModelId}_selectedChoices_set`;
             this.dispatchService.register(this.DH, this.cinemapSelectionSetEventName, this.dispatchHandler)
             this.dispatchService.register(this.DH, "transcriptVideoDurationChange", this.dispatchHandler);
 
@@ -51,6 +58,7 @@
                         this.state.selectedChoiceIdMap[choiceText] = true;
                     });
                     this._adjustSelectedItem();
+                    this._drawGraphic();
                 }
             } 
             else if (type === this.eventNames.changeAllSelected) {
@@ -101,7 +109,8 @@
             selectAllLabel = _loc(selectAllLabel);
     
             const legendFragment = document.createDocumentFragment();
-            this._drawLegendOption(legendFragment, ALL_CHOICES, selectAllLabel, null)
+            this._drawLegendOption(legendFragment, ALL_CHOICES, selectAllLabel, null);
+            this._drawLegendOption(legendFragment, TIMELINE_TOGGLE_RENDER, _loc("donut.legend.timeline.logic.label"), null);
     
             this.state.availableChoices.forEach(choice => {
                 const label = choice.label || choice.id;
@@ -119,10 +128,23 @@
         }
 
         _drawCustom() {
-            this.drawCustom(this.prepareGraphicData(this.state.sourceModelDocuments));
+            const preparedData = this.prepareGraphicData(this.state.sourceModelDocuments);
+            if (preparedData === undefined) return;
+            this.drawCustom(preparedData);
+            const filteredDonutPlaceIds = new Set();
+            Object.keys(preparedData).forEach(key => {
+                preparedData[key].forEach(unit => {
+                    unit.originDonutDocs.forEach(id => filteredDonutPlaceIds.add(id));
+                });
+            });
+            this.dispatchService.send(this.DH, {
+                type: this.downstreamSetEvent,
+                value: Array.from(filteredDonutPlaceIds)
+            });
         }
 
         _preloadOtherWidgetData(dispatchService) {
+            /* Request the currently selected cinemap document ID */
             const message = {
                 type: "modelGetInfo",
                 modelId: this.cinemapModelId,
@@ -139,6 +161,8 @@
                 }
             } = message;
             if (value.length < 1) return;
+
+            /* Request the current cinemap document contents */
             const cinemapDocumentRequest = {
                 type: "cacheRetrieveDocument",
                 docId: value[0],
@@ -175,8 +199,11 @@
 
             const allSelectionRow = document.createElement("div");
             allSelectionRow.setAttribute("class", "timeline_map_tag_row");
+            const timelineRenderRow = document.createElement("div");
+            timelineRenderRow.setAttribute("class", "timeline_map_tag_row");
             const legendAllSelectedHeight = legendChildren[0].offsetHeight;
             allSelectionRow.style.height = legendAllSelectedHeight + "px";
+            timelineRenderRow.style.height = legendAllSelectedHeight + "px";
 
             const xScale = D3V3.scale
             .linear()
@@ -184,7 +211,12 @@
             .range([0, graphicWidth]);
 
             this.graphic.append(allSelectionRow);
+            this.graphic.append(timelineRenderRow);
             D3V3.select(allSelectionRow)
+            .append("svg")
+            .attr("width", graphicWidth)
+            .attr("height", legendAllSelectedHeight);
+            D3V3.select(timelineRenderRow)
             .append("svg")
             .attr("width", graphicWidth)
             .attr("height", legendAllSelectedHeight);
@@ -266,8 +298,75 @@
             });
         }
 
+        _adjustSelectedItem() {
+            if (!this.legend || !this.legend.hasChildNodes()) return;
+            [...this.legend.children].forEach(selectionRow => {
+                const choiceId = selectionRow.dataset.n2Choiceid;
+                const checkbox = selectionRow.children[0];
+                if (choiceId === TIMELINE_TOGGLE_RENDER) {
+                    checkbox.checked = this.timelineRenderState;
+                    if (this.timelineRenderState) {
+                        selectionRow.children[1].style.color = "#ffffff";
+                    }
+                    else {
+                        selectionRow.children[1].style.color = "#aaaaaa";
+                    }
+                    return;
+                }
+                if (this.state.allSelected || this.state.selectedChoiceIdMap[choiceId]) {
+                    checkbox.checked = true;
+                    selectionRow.children[1].style.color = "#ffffff";
+                }
+                else {
+                    checkbox.checked = false;
+                    selectionRow.children[1].style.color = "#aaaaaa";
+                }
+            });
+        }
+
+        _selectionChanged(choiceId) {
+            if (choiceId === ALL_CHOICES) {
+                if (this.state.allSelected) {
+                    this.dispatchService.send(this.DH, {
+                        type: this.eventNames.setSelectedChoices,
+                        value: []
+                    });
+                }
+                else {
+                    this.dispatchService.send(this.DH, {
+                        type: this.eventNames.setAllSelected,
+                        value: true
+                    });
+                }
+            }
+            else {
+                let selectedChoiceIds = [];
+                if (this.state.selectedChoices.includes(choiceId)) {
+                    selectedChoiceIds = this.state.selectedChoices.filter(choice => choice !== choiceId)
+                }
+                else if (choiceId === TIMELINE_TOGGLE_RENDER) {
+                    selectedChoiceIds = this.state.selectedChoices;
+                    this.timelineRenderState = !this.timelineRenderState;
+                }
+                else {
+                    selectedChoiceIds = [...this.state.selectedChoices, choiceId];
+                }
+                this.dispatchService.send(this.DH, {
+                    type: this.eventNames.setSelectedChoices,
+                    value: selectedChoiceIds
+                });
+    
+                if (this.state.selectedChoices.length === this.state.availableChoices.length) {
+                    this.dispatchService.send(this.DH, {
+                        type: this.eventNames.setAllSelected,
+                        value: true
+                    });
+                }
+            }
+        }
+
         prepareGraphicData(docs) {
-            if (this.preloadCallback !== this._preloadOtherWidgetData) return {};
+            if (this.preloadCallback !== this._preloadOtherWidgetData) return;
 
             // Timing issue
             if (this.themeToWordMap === null || this.themeToWordMap === undefined) return;
@@ -280,6 +379,7 @@
 
             Object.values(docs).forEach(doc => {
                 const {
+                    _id,
                     _ldata: {
                         transcriptEnd,
                         transcriptStart,
@@ -299,7 +399,8 @@
                                 transcriptStart,
                                 group,
                                 theme,
-                                placeTag
+                                placeTag,
+                                originDonutDoc: _id
                             });
                         }
                     });
@@ -320,29 +421,39 @@
                     ]
                 }
              */
-            const dedupedGroupedData = Object.keys(this.themeToWordMap)
+            let dedupedGroupedData = Object.keys(this.themeToWordMap)
             .sort((a, b) => a.localeCompare(b))
             .reduce((accumulator, current) => {
                 accumulator[current] = [];
                 return accumulator;
             }, {});
+            const tmpDataByGroup = $n2.deepCopy(dedupedGroupedData);
+            const sameTimes = new Map();
             Object.entries(groupedData).forEach(groupData => {
                 const [mapTagName, unitArray] = groupData;
                 const dedupedTimes = [...new Set(unitArray.map(unit => {
                     return `${unit.transcriptStart.toString()}|${unit.transcriptEnd.toString()}`;
                 }))];
                 dedupedTimes.forEach(time => {
+                    if (!sameTimes.has(time)) {
+                        sameTimes.set(time, new Set());
+                    }
                     const [start, end] = time.split("|");
                     let newUnit = {
                         transcriptStart: start,
                         transcriptEnd: end,
+                        originDonutDocs: [],
                         group: [],
                         theme: [],
                         placeTag: []
                     };
                     unitArray.forEach(oldUnit => {
                         if (start === oldUnit.transcriptStart.toString() && end === oldUnit.transcriptEnd.toString()) {
-                            if (!newUnit.group.includes(oldUnit.group)) newUnit.group.push(oldUnit.group);
+                            newUnit.originDonutDocs.push(oldUnit.originDonutDoc);
+                            if (!newUnit.group.includes(oldUnit.group)) {
+                                newUnit.group.push(oldUnit.group);
+                                sameTimes.set(time, sameTimes.get(time).add(oldUnit.group.toLowerCase().trim()));
+                            }
                             if (!newUnit.theme.includes(oldUnit.theme)) newUnit.theme.push(oldUnit.theme);
                             if (!newUnit.placeTag.includes(oldUnit.placeTag)) newUnit.placeTag.push(oldUnit.placeTag);
                         }
@@ -351,13 +462,103 @@
                     newUnit.theme = newUnit.theme.join(", ");
                     newUnit.placeTag = newUnit.placeTag.join(", ");
                     dedupedGroupedData[mapTagName].push(newUnit);
-                })
+                });
             });
+            if (!this.timelineRenderState && this.state.selectedChoices.length > 1) {
+                const allowedTime = [];
+                const selChoices = this.state.selectedChoices;
+                sameTimes.forEach((set, time) => {
+                    if (selChoices.every(groupChoice => set.has(groupChoice))) {
+                        allowedTime.push(time);
+                    }
+                });
+                allowedTime.forEach(timeKey => {
+                    const [start, end] = timeKey.split("|");
+                    Object.entries(dedupedGroupedData).forEach(([group, units]) => {
+                        tmpDataByGroup[group] = tmpDataByGroup[group].concat(units.filter(unit => {
+                            return (unit.transcriptStart === start && unit.transcriptEnd === end)
+                        }));
+                    });
+                });
+                dedupedGroupedData = { ...tmpDataByGroup };
+                if (allowedTime.length === 0) {
+                    Object.entries(dedupedGroupedData).forEach(([group, _]) => {
+                        dedupedGroupedData[group] = [];
+                    });
+                }
+            }
             return dedupedGroupedData;
         }
     }
 
+    const DualFilteredDonutFilter = $n2.Class("DualFilteredDonutFilter", $n2.modelFilter.SelectableDocumentFilter, {
 
+        selectedDocIds: [],
+        selectionById: null,
+        currentChoices: null,
+        currentCallback: null,
+
+        initialize: function(opts_) {
+            var opts = $n2.extend({
+                modelId: undefined
+                , sourceModelId: undefined
+                , dispatchService: undefined
+                , schemaRepository: undefined
+                , selectedDocIds: []
+            }, opts_);
+
+            if ($n2.isArray(opts.selectedDocIds)) {
+                this.selectedDocIds = opts.selectedDocIds;
+            } else {
+                throw new Error('MultiDocumentFilter requires a selectedDocIds property');
+            }
+
+            $n2.modelFilter.SelectableDocumentFilter.prototype.initialize.call(this, opts);
+
+            this.currentChoices = [];
+            this.currentCallback = null;
+        },
+
+        _computeAvailableChoicesFromDocs: function(docs, callbackFn) {
+            var _this = this;
+
+            var choiceLabelById = [];
+            docs.forEach(function (doc) {
+                if (doc && doc._id) {
+                    if (_this.selectedDocIds.indexOf(doc._id) >= 0) {
+                        choiceLabelById.push(doc._id);
+                    }
+                }
+            });
+
+            var availableChoices = [];
+            choiceLabelById.forEach(function (id) {
+                var label = choiceLabelById[id];
+                availableChoices.push({
+                    id: id
+                    , label: id
+                });
+            });
+
+            availableChoices.sort(function (a, b) {
+                if (a.label < b.label) return -1;
+                if (a.label > b.label) return 1;
+                return 0;
+            });
+
+            this.currentChoices = availableChoices;
+            this.currentCallback = callbackFn;
+            callbackFn(availableChoices);
+            return null;
+        },
+
+        _isDocVisible: function(doc, selectedChoiceIdMap) {
+            if (doc && doc._id) {
+                if (selectedChoiceIdMap[doc._id]) return true;
+            }
+            return false;
+        }
+    });
 
     const DonutFilterByGroupTag = $n2.Class("DonutFilterByGroupTag", $n2.modelFilter.SelectableDocumentFilter, {
 
@@ -487,7 +688,8 @@
 
     Object.assign($n2.atlascine, {
         MapStoryFilterableLegendWidgetWithGraphic: MapStoryFilterableLegendWidgetWithGraphic,
-        DonutFilterByGroupTag: DonutFilterByGroupTag
+        DonutFilterByGroupTag: DonutFilterByGroupTag,
+        DualFilteredDonutFilter: DualFilteredDonutFilter
     });
 
 })(jQuery, nunaliit2);

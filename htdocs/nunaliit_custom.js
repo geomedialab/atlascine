@@ -237,6 +237,10 @@
                 new $n2.atlascine.ThemeDonutFilterByGroupTag(options);
                 m.created = true;
             }
+            else if (m.modelType === 'dualFilteredDonutFilter') {
+                new $n2.atlascine.DualFilteredDonutFilter(options);
+                m.created = true;
+            }
         }
     }
 

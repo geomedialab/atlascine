@@ -79,5 +79,10 @@
 		"modelType": "donutFilter"
 		,"modelId": "donutFilterByGroupTag"
 		,"sourceModelId": "donut"
+	},
+	{
+		"modelType": "dualFilteredDonutFilter"
+		,"modelId": "dualFilteredDonuts"
+		,"sourceModelId": "donutFilterByGroupTag"
 	}
 ]

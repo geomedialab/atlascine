@@ -73,7 +73,7 @@
 			},
 			"type": "model",
 			"options": {
-				"sourceModelId": "donutFilterByGroupTag"
+				"sourceModelId": "dualFilteredDonuts"
 			},
 			"featurePopupDelayMs": 300,
 			"useHoverSound": true,

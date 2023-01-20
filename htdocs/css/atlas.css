@@ -232,10 +232,6 @@
 	height: 100%;
 }
 
-#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
-	padding-top: 0.05em;
-}
-
 .timeline_bar {
 	cursor: pointer;
 }
@@ -392,13 +388,6 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 
 .nunaliit_atlas .nunaliit_header_container .nunaliit_login_greeting_outer_container {
 	max-width: 300px;
-}
-
-/* Firefox only - do not set padding due to rendering differences */
-@-moz-document url-prefix() {
-	#filterableLegendWidgetGraphicArea div.timeline_map_tag_row {
-		padding-top: 0;
-	}
 }
 
 /* Theme Toggler */

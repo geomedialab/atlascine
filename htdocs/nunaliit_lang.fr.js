@@ -110,5 +110,7 @@
 		, "css.theme.legacy": "Classique"
 		, "css.theme.dark": "Foncé"
 		, "css.theme.light": "Éclairé"
+		, "All Themes": "Tous les thèmes"
+		, "donut.legend.timeline.logic.label": "Sélection inclusive"
 	});
 })(nunaliit2);

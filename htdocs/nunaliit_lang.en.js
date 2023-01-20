@@ -25,5 +25,6 @@
 		, "css.theme.legacy": "Classic"
 		, "css.theme.dark": "Dark"
 		, "css.theme.light": "Light"
+		, "donut.legend.timeline.logic.label": "Inclusive Selection"
 	});
 })(nunaliit2);
