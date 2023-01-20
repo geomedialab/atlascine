@@ -472,11 +472,14 @@
                         allowedTime.push(time);
                     }
                 });
+                const self = this;
                 allowedTime.forEach(timeKey => {
                     const [start, end] = timeKey.split("|");
                     Object.entries(dedupedGroupedData).forEach(([group, units]) => {
                         tmpDataByGroup[group] = tmpDataByGroup[group].concat(units.filter(unit => {
-                            return (unit.transcriptStart === start && unit.transcriptEnd === end)
+                            return (unit.transcriptStart === start
+                                && unit.transcriptEnd === end
+                                && self.state.selectedChoices.includes(unit.group.toLowerCase().trim()))
                         }));
                     });
                 });
