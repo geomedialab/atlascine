@@ -555,9 +555,11 @@
             return null;
         },
 
-        _isDocVisible: function(doc, selectedChoiceIdMap) {
+        _isDocVisible: function (doc, selectedChoiceIdMap) {
             if (doc && doc._id) {
                 if (selectedChoiceIdMap[doc._id]) return true;
+                if (doc?._ldata?.timeLinkTags?.groupTags?.length === 0 ||
+                    doc?._ldata?.timeLinkTags?.themeTags?.length === 0) return true;
             }
             return false;
         }
