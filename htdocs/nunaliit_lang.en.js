@@ -26,5 +26,9 @@
 		, "css.theme.dark": "Dark"
 		, "css.theme.light": "Light"
 		, "donut.legend.timeline.logic.label": "Inclusive Selection"
+		, "widget.annotationeditor.grouptag.invalid.name": "Themes cannot be blank."
+		, "widget.annotationeditor.grouptag.invalid.colour": "A colour code is invalid."
+		, "widget.annotationeditor.grouptag.missing.tags": "A theme must have at least one associated tag."
+		, "widget.annotationeditor.grouptag.unmodified": "No changes were made."
 	});
 })(nunaliit2);

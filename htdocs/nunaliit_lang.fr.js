@@ -112,5 +112,9 @@
 		, "css.theme.light": "Éclairé"
 		, "All Themes": "Tous les thèmes"
 		, "donut.legend.timeline.logic.label": "Sélection inclusive"
+		, "widget.annotationeditor.grouptag.invalid.name": "Les thèmes ne peuvent pas être vides."
+		, "widget.annotationeditor.grouptag.invalid.colour": "Un code de couleur n'est pas valide."
+		, "widget.annotationeditor.grouptag.missing.tags": "Un thème doit avoir au moins un mot-clé associé."
+		, "widget.annotationeditor.grouptag.unmodified": "Aucune modification n'a été apportée."
 	});
 })(nunaliit2);
