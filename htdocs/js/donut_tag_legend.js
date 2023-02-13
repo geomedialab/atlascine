@@ -20,6 +20,7 @@
             this.themeToWordMap = null;
             this.mediaDuration = 0;
             this.popup = null;
+            this.panzoomState = null;
             this.timelineRenderState = true;
             this.preloadCallback = this._preloadOtherWidgetData;
             
@@ -141,6 +142,43 @@
                 type: this.downstreamSetEvent,
                 value: Array.from(filteredDonutPlaceIds)
             });
+        }
+
+        _drawGraphicToggle() {
+            const minimize = "n2_filterableLegendWidgetWithGraphicMinimize";
+            const maximize = "n2_filterableLegendWidgetWithGraphicMaximize";
+            const hideClass = "filterableLegendWidgetGraphicAreaHidden";
+            const toggleSpan = document.createElement("span");
+            toggleSpan.setAttribute("id", "n2_filterableLegendWidgetWithGraphicToggle");
+            if (this.graphicVisibility) {
+                toggleSpan.classList.add(minimize);
+            }
+            else {
+                toggleSpan.classList.add(maximize);
+            }
+            toggleSpan.addEventListener("click", () => {
+                if (toggleSpan.classList.contains(minimize)) {
+                    toggleSpan.classList.remove(minimize);
+                    toggleSpan.classList.add(maximize);
+                    this.graphic.classList.add(hideClass);
+                    this.graphicVisibility = false;
+                }
+                else {
+                    toggleSpan.classList.remove(maximize);
+                    toggleSpan.classList.add(minimize);
+                    this.graphic.classList.remove(hideClass);
+                    this.graphicVisibility = true;
+                    this._drawCustom();
+                }
+            });
+            this.graphicContainer.append(toggleSpan);
+            if (this.graphicToggle !== null) {
+                if (this.graphicToggle !== undefined) {
+                    this.graphicToggle.remove();
+                }
+                this.graphicToggle = null;
+            }
+            this.graphicToggle = toggleSpan;
         }
 
         _preloadOtherWidgetData(dispatchService) {
@@ -296,6 +334,18 @@
                     });
                 });
             });
+            if (this.panzoomState !== undefined) {
+                if (this.panzoomState !== null) {
+                    this.panzoomState.destroy();
+                    this.graphicContainer.removeEventListener("wheel", this.panzoomState.zoomWithWheel);
+                }
+                this.panzoomState = $n2.n2es6.panzoom(this.graphic, {
+                    contain: "outside",
+                    cursor: "default",
+                    panOnlyWhenZoom: true
+                });
+                this.graphicContainer.addEventListener("wheel", this.panzoomState.zoomWithWheel);
+            }
         }
 
         _adjustSelectedItem() {

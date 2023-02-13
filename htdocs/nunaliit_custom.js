@@ -4,6 +4,13 @@
         window.nunaliit_custom = {};
     }
 
+    /* Suppress errors thrown by Panzoom due to conflict with Nunaliit */
+    window.onerror = (ev, _, __, ___, ____) => {
+        if (ev === "Uncaught TypeError: Failed to execute 'getComputedStyle' on 'Window': parameter 1 is not of type 'Element'.") {
+            return true;
+        }
+    };
+
     const DH = 'atlascine';
     let globalAtlasDesign = null;
     let globalDispatchService = null;
