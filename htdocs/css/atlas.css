@@ -400,3 +400,9 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 	margin-left: 0.5em;
 	padding: 0px 20px;
 }
+
+/* Hide Relation and Layers Buttons */
+.nunaliit_module_module_056editor .n2CouchEditor_container .editorButtons button.relation,
+.nunaliit_module_module_056editor .n2CouchEditor_container .editorButtons button.layers {
+    display: none;
+}
