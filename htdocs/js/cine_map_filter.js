@@ -34,7 +34,7 @@
             const availableChoices = [];
             docs.forEach(function (doc) {
                 if (doc && doc.atlascine_cinemap) {
-                    const label = doc.atlascine_cinemap.title;
+                    let label = doc.atlascine_cinemap.title;
                     if (!label) {
                         label = doc._id;
                     }
