@@ -116,5 +116,7 @@
 		, "widget.annotationeditor.grouptag.invalid.colour": "Un code de couleur n'est pas valide."
 		, "widget.annotationeditor.grouptag.missing.tags": "Un thème doit avoir au moins un mot-clé associé."
 		, "widget.annotationeditor.grouptag.unmodified": "Aucune modification n'a été apportée."
+		, "upload.submitForm.progress.text": "Ne fermez pas cette page avant que le téléchargement ne soit terminé."
+		, "upload.buildForm.progress.text": "Ne fermez pas cette page avant que le téléchargement ne soit terminé."
 	});
 })(nunaliit2);

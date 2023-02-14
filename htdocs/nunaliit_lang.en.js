@@ -30,5 +30,7 @@
 		, "widget.annotationeditor.grouptag.invalid.colour": "A colour code is invalid."
 		, "widget.annotationeditor.grouptag.missing.tags": "A theme must have at least one associated tag."
 		, "widget.annotationeditor.grouptag.unmodified": "No changes were made."
+		, "upload.submitForm.progress.text": "Do not close this page until the upload completes."
+		, "upload.buildForm.progress.text": "Do not close this page until the upload completes."
 	});
 })(nunaliit2);
