@@ -123,8 +123,10 @@
             this.legendContainer.append(legend);
 
             const legendOffsetWidth = this.legend.offsetWidth;
-            [...document.querySelectorAll(".mejs__controls > .mejs__button")].forEach(button => {
-                button.style.width = Math.floor(legendOffsetWidth / 2) - 2 + "px";
+            [...document.querySelectorAll(".mejs__controls > div")].forEach(control => {
+                if (control.className === "mejs__time-rail") return;
+                // Divide by 3 for volume, pause/play, video time
+                control.style.width = Math.floor(legendOffsetWidth / 3) - 2 + "px";
             });
         }
 

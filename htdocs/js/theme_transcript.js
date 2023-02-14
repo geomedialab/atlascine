@@ -491,7 +491,7 @@
                     poster: thumbnailUrl
                     , alwaysShowControls: true
                     , pauseOtherPlayers: false
-                    , features: ['playpause', 'progress', 'volume', 'sourcechooser']
+                    , features: ['volume', 'playpause', 'current', 'duration', 'progress']
                 });
 
                 $video
