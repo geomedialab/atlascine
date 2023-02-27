@@ -254,15 +254,24 @@
 	background-color: rgb(255, 255, 255, 0.85);
 }
 
+#n2_filterableLegendWidgetLegend {
+	min-width: 230px;
+}
+
 /* MediaElement control alignment with the timeline */
 .mejs__controls .mejs__button {
-	width: 72px;
 	display: flex;
 	justify-content: center;
 }
 
+.mejs__controls .mejs__time {
+	min-width: 98px;
+	padding: 16px 0px 0;
+}
+
 .mejs__controls .mejs__time-rail {
-	margin: 0 0 0 10px;
+	margin: 0 0 0 5px;
+	width: initial;
 }
 
 /* This drawer open button can be seen very rarely when the map is loading or very zoomed out. */
