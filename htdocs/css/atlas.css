@@ -415,3 +415,17 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 .nunaliit_module_module_056editor .n2CouchEditor_container .editorButtons button.layers {
     display: none;
 }
+
+/* (MDCTagBox) Placeholder Text Wrapping */
+/* https://stackoverflow.com/a/39761698 */
+::-webkit-input-placeholder {
+	white-space: pre-line;
+	position: relative;
+	top: -7px;
+}
+
+::-moz-placeholder {
+	white-space: pre-line;
+	position: relative;
+	top: -7px;
+}

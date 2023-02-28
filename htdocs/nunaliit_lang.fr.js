@@ -79,6 +79,8 @@
 		, "widget.annotationEditor.mapThemeName": "Thème"
 		, "widget.annotationEditor.mapThemeAssociatedTags": "Mots-clés associés"
 		, "widget.annotationEditor.mapThemeAddNewTheme": "Nouveau thème"
+		, "widget.annotationEditor.mapThemeTagBoxPlaceholder": "Appuyez sur Entrée pour enregistrer la balise"
+		, "widget.annotationEditor.timeLinkTagBoxPlaceholder": "Appuyez sur Entrée pour enregistrer la balise"
 		, "Add Image": "Ajouter une image"
 		, "Remove Image": "Enlever l'image"
 		, "Global Scale Factor": "Épaisseur des cernes"

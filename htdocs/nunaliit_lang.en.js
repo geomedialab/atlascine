@@ -15,6 +15,8 @@
 		, "widget.annotationEditor.mapThemeAssociatedTags": "Associated Tags"
 		, "widget.annotationEditor.mapThemeAddNewTheme": "New Theme"
 		, "widget.annotationEditor.settingsViewAllTimelinksNoAnnotationsText": "No annotations to display."
+		, "widget.annotationEditor.mapThemeTagBoxPlaceholder": "Press Enter to record tag"
+		, "widget.annotationEditor.timeLinkTagBoxPlaceholder": "Press Enter to record tag"
 		, "gazetteer.dialog.title": "Search for a place name"
 		, "mapAndControls.feature.addOrEdit.label": "Add Place"
 		, "mapAndControls.feature.cancelEdit.label": "Cancel"
