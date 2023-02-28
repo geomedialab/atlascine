@@ -425,6 +425,7 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 }
 
 ::-moz-placeholder {
+	font-size: small;
 	white-space: pre-line;
 	position: relative;
 	top: -7px;
