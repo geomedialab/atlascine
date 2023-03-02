@@ -192,6 +192,7 @@
             this.sourceModelId = opts.sourceModelId;
             this.subtitleModelId = opts.subtitleModelId;
             this._contextMenuClass = 'transcript-context-menu';
+            this.currentTime = 0;
             
             this.isInsideContentTextPanel = opts.isInsideContentTextPanel;
     
@@ -455,6 +456,7 @@
                         this.transcript = undefined;
                         this.srtData = undefined;
                         this.subtitleFormat = undefined;
+                        this.currentTime = 0;
                         this._refresh();
                         this._documentChanged();
                         const {
@@ -625,6 +627,7 @@
 
         _updateCurrentTime: function (currentTime, origin) {
             /* Override n2.widgetTranscript's _updateCurrentTime */
+            if (currentTime !== 0) this.currentTime = currentTime;
             this.dispatchService.send(this.DH, {
                 type: 'mediaTimeChanged'
                 , name: this.name

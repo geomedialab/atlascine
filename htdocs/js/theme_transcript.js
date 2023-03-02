@@ -144,6 +144,7 @@
             this.sourceModelId = opts.sourceModelId;
             this.subtitleModelId = opts.subtitleModelId;
             this._contextMenuClass = 'transcript-context-menu';
+            this.currentTime = 0;
             this.docInfosByDocId = {};
 
             this.isInsideContentTextPanel = opts.isInsideContentTextPanel;
@@ -517,6 +518,15 @@
                 _this._renderError('Can not compute URL for video');
             }
 
+            if (this.currentTime !== 0) {
+				this.dispatchService.send(DH, {
+					type: "mediaTimeChanged",
+					name: this.name,
+					currentTime: this.currentTime,
+					origin: "text"
+				});
+			}
+
             function _rightClickCallback(e, $this, contextMenu, selections) {
                 var hoveredElem = e.target;
 
@@ -816,6 +826,7 @@
 
         _clear() {
             if (this.docId) {
+                this.currentTime = 0;
                 this.doc = undefined;
                 this.docId = undefined;
                 this.timeTable = [];
@@ -879,16 +890,16 @@
 
         _scrollToView: function ($dst) {
             if ($dst) {
-                var _this = this;
-                var parent_height = $dst.parent().innerHeight();
+                const _this = this;
+                const parent_height = $dst.parent().innerHeight();
                 if ($dst.offset() && $dst.parent()) {
-                    var curr_pos = $dst.offset().top - $dst.parent().offset().top;
+                    const curr_pos = $dst.offset().top - $dst.parent().offset().top;
                     if (curr_pos > parent_height * 2 / 3 || curr_pos < 0) {
                         $('#' + this.transcriptId).off("scroll", _this._onUserScrollAction.bind(_this));
-                        var oldOffset = $dst.parent().scrollTop();
+                        const oldOffset = $dst.parent().scrollTop();
                         $dst.parent().scrollTop(oldOffset + curr_pos);
-                        var inid = setInterval(function () {
-                            var curOffset = $dst.parent().scrollTop();
+                        const inid = setInterval(function () {
+                            const curOffset = $dst.parent().scrollTop();
                             if (curOffset !== oldOffset) {
                             } else {
                                 $('#' + _this.transcriptId).on("scroll", _this._onUserScrollAction.bind(_this));
