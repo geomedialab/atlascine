@@ -1,7 +1,7 @@
 [
  	{
-		"utilityType": "assignLayerOnDocumentCreation"
-		,"layerId": "public"
+		"utilityType": "ownLayerDocCreationUtility"
+		,"layerId": "thisgetsdeletedanyway"
 	},
 	{
 		"utilityType": "mapClusterClickToMultiSelect"

@@ -51,6 +51,10 @@
                 new $n2.atlascine.PlaceUtility(options);
                 m.created = true;
             }
+            else if (m.utilityType === 'ownLayerDocCreationUtility') {
+                new $n2.atlascine.OwnLayerDocCreationUtility(options);
+                m.created = true;
+            }
         }
     }
 
@@ -356,6 +360,7 @@
     else if ($n2.url.getParamValue("module") === "module.editor") {
         $n2.scripts.loadCustomScripts([
             'js/editor_selection_widget.js'
+            , 'js/OwnLayerDocCreationUtility.js'
         ]);
     }
 

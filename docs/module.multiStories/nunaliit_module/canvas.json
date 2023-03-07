@@ -81,20 +81,6 @@
     "toggleClick": true,
     "styles": [
         {
-            "condition": "onLayer('public_demo')",
-            "label": "Public Demo",
-            "normal": {
-                "fill": "#ff3333"
-            }
-        },
-        {
-            "condition": "onLayer('public')",
-            "label": "Public Demo",
-            "normal": {
-                "fill": "#ffff33"
-            }
-        },
-        {
             "condition": "hasProperty('doc._ldata')",
             "normal": {
                 "v2_style": true,

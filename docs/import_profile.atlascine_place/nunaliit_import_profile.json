@@ -13,6 +13,6 @@
            "copyAllAndFixNames(atlascine_place)"
        ],
        "schemaName": "atlascine_place",
-       "layerName": "public"
+       "layerName": "atlascine"
 }
 
