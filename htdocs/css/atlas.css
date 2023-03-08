@@ -430,3 +430,8 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 	position: relative;
 	top: -7px;
 }
+
+/* MDC Chip CSS for long text */
+.mdc-chip__text {
+	white-space: normal;
+}
