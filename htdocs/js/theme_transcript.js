@@ -501,8 +501,10 @@
                         _this._updateCurrentTime(currentTime, 'video');
                     })
                     .bind('durationchange', function (e) {
-                        var duration = this.duration;
-                        $n2.log('video duration changed: ' + duration);
+                        _this.dispatchService.send(DH, {
+                            type: "transcriptVideoDurationChange",
+                            value: this.duration
+                        });
                     });
 
                 if (this.transcript.fromMediaDoc) {
