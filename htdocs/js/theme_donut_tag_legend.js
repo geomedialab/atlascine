@@ -121,6 +121,8 @@
                 if (this.allSelectedChangeEventName) {
                     this.dispatchService.register(DH, this.allSelectedChangeEventName, fn);
                 }
+
+                this.dispatchService.register(DH, "transcriptVideoDurationChange", fn);
             }
 
             var containerId = opts.containerId;
@@ -324,7 +326,26 @@
                     this.allSelected = m.value;
                     this._adjustSelectedItem();
                 }
+            } else if ("transcriptVideoDurationChange" === m.type) {
+                this._alignVideoPlayerControls();
             }
+        },
+
+        _alignVideoPlayerControls() {
+            const legendOffsetWidth = this._getElem()[0].offsetWidth || 0;
+            let buttonWidths = 0;
+            [...document.querySelectorAll(".mejs__controls > div")].forEach(control => {
+                const classList = [...control.classList];
+                if (classList.includes("mejs__time-rail")) return;
+                if (classList.includes("mejs__button")) {
+                    let buttonWidth = Math.floor(legendOffsetWidth / 4) - 2;
+                    buttonWidths += buttonWidth;
+                    control.style.width = buttonWidth + "px";
+                }
+                else if (classList.includes("mejs__time")) {
+                    control.style.width = legendOffsetWidth - buttonWidths - 2 + "px";
+                }
+            });
         }
     });
 
