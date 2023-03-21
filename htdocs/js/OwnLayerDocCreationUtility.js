@@ -4,8 +4,8 @@
 
     const OwnLayerDocCreationUtility = $n2.Class("DonutFilterByGroupTag", $n2.utilities.AssignLayerOnDocumentCreation, {
         layerId: null,
-		onlyWithGeometries: null,
-		dispatchService: null,
+        onlyWithGeometries: null,
+        dispatchService: null,
 
         initialize: function (opts_) {
             const opts = $n2.extend({
@@ -21,27 +21,27 @@
         },
 
         _handle: function (m, addr, dispatcher) {
-			if ('preDocCreation' === m.type) {
-				const createdDoc = m.doc;
-				let addLayer = true;
+            if ('preDocCreation' === m.type) {
+                const createdDoc = m.doc;
+                let addLayer = true;
 
-				if (this.onlyWithGeometries) {
-					if (!createdDoc.hasOwnProperty("nunaliit_geom")) {
-						addLayer = false;
-					}
-				}
+                if (this.onlyWithGeometries) {
+                    if (!createdDoc.hasOwnProperty("nunaliit_geom")) {
+                        addLayer = false;
+                    }
+                }
 
-				if (addLayer) {
-					if (!createdDoc.nunaliit_layers) {
-						createdDoc.nunaliit_layers = [];
-					}
-					if (this.layerId) {
-						let layers = this.layerId;
-						if (typeof layers === "string") layers = [layers];
-						createdDoc.nunaliit_layers = [...new Set(
-							[...createdDoc.nunaliit_layers, ...layers]
-						)];
-					}
+                if (addLayer) {
+                    if (!createdDoc.nunaliit_layers) {
+                        createdDoc.nunaliit_layers = [];
+                    }
+                    if (this.layerId) {
+                        let layers = this.layerId;
+                        if (typeof layers === "string") layers = [layers];
+                        createdDoc.nunaliit_layers = [...new Set(
+                            [...createdDoc.nunaliit_layers, ...layers]
+                        )];
+                    }
                     const authMessage = {
                         type: "authIsLoggedIn"
                     };
@@ -53,9 +53,20 @@
                     const user = authMessage?.context?.name;
                     if (user === undefined) return;
                     createdDoc.nunaliit_layers.push(user);
-				}
-			}
-		}
+                }
+
+                if (createdDoc.nunaliit_schema) {
+                    if (createdDoc.nunaliit_schema === "atlascine_cinemap") {
+                        createdDoc.atlascine_cinemap = {
+                            ...createdDoc.atlascine_cinemap,
+                            timeLinks: [],
+                            tagColors: {},
+                            tagGroups: {}
+                        }
+                    }
+                }
+            }
+        }
 
     });
 
