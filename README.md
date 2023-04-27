@@ -5,3 +5,6 @@
 Atlascine uses the open source web atlas framework [Nunaliit](http://nunaliit.org/). Like other adaptations of Nunaliit, Atlascine can be installed and deployed from your own server. This public repository contains everything you need to deploy Atlascine yourself along with [extensive documentation on how to do it](https://github.com/geomedialab/atlas-template/wiki/How-to-deploy-Atlascine).
 
 [The wiki](https://github.com/geomedialab/atlas-template/wiki/) also contains additional guidance for [how to use](https://github.com/geomedialab/atlascine-template/wiki/How-to-use-Atlascine) and [how to manage](https://github.com/geomedialab/atlascine-template/wiki/Managing-an-atlas) an Atlascine atlas, as well as [developer documentation](https://github.com/geomedialab/atlascine-template/wiki/Developer-documentation).
+
+![image](https://user-images.githubusercontent.com/4475249/234978601-d289f490-5056-4c8c-aa4f-1173b209d395.png)
+
