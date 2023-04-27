@@ -34,8 +34,9 @@
 		"containerId": "content",
 		"sourceModelId": "donutFilterByGroupTag",
 		"cinemapModelId": "cineMapFilter",
+		"downstreamModelId": "dualFilteredDonuts",
 		"designatedCanvasName": "mapStories",
-		"allLabel": "All Group Tags",
+		"allLabel": "All Themes",
 		"graphicType": "custom"
 	}
 ]

@@ -5,6 +5,13 @@
 				<div class="value mdc-typography--headline6 n2s_localize">Media</div>
 				<div class="end"></div>
 			</div>
+			{{#atlascine_media}}
+				<div class="atlascine_media_name">
+					<div class="value">
+						{{#:field}}name,id=name,label=Name{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_media}}
 {{#atlascine_media}}
 <div class="atlascine_media_caption">
 	<div class="value">

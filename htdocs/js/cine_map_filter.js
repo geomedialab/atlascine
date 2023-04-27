@@ -31,35 +31,28 @@
         _handleLayerFilterEvents: function (m, addr, dispatcher) { },
 
         _computeAvailableChoicesFromDocs: function (docs, callbackFn) {
-            var choiceLabelsById = {};
+            const availableChoices = [];
             docs.forEach(function (doc) {
                 if (doc && doc.atlascine_cinemap) {
-                    var label = doc.atlascine_cinemap.title;
+                    let label = doc.atlascine_cinemap.title;
                     if (!label) {
                         label = doc._id;
                     }
-                    choiceLabelsById[doc._id] = label;
+                    availableChoices.push({
+                        id: doc._id,
+                        label: doc.atlascine_cinemap.title || doc._id,
+                        published: doc.atlascine_cinemap.published
+                    });
                 }
             });
-
-            var availableChoices = [];
-            for (var id in choiceLabelsById) {
-                var label = choiceLabelsById[id];
-                availableChoices.push({
-                    id: id
-                    , label: label
-                });
-            }
 
             availableChoices.sort(function (a, b) {
                 if (a.label < b.label) {
                     return -1;
                 }
-
                 if (a.label > b.label) {
                     return 1;
                 }
-
                 return 0;
             });
 

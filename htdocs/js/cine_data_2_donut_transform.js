@@ -352,7 +352,7 @@
                     };
 
                     donutDocInfo.doc._id = donutId;
-                    var l = cidx.start, r = cidx.end;
+                    var l = cidx.transcriptStart, r = cidx.transcriptEnd;
                     var ldata_tmp = {
                         start: cidx.start,
                         transcriptStart: cidx.transcriptStart,
@@ -362,13 +362,12 @@
                         tagGroupColors: cidx.tagGroupColors,
                         timeLinkTags: cidx.timeLinkTags,
                         scaleFactor: cidx.scaleFactor,
-                        relatedImage: cidx.relatedImage ? cidx.relatedImage : "",
-                        mediaCaption: cidx.mediaCaption ? cidx.mediaCaption : ""
+                        relatedImage: cidx.relatedImage ? cidx.relatedImage : []
                     };
 
                     // 15 is the magic number for the ring to be drawn on map
                     // need to make sure duration calculated accordingly to make sure item to be drawn
-
+                    
                     var lowerBound = Math.ceil(Math.max((r - l) * cidx.scaleFactor, 15) / cidx.scaleFactor);
                     ldata_tmp.duration = Math.max(r - l, lowerBound);
                     ldata_tmp.style = {
@@ -376,7 +375,7 @@
                         fillColor: cidx.color,
                         opacity: 0.5
                     };
-                    
+
                     /* If the atlascine_place has a zoom scale, give it to the donut as well. */
                     if (doc.hasOwnProperty("atlascine_place")) {
                         if (doc.atlascine_place.hasOwnProperty("zoomScale")) {

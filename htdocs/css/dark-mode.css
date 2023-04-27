@@ -1,0 +1,15 @@
+:root {
+    --primary: #fff;
+    --secondary: #e9ecef; 
+    --tertiary: #868e96;
+    --shader: #868e96;
+    --dark-constant: #212529;
+    --background: #212529;
+    --link: #339af0;
+    --delete: #fa5252;
+    --opacity: 0.9;
+    --font-multiplier: 0.97;
+    --invert1: 0;
+    --invert2: 1;
+    --widget-size: 2em;
+}

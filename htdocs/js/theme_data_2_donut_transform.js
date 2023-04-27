@@ -324,6 +324,22 @@
                         opacity: 0.5
                     };
 
+                    /* If the atlascine_place has a zoom scale, give it to the donut as well. */
+                    if (doc.hasOwnProperty("atlascine_place")) {
+                        if (doc.atlascine_place.hasOwnProperty("zoomScale")) {
+                            const zoomScale = doc.atlascine_place.zoomScale;
+                            // https://stackoverflow.com/a/175787
+                            if ((typeof zoomScale === "string") && ((!isNaN(zoomScale)) && (!isNaN(parseFloat(zoomScale))))) {
+                                ldata_tmp.placeZoomScale = Number(zoomScale);
+                            }
+                            else if (Number.isFinite(zoomScale)) {
+                                ldata_tmp.placeZoomScale = zoomScale;
+                            }
+                        } else {
+                            ldata_tmp.placeZoomScale = cidx.defaultPlaceZoomLevel;
+                        }
+                    }
+
                     donutDocInfo.doc._ldata = ldata_tmp;
                     donutDocInfo.doc._storyTitle = cidx.title,
                         donutDocInfo.doc._storyId = cidx.origin,

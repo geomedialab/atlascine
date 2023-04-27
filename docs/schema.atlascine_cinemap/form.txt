@@ -20,9 +20,16 @@
 </div>
 {{/atlascine_cinemap}}
 			{{#atlascine_cinemap}}
+				<div class="atlascine_cinemap_published">
+					<div class="value">
+						{{#:field}}published,id=published,label=Published,checkbox{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_cinemap}}
+			{{#atlascine_cinemap}}
 				<div class="atlascine_cinemap_media_doc_ref">
 					<div class="value">
-						{{#:field}}media_doc_ref,id=media_doc_ref,label=Media%20Document,reference{{/:field}}
+						{{#:field}}media_doc_ref,id=media_doc_ref,label=Media%20Document,reference,search=getDocumentFromSchema%28%27atlascine_media%27%29{{/:field}}
 					</div>
 				</div>
 			{{/atlascine_cinemap}}

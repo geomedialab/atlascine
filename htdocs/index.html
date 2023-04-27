@@ -4,9 +4,9 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Atlas</title>
+		<title>Atlascine</title>
 
-		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="shortcut icon" href="atlascine.svg" />
 		<link rel="stylesheet" href="js-external/materialcomponentsweb/material-components-web.min.css" type="text/css" />
 		<link rel="stylesheet" href="js-external/css/jquery-ui/smoothness/jquery-ui.custom.css" type="text/css" />
 		<link rel="stylesheet" href="js-external/mediaelement/mediaelementplayer.min.css" type="text/css" />
@@ -17,7 +17,9 @@
 		<link rel="stylesheet" href="nunaliit2/jquery-progress-slide-1.0.css" type="text/css" />
 		<link rel="stylesheet" href="nunaliit2/css/basic/nunaliit2.css" type="text/css" />
 		<link rel="stylesheet" href="css/atlas.css" type="text/css" />
+		<div id="customStylesheetContainer"></div>
 	</head>
+
 	<body class="nunaliit_atlas">
 		<header id="nunaliit_header" class="nunaliit_header mdc-top-app-bar mdc-top-app-bar--fixed">
 			
@@ -33,13 +35,14 @@
 					<!-- Added a new container div - nunaliit_login_container -->
 					<!-- Changed login buttons to new layout (Accommodate liquid header)-->
 					<div id="login1" class="nunaliit_login"></div>
+					<div id="language_switcher" class="nunaliit_header_language" title="Select atlas language"></div>
+					<div id="theme_toggler" title="Select atlas style"></div>
 				</section>
 			</div>
 			
 			<!-- Moved Map Title inside header-->
 			<!-- Changed Class to nunaliit_map_title-->
 			<div id="module_title_bar" class="nunaliit_module_title">
-				<div id="language_switcher" class="nunaliit_header_language"></div>
 				<div id="login2" class="nunaliit_login"></div>
 				<div id="help_button" class="nunaliit_help_button"></div>
 				<div id="search_panel" class="nunaliit_search_input"></div>
@@ -65,7 +68,10 @@
 			 <div class="nunaliit_footer_nav">
 				<ul>
 					<li>
-						<a href="http://nunaliit.org" class="n2s_localize">Made with Nunaliit</a>
+						<span  class="n2s_localize">Made with </span>
+						<a href="http://atlascine.geomedialab.org/" class="n2s_localize">Atlascine</a>
+						<span  class="n2s_localize"> using </span>
+						<a href="http://nunaliit.org" class="n2s_localize">Nunaliit</a>
 					</li>
 				</ul>
 			</div>

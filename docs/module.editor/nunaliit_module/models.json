@@ -4,26 +4,10 @@
 		,"modelId": "documentModel"
 		,"selectors": [
 			{
-				"type":"couchDbLayer"
+				"type":"couchDbSchema"
 				,"options": {
-					"layerId": "public"
+					"schemaName": "atlascine_place"
 				}
-				,"name": {
-					"nunaliit_type": "localized"
-					,"en": "Public"
-				}
-				,"visibility": true
-			}
-			,{
-				"type":"couchDbLayer"
-				,"options": {
-					"layerId": "approved"
-				}
-				,"name": {
-					"nunaliit_type": "localized"
-					,"en": "Approved"
-				}
-				,"visibility": true
 			}
 		]
 	}

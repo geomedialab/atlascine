@@ -3,19 +3,17 @@
 
     var DH = 'n2.widgetTranscript';
 
-    var context_menu_text = ['Tag Selection...', 'Map Tags...', 'Settings...'];
+    var context_menu_text = [
+        'widget.annotationEditor.contextMenu.timeLink',
+        'widget.annotationEditor.contextMenu.mapThemes',
+        'widget.annotationEditor.contextMenu.settings'
+    ];
 
     var showService;
 
     var _loc = function (str, args) {
         return $n2.loc(str, 'nunaliit2', args);
     };
-
-    var $mdc = window.mdc;
-
-    if (!$mdc) {
-        return;
-    }
 
     $n2.Class({
         initialize: function (opts_) {
@@ -25,170 +23,6 @@
             }, opts_);
 
             showService = opts.showService;
-        }
-    });
-
-    var MDC = $n2.Class('MDC', {
-        parentElem: null,
-        mdcId: null,
-        mdcClasses: null,
-        mdcAttributes: null,
-
-        initialize: function (opts_) {
-            var opts = $n2.extend({
-                parentElem: null,
-                mdcId: null,
-                mdcClasses: [],
-                mdcAttributes: null
-            }, opts_);
-
-            this.parentElem = opts.parentElem;
-            this.mdcId = opts.mdcId;
-            this.mdcClasses = opts.mdcClasses;
-            this.mdcAttributes = opts.mdcAttributes;
-
-            if (!this.mdcId) {
-                this.mdcId = $n2.getUniqueId();
-            }
-        },
-
-        getId: function () {
-            return this.mdcId;
-        },
-
-        getElem: function () {
-            return $('#' + this.mdcId);
-        }
-    });
-
-    var MDCSelect = $n2.Class('MDCSelect', MDC, {
-        menuChgFunction: null,
-        menuLabel: null,
-        menuOpts: null,
-        preSelected: null,
-        nativeClasses: null,
-        select: null,
-        selectId: null,
-
-        initialize: function (opts_) {
-            var opts = $n2.extend({
-                menuChgFunction: null,
-                menuLabel: null,
-                menuOpts: [],
-                preSelected: false,
-                nativeClasses: null
-            }, opts_);
-
-            MDC.prototype.initialize.call(this, opts);
-
-            this.menuChgFunction = opts.menuChgFunction;
-            this.menuLabel = opts.menuLabel;
-            this.menuOpts = opts.menuOpts;
-            this.preSelected = opts.preSelected;
-            this.selectId = $n2.getUniqueId();
-            this.nativeClasses = opts.nativeClasses;
-
-            if (!this.parentElem) {
-                throw new Error('parentElem must be provided, to add a Material Design Select Component');
-            }
-
-            this._generateMDCSelectMenu();
-        },
-
-        _generateMDCSelectMenu: function () {
-            var $menu, $menuNotchedOutline, $menuNotchedOutlineNotch, $menuAnchor;
-            var $label, keys, selector;
-            var classesOnSelectMenu = '';
-            var _this = this;
-
-            this.mdcClasses.push('mdc-select', 'mdc-select--outlined', 'n2s_attachMDCSelect');
-
-            $menu = $('<div>')
-                .attr('id', this.mdcId)
-                .addClass(this.mdcClasses.join(' '));
-
-            if (this.mdcAttributes) {
-                keys = Object.keys(this.mdcAttributes);
-                keys.forEach(function (key) {
-                    $menu.attr(key, _this.mdcAttributes[key]);
-                });
-            }
-
-            $menuAnchor = $('<div>')
-                .addClass('mdc-select__anchor')
-                .appendTo($menu);
-
-            $('<i>').addClass('mdc-select__dropdown-icon')
-                .appendTo($menuAnchor);
-
-            $('<div>').addClass('mdc-select__selected-text')
-                .appendTo($menuAnchor);
-
-            $menuNotchedOutline = $('<div>')
-                .addClass('mdc-notched-outline')
-                .appendTo($menuAnchor);
-
-            $('<div>').addClass('mdc-notched-outline__leading')
-                .appendTo($menuNotchedOutline);
-
-            $menuNotchedOutlineNotch = $('<div>')
-                .addClass('mdc-notched-outline__notch')
-                .appendTo($menuNotchedOutline);
-
-            $label = $('<label>')
-                .attr('for', this.selectId)
-                .addClass('mdc-floating-label')
-                .text(_loc(this.menuLabel))
-                .appendTo($menuNotchedOutlineNotch);
-
-            $('<div>').addClass('mdc-notched-outline__trailing')
-                .appendTo($menuNotchedOutline);
-
-            if (this.nativeClasses) {
-                classesOnSelectMenu = this.nativeClasses.join(' ');
-            }
-
-            this.select = $('<div>')
-                .attr('id', this.selectId)
-                .addClass('mdc-select__menu mdc-menu mdc-menu-surface')
-                .addClass(classesOnSelectMenu)
-                .appendTo($menu);
-
-            if (this.menuOpts && $n2.isArray(this.menuOpts) && this.menuOpts.length > 0) {
-                new $n2.mdc.MDCList({
-                    parentElem: this.select,
-                    listItems: this.menuOpts
-                });
-            }
-
-            $menu.appendTo(this.parentElem);
-
-            selector = document.getElementById(this.getId());
-            if (selector) {
-                selector.addEventListener("MDCSelect:change", this.menuChgFunction);
-            }
-
-            if (this.preSelected) {
-                $label.addClass('mdc-floating-label--float-above');
-            }
-
-            if (showService) {
-                showService.fixElementAndChildren($('#' + this.mdcId));
-            }
-        },
-
-        getSelectId: function () {
-            return this.selectId;
-        },
-
-        getSelectedValue: function () {
-            var _this = this;
-            var $elem = this.getElem();
-            if ($elem.get(0)) {
-                var vanilla = new mdc.select.MDCSelect(document.querySelector('#' + _this.mdcId));
-                return vanilla.value;
-            }
-            return null;
         }
     });
 
@@ -310,6 +144,7 @@
             this.sourceModelId = opts.sourceModelId;
             this.subtitleModelId = opts.subtitleModelId;
             this._contextMenuClass = 'transcript-context-menu';
+            this.currentTime = 0;
             this.docInfosByDocId = {};
 
             this.isInsideContentTextPanel = opts.isInsideContentTextPanel;
@@ -349,18 +184,21 @@
             if (this.isInsideContentTextPanel) {
                 var $elem = $('<div>')
                     .attr('id', this.elemId)
+                    .css({"height": "100%"})
                     .appendTo($container);
 
-                $('<div>')
-                    .attr('id', this.subtitleSelectionDivId)
-                    .appendTo($elem);
+                const titleBar = document.getElementById("module_title_bar");
+                const subLangDiv = document.createElement("div");
+                subLangDiv.setAttribute("id", this.subtitleSelectionDivId);
+                subLangDiv.setAttribute("class", "cinemapTranscriptLanguageDiv");
+                titleBar.insertBefore(subLangDiv, titleBar.children[titleBar.children.length - 1]);
 
                 var $mediaAndSubtitleDiv = $('<div>')
                     .attr('id', this.mediaAndSubtitleDivId)
                     .addClass('n2widgetTranscript n2widgetTranscript_insideTextPanel')
                     .appendTo($elem);
 
-                $('<div>')
+                const mediaDiv = $('<div>')
                     .attr('id', this.mediaDivId)
                     .appendTo($mediaAndSubtitleDiv);
 
@@ -369,11 +207,16 @@
                     .addClass('n2widgetTranscript_transcript')
                     .appendTo($mediaAndSubtitleDiv);
 
+                mediaDiv.append($.parseHTML(
+                    `<h3>${_loc('module.multiStories.introduction.content')}</h3>`
+                ));
+
                 this._reInstallSubtitleSel();
 
             } else {
                 $('<div>')
                     .attr('id', this.elemId)
+                    .css({"height": "100%"})
                     .addClass('n2widgetTranscript')
                     .appendTo($container);
             }
@@ -454,30 +297,23 @@
                 _this.mediaDocIdToSrtDocs[this.docId].forEach(function (srtDoc) {
                     menOpts.push({
                         value: srtDoc._id,
-                        text: srtDoc.atlascine_subtitle.language
+                        text: srtDoc.atlascine_subtitle.language,
+                        lastUpdated: srtDoc.nunaliit_last_updated.time
                     })
                 });
+                menOpts.sort((a,b) => b.lastUpdated - a.lastUpdated);
             }
 
             if (menOpts.length > 0) {
-                menOpts[0].activated = true;
-                menOpts[0].selected = true;
-                this.srtSelector = new MDCSelect({
-                    selectId: _this.srtSelectionId,
-                    menuOpts: menOpts,
-                    parentElem: $elem,
-                    preSelected: true,
-                    menuLabel: 'Language',
-                    menuChgFunction: function () {
-                        var $sel = $(this).find('li.mdc-list-item--selected');
-                        var selectValue;
-                        if ($sel[0] && $sel[0].dataset && $sel[0].dataset.value) {
-                            selectValue = $sel[0].dataset.value;
-                        }
-                        $n2.log('Change Subtitle File: ' + selectValue);
-                        _this._handleSrtSelectionChanged(selectValue);
-                    }
-                })
+                const subSelect = document.createElement("select");
+                menOpts.forEach(option => {
+                    subSelect.add(new Option(option.text, option.value));
+                });
+                subSelect.onchange = function() {
+                    _this._handleSrtSelectionChanged(this.value)
+                }
+                this.srtSelector = subSelect;
+                $elem.append(this.srtSelector);
             }
         },
 
@@ -619,7 +455,6 @@
             }
 
             if (attVideoUrl) {
-                var mediaDivId = this.mediaDivId;
                 this.videoId = $n2.getUniqueId();
                 this.transcriptId = this.subtitleDivId;
 
@@ -630,26 +465,19 @@
                     .attr('id', this.videoId)
                     .attr('controls', 'controls')
                     .attr('width', '100%')
-				    .attr('height', '360px')
+				    .attr('height', '240px')
                     .attr('preload', 'metadata')
                     .appendTo($mediaDiv);
 
-                const subtitles = document.getElementById(this.subtitleDivId);
                 if (mediaType === "video") {
                     $video
                     .attr('width', '100%')
-                    .attr('height', '360px');
-    
-                    subtitles.style.height = "55vh";
-                    subtitles.style.overflowY = "scroll";
+                    .attr('height', '240px');
                 }
                 else if (mediaType === "audio") {
                     $video
                     .attr('width', '0px')
                     .attr('height', '0px');
-    
-                    subtitles.style.height = "auto";
-                    subtitles.style.overflowY = "visible";
                 }
 
                 var $videoSource = $('<source>')
@@ -664,7 +492,7 @@
                     poster: thumbnailUrl
                     , alwaysShowControls: true
                     , pauseOtherPlayers: false
-                    , features: ['playpause', 'progress', 'volume', 'sourcechooser', 'fullscreen']
+                    , features: ['volume', 'playpause', 'current', 'duration', 'progress']
                 });
 
                 $video
@@ -673,8 +501,10 @@
                         _this._updateCurrentTime(currentTime, 'video');
                     })
                     .bind('durationchange', function (e) {
-                        var duration = this.duration;
-                        $n2.log('video duration changed: ' + duration);
+                        _this.dispatchService.send(DH, {
+                            type: "transcriptVideoDurationChange",
+                            value: this.duration
+                        });
                     });
 
                 if (this.transcript.fromMediaDoc) {
@@ -689,6 +519,15 @@
             } else {
                 _this._renderError('Can not compute URL for video');
             }
+
+            if (this.currentTime !== 0) {
+				this.dispatchService.send(DH, {
+					type: "mediaTimeChanged",
+					name: this.name,
+					currentTime: this.currentTime,
+					origin: "text"
+				});
+			}
 
             function _rightClickCallback(e, $this, contextMenu, selections) {
                 var hoveredElem = e.target;
@@ -779,7 +618,7 @@
                 var transcript_context_menu_list = $('<ul>');
                 $.each(context_menu_text, function (i) {
                     $('<li/>')
-                        .text(context_menu_text[i])
+                        .text(_loc(context_menu_text[i]))
                         .click(function () {
                             var senDataArr = contextMenu.data().value;
                             if (senDataArr && senDataArr.length == 1) {
@@ -842,7 +681,7 @@
                     var target_start = $n2.atlascine.convertTimecodeToMs(transcriptElem.startTimeCode);
                     var target_end = $n2.atlascine.convertTimecodeToMs(transcriptElem.finTimeCode);
                     var query = target_start + '-' + target_end;
-                    var color = '#ffffff';
+                    var color = null;
                     if (query in timeLinksMap) {
                         var timeLink = timeLinksMap[query];
                         var timeLinkTags = timeLink.tags;
@@ -856,7 +695,7 @@
                         }
                     }
 
-                    $('<div>')
+                    const line = $('<div>')
                         .attr('id', id)
                         .attr('data-start', transcriptElem.start)
                         .attr('data-fin', transcriptElem.fin)
@@ -864,9 +703,11 @@
                         .attr('data-fincode', transcriptElem.finTimeCode)
                         .addClass('n2-transcriptWidget-sentence')
                         .addClass('n2transcript_sentence_' + $n2.utils.stringToHtmlId(id))
-                        .css('background-color',color)
                         .html(transcriptElem.text + " ")
                         .appendTo($transcript)
+                    if (color !== null) {
+                        line.css('background-color',color);
+                    }
                 }
 
                 $('div#' + _this.transcriptId).multiSelect({
@@ -987,6 +828,7 @@
 
         _clear() {
             if (this.docId) {
+                this.currentTime = 0;
                 this.doc = undefined;
                 this.docId = undefined;
                 this.timeTable = [];
@@ -1050,16 +892,16 @@
 
         _scrollToView: function ($dst) {
             if ($dst) {
-                var _this = this;
-                var parent_height = $dst.parent().innerHeight();
+                const _this = this;
+                const parent_height = $dst.parent().innerHeight();
                 if ($dst.offset() && $dst.parent()) {
-                    var curr_pos = $dst.offset().top - $dst.parent().offset().top;
+                    const curr_pos = $dst.offset().top - $dst.parent().offset().top;
                     if (curr_pos > parent_height * 2 / 3 || curr_pos < 0) {
                         $('#' + this.transcriptId).off("scroll", _this._onUserScrollAction.bind(_this));
-                        var oldOffset = $dst.parent().scrollTop();
+                        let oldOffset = $dst.parent().scrollTop();
                         $dst.parent().scrollTop(oldOffset + curr_pos);
-                        var inid = setInterval(function () {
-                            var curOffset = $dst.parent().scrollTop();
+                        const inid = setInterval(function () {
+                            const curOffset = $dst.parent().scrollTop();
                             if (curOffset !== oldOffset) {
                             } else {
                                 $('#' + _this.transcriptId).on("scroll", _this._onUserScrollAction.bind(_this));

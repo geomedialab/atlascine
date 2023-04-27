@@ -121,6 +121,8 @@
                 if (this.allSelectedChangeEventName) {
                     this.dispatchService.register(DH, this.allSelectedChangeEventName, fn);
                 }
+
+                this.dispatchService.register(DH, "transcriptVideoDurationChange", fn);
             }
 
             var containerId = opts.containerId;
@@ -175,7 +177,7 @@
                 .appendTo($chkboxLabel);
 
             if (color) {
-                var $donut = $('<svg version="1.1" viewBox="-7 -7 14 14" class="n2widgetLegend_svg"><circle r="5" stroke="#ff0000" stroke-width="2" fill-opacity="1" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="solid" pointerEvents="visiblePainted" pointer-events="visiblePainted"></circle></svg>')
+                var $donut = $('<svg version="1.1" viewBox="-7 -7 14 14" class="n2widgetLegend_svg"><circle r="5" fill="none" stroke="#ff0000" stroke-width="2" fill-opacity="1" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="solid" pointerEvents="visiblePainted" pointer-events="visiblePainted"></circle></svg>')
                     .appendTo($symbolColumn);
 
                 $donut.find('circle')
@@ -324,7 +326,26 @@
                     this.allSelected = m.value;
                     this._adjustSelectedItem();
                 }
+            } else if ("transcriptVideoDurationChange" === m.type) {
+                this._alignVideoPlayerControls();
             }
+        },
+
+        _alignVideoPlayerControls() {
+            const legendOffsetWidth = this._getElem()[0].offsetWidth || 0;
+            let buttonWidths = 0;
+            [...document.querySelectorAll(".mejs__controls > div")].forEach(control => {
+                const classList = [...control.classList];
+                if (classList.includes("mejs__time-rail")) return;
+                if (classList.includes("mejs__button")) {
+                    let buttonWidth = Math.floor(legendOffsetWidth / 4) - 2;
+                    buttonWidths += buttonWidth;
+                    control.style.width = buttonWidth + "px";
+                }
+                else if (classList.includes("mejs__time")) {
+                    control.style.width = legendOffsetWidth - buttonWidths - 2 + "px";
+                }
+            });
         }
     });
 

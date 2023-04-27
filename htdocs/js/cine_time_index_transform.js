@@ -518,14 +518,9 @@
                             return;
                         }
 
-                        let relatedImage = "";
+                        let relatedImage = [];
                         if (timeLink.relatedImage) {
                             relatedImage = timeLink.relatedImage;
-                        }
-
-                        let mediaCaption = "";
-                        if (timeLink.mediaCaption) {
-                            mediaCaption = timeLink.mediaCaption;
                         }
 
                         var referenceDocTags = timeLink.tags;
@@ -544,7 +539,7 @@
 
                                 // Add place tag to timeLinkTags
                                 if (_name) {
-                                    timeLinkTags.placeTag = _name[0].toUpperCase() + _name.substring(1);
+                                    timeLinkTags.placeTag = placeName;
                                 }
 
                                 if (!referencedDoc) {
@@ -657,7 +652,6 @@
                                         , color
                                         , tagGroupColors
                                         , relatedImage
-                                        , mediaCaption
                                         , scaleFactor: _scaleFactor
                                         , defaultPlaceZoomLevel: _defaultPlaceZoomLevel
                                     };

@@ -1,0 +1,1052 @@
+/* ATLASCINE.CSS (COLOUR IMPLEMENTATIONS) */
+
+/* home */
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_slide .jr_slideshow_slidetext {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+/* right pane */
+
+.mdc-card {
+  background-color: var(--background);
+}
+
+.nunaliit_atlas .nunaliit_side,
+.nunaliit_atlas .n2_content_text {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: var(--primary);
+}
+
+.n2show_documentList_item a {
+  color: var(--primary);
+}
+
+.n2show_documentList_item:hover {
+  background-color: var(--tertiary);
+}
+
+
+.olkitSearchMod2_0,
+.olkitSearchMod2_1 {
+  background-color: white;
+}
+    
+.n2se_entry, .n2se_history_back, .n2se_history_level, .n2se_addbar_addButton {
+    background-color: var(--background);
+}
+
+#ui-dialog-title-nunaliit2_uniqueId_253 {
+  color: black;
+}
+
+#nunaliit2_uniqueId_236>.mdc-tab-scroller>.mdc-tab-scroller__scroll-area.mdc-tab-scroller__scroll-area--scroll>.mdc-tab-scroller__scroll-content {
+  color: white;
+}
+
+.mdc-tab[aria-selected="false"]>span>span {
+  color: var(--primary);
+}
+
+h3 {
+  font-weight: normal;
+}
+
+.nunaliit_atlas .nunaliit_side, .nunaliit_atlas .n2_content_text {
+  border-left: 1px dotted var(--primary);
+}
+:not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item {
+  color: var(--primary);
+}
+:not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item:hover {
+  background-color: var(--tertiary);
+}
+    
+ul.mdc-list {
+    background-color: var(--background);
+}
+    
+.ui-draggable {
+  color: var(--primary);
+}
+
+#nunaliit2_uniqueId_285.mdc-checkbox {
+  background-color: var(--background);
+}
+
+.mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
+  border-color: var(--primary);    
+}
+
+    
+/* multimap module */
+
+#nunaliit2_uniqueId_285 {
+    background-color: white;
+    color: black;
+}
+
+/* transcript */
+
+.nunaliit_atlas .nunaliit_side,
+.nunaliit_atlas .n2_content_text {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+.transcript-context-menu li:hover {
+  color: white;
+}
+
+.transcript-context-menu {
+  outline-color: var(--primary);
+}
+
+/* left pane */
+
+.mdc-button:not(:disabled) {
+  color: var(--primary);
+  background-color: var(--background);
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple {
+  background-color: var(--secondary);
+  opacity: calc(var(--opacity)*0.5);
+  outline-color: var(--secondary);
+}
+
+.n2widget_drawer {
+  background-color: var(--background);
+}
+
+.n2WidgetAnnotation_formfieldSection {
+  border: 1px solid var(--background) !important;
+  color: var(--primary);
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--secondary);
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: var(--primary);
+}
+
+#content>div.relatedMediaDisplayDrawer>div.n2widget_drawer_container>p {
+  color: var(--secondary);
+}
+
+.n2WidgetAnnotation_tagSettings_formfieldSection {
+  border: 1px solid var(--background) !important;
+  color: var(--primary);
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple {
+  background-color: var(--secondary);
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple:hover {
+  background-color: var(--tertiary);
+}
+
+.mdc-button.n2s_attachedMDCButton.mdc-button--raised.mdc-ripple-upgraded:disabled>.mdc-button__ripple {
+  background-color: var(--secondary);
+}
+
+.n2widget_drawer .n2widget_drawer_close_button {
+  color: var(--primary);
+}
+
+.n2WidgetAnnotationEditorTaggingImages>div>button.n2s_attachMDCButton {
+  background-color: var(--delete);
+}
+
+.input_group_for_customMDC input:focus~label,
+.input_group_for_customMDC input:valid~label {
+  color: var(--primary);
+}
+
+hr {
+  color: var(--background);
+}
+
+/* annotation pane (left) */
+
+.n2WidgetAnnotationEditorTaggingImages>div {
+  border-color: var(--tertiary);
+}
+
+
+/* map tools top left */
+
+.ol-control button {
+  color: var(--primary) !important;
+  background-color: var(--background) !important;
+  opacity: calc(var(--opacity)*0.8) !important;
+}
+
+.ol-control button:hover {
+  background-color: var(--shader) !important;
+}
+
+.ol-control button:focus {
+  background-color: var(--shader) !important;
+  opacity: calc(var(--opacity)*0.5) !important;
+}
+
+/* zooms */
+div.olControlZoom a {
+  opacity: calc(var(--opacity)*0.8);
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+div.olControlZoom a:hover {
+  background-color: var(--shader);
+}
+
+/* attribution */
+
+.ol-attribution ul {
+  color: var(--secondary) !important;
+}
+
+.ol-attribution ul>li>a {
+  color: var(--shader) !important;
+}
+
+.ol-attribution ul>li {
+  color: var(--shader) !important;
+}
+
+/* baselayer selector */
+
+.layer-switcher .panel {
+  background-color: var(--background) !important;
+  color: var(--primary)
+}
+
+div.ol-unselectable.ol-control.layer-switcher>button {
+  background-size: 1.9em;
+  background-color: var(--secondary);
+  border-radius: 5px;
+}
+
+div.ol-unselectable.ol-control.layer-switcher>button:hover {
+  background-color: var(--primary);
+}
+
+div.ol-unselectable.ol-control.layer-switcher>button:focus {
+  background-color: var(--primary);
+  opacity: calc(var(--opacity)*1.75);
+}
+
+/* settings widget */
+
+
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control>button {
+  background-size: cover;
+  background-color: var(--dark-constant) !important;
+  filter: invert(var(--invert1));
+}
+
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control>button:hover {
+  opacity: calc(var(--opacity)*0.3) !important;
+}
+
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control>button:focus {
+  opacity: calc(var(--opacity)*0.6);
+}
+
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control .settings-control-panel {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+/* editor dropdown items */
+
+.nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget>select {
+  background-color: var(--tertiary);
+  color: var(--primary)
+}
+
+/* editor module zooms */
+
+div.olControlZoom a {
+  opacity: calc(var(--opacity)*0.9);
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+div.olControlZoom a:hover {
+  background-color: var(--shader);
+}
+
+/* navbar */
+    
+div.n2s_localized, div.validatedEmail {
+    color:var(--primary);    
+}
+
+.nunaliit_atlas .nunaliit_header-nav a,
+.nunaliit_atlas .nunaliit_header-nav a:visited,
+.nunaliit_atlas .nunaliit_header-nav span {
+  color: var(--secondary);
+}
+
+.nunaliit_module_title .n2widget_singleFilterSelection select {
+  background-color: var(--tertiary);
+}
+
+.nunaliit_atlas .nunaliit_module_title .n2widget_createDocument a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_createDocumentFromSchema a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_export a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_modelBrowser a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_multiFilterSelection a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_multiDropDownFilterSelection a,
+.nunaliit_atlas .nunaliit_module_title .n2widget_createDocument a:visited,
+.nunaliit_atlas .nunaliit_module_title .n2widget_createDocumentFromSchema a:visited,
+.nunaliit_atlas .nunaliit_module_title .n2widget_export a:visited,
+.nunaliit_atlas .nunaliit_module_title .n2widget_modelBrowser a:visited,
+.nunaliit_atlas .nunaliit_module_title .n2widget_multiFilterSelection a:visited,
+.nunaliit_atlas .nunaliit_module_title .n2widget_multiDropDownFilterSelection a:visited {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header_container {
+  background-color: var(--background);
+}
+
+.mdc-top-app-bar .mdc-top-app-bar__action-item,
+.mdc-top-app-bar .mdc-top-app-bar__navigation-icon {
+  color: var(--secondary);
+}
+
+input,
+select,
+textarea {
+  background-color: var(--tertiary);
+  color: var(--primary)
+}
+
+.nunaliit_atlas .nunaliit_search_input input,
+.nunaliit_atlas .n2_content_searchInput input {
+  background-color: var(--tertiary);
+}
+
+.nunaliit_atlas .nunaliit_module_title {
+  background-color: var(--background);
+  border-top: 1px dotted var(--primary);
+  border-bottom: 1px dotted var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_footer {
+  background-color: var(--background);
+}
+
+.nunaliit_atlas .nunaliit_header {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav li:hover {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav li.n2_nav_currentModule>a,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule>a:hover,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule:hover>a {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav a,
+.nunaliit_atlas .nunaliit_header-nav a:visited,
+.nunaliit_atlas .nunaliit_header-nav span {
+  color: var(--secondary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li:hover>a {
+  transition: ease all 0.0s;
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav ul>li>a:hover {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li>a,
+.nunaliit_atlas .nunaliit_header-nav>ul>li>span {
+  color: var(--secondary);
+}
+
+.nunaliit_atlas .nunaliit_title_link {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_title_link:hover {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_header_language {
+  filter: invert(var(--invert2));
+}
+
+.mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
+  border-color: var(--primary);
+}
+
+.nunaliit_atlas #theme_toggler {
+  filter: invert(var(--invert1));
+}
+
+.nunaliit_atlas .nunaliit_header_container .nunaliit_login_link {
+  color: var(--primary);
+  background-color: transparent;
+  opacity: 1;
+}
+
+.nunaliit_module_title .n2widget_singleFilterSelection select {
+  color: var(--primary)
+}
+
+.nunaliit_header-nav li:hover>ul {
+  background-color: var(--background);
+}
+
+.nunaliit_atlas .nunaliit_footer_nav ul li {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_footer_nav ul li a {
+  color: var(--primary);
+}
+
+.nunaliit_atlas .nunaliit_footer_nav ul li a:hover {
+  color: var(--primary);
+}
+
+/*timeline and legend widget*/
+#n2_filterableLegendWidgetGraphic {
+  background-color: var(--background);
+  opacity: var(--opacity);
+  border-left: 1px dotted var(--primary);
+}
+
+#n2_filterableLegendWidgetWithGraphicToggle.n2_filterableLegendWidgetWithGraphicMinimize::before {
+  color: var(--secondary);
+}
+
+
+/* legend */
+#content .n2_filterableLegendWidgetWithGraphic .n2widgetLegend .n2widgetLegend_outer {
+  border: 1px solid var(--background);
+  background-color: var(--background);
+  opacity: var(--opacity);
+}
+
+.n2widgetLegend_legendEntry.n2widgetLegend_optionSelected>label>.n2widgetLegend_labelColumn {
+  color: var(--primary);
+}
+
+/* theme module legend */
+.nunaliit_content>.n2widgetLegend .n2widgetLegend_outer {
+  border: 1px solid var(--background);
+  background-color: var(--background);
+  opacity: var(--opacity);
+}
+
+/* search */
+.nunaliit_atlas .nunaliit_search_input .searchIcon,
+.nunaliit_atlas .n2_content_searchInput .searchIcon {
+  filter: invert(var(--invert1));
+}
+
+input {
+  background-color: var(--tertiary);
+}
+
+.mdc-select:not(.mdc-select--disabled) .mdc-select__selected-text {
+  border-bottom-color: var(--primary);
+}
+
+/* popups and buttons */
+
+.mdc-dialog .mdc-select .mdc-menu-surface {
+  background-color: var(--background);
+}
+
+.mdc-list {
+  color: var(--primary);
+}
+
+.mdc-select:not(.mdc-select--disabled) .mdc-select__selected-text {
+  color: var(--primary);
+}
+
+ul.tree li>span.treeKey {
+  color: var(--link);
+}
+    
+ul.tree, ul.tree ul {
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+.treeEditDelete, .n2schema_array_item_delete {
+  filter: invert(var(--invert2));
+}
+.treeEditAdd {
+  filter: invert(var(--invert2));
+}
+    
+.n2schema_array_add {
+  filter: invert(var(--invert2));
+}
+
+.user_form {
+    background-color: var(--background)
+}
+    
+/* annotations popup */
+
+.mdc-dialog .mdc-dialog__surface {
+  background-color: var(--background);
+}
+
+.mdc-dialog .mdc-dialog__content {
+  color: var(--primary);
+}
+
+.mdc-dialog__surface>h2 {
+  color: var(--primary);
+}
+
+.mdc-dialog .mdc-dialog__title {
+  color: var(--primary);
+}
+
+.mdc-form-field {
+  color: var(--primary);
+}
+
+.mdc-dialog .mdc-select .mdc-menu-surface {
+  background-color: var(--background);
+}
+
+.mdc-list {
+  color: var(--primary);
+}
+
+.mdc-select:not(.mdc-select--disabled) .mdc-select__selected-text {
+  color: var(--primary);
+}
+
+ul.tree li>span.treeKey {
+  color: var(--link);
+}
+
+/* media player */
+
+.mejs__time-total {
+  filter: invert(calc(var(--opacity)*var(--invert2)));
+}
+
+.mejs__button>button {
+  filter: invert(calc(var(--opacity)*var(--invert2)));
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple {
+  background-color: var(--secondary);
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple:hover {
+  background-color: var(--tertiary);
+}
+
+.mdc-button.n2s_attachedMDCButton.mdc-button--raised.mdc-ripple-upgraded:disabled>.mdc-button__ripple {
+  background-color: var(--secondary);
+}
+
+.n2widget_drawer .n2widget_drawer_close_button {
+  color: var(--primary);
+}
+
+
+
+
+
+
+/* ATLASCINE.CSS (STRUCTURAL) */
+
+.nunaliit_module_module_056home #jr_slideshow .jr_slideshow_slide .jr_slideshow_slidetext {
+  border-radius: 5px;
+}
+
+.mdc-button {
+  font-size: 1rem;
+}
+
+.mdc-button:not(.mdc-button--outlined) .mdc-button__ripple {
+  outline-style: solid;
+  outline-width: thin;
+}
+
+
+/* right pane */
+
+.mdc-card {
+  border-radius: 4px;
+}
+
+.n2show_documentList_item a {
+  text-decoration: none;
+}
+
+.ui-accordion .ui-accordion-header a {
+  border-radius: 5px;
+}
+
+.olkitSearchMod2_0,
+.olkitSearchMod2_1 {
+  border-radius: 5px;
+}
+
+/* transcript */
+
+.transcript-context-menu {
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 3px;
+}
+
+/* left pane */
+
+.n2widget_drawer {
+  transition: 0.5s;
+  border-radius: 0px;
+}
+
+.n2WidgetAnnotation_formfieldSection {
+  grid-gap: 5px;
+  border-radius: 5px;
+}
+
+#content>div.relatedMediaDisplayDrawer>div.n2widget_drawer_container>p {
+  font-size: calc(1.15em*var(--font-multiplier));
+  font-weight: 500;
+}
+
+/* annotation pane (left) */
+
+.mdc-text-field--textarea:not(.mdc-text-field--disabled) {
+  margin: 1em 0 1em 0;
+}
+
+.mdc-card__primary-action {
+  margin: 1em 0 1em 0;
+}
+
+.n2WidgetAnnotationEditorTaggingImages>div {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 1em;
+  border-width: 1px;
+  margin: 1em 0 1em 0;
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
+  margin: 1em 0 0 0;
+}
+
+/* theme pane (left) */
+
+
+.n2WidgetAnnotation_tagGroup_addNewGroupBtn.mdc-button.n2s_attachedMDCButton.mdc-ripple-upgraded {
+  margin-left: 5%;
+  width: 50%;
+}
+
+.n2widget_drawer_container .mdc-button.n2s_attachedMDCButton.mdc-ripple-upgraded:not(.n2WidgetAnnotation_tagGroup_addNewGroupBtn):not(.mdc-button--raised) {
+  position: relative;
+  right: 5%;
+  float: right;
+}
+
+.n2WidgetAnnotation_tagGroup_formfieldSection {
+  border-radius: 5px;
+}
+
+/* map tools top left */
+
+.ol-control {
+  border-radius: 7px;
+}
+
+.ol-control button {
+  height: var(--widget-size) !important;
+  width: var(--widget-size) !important;
+  font-size: 0.9em;
+  border-radius: 5px;
+  display: block !important;
+}
+
+/* attribution */
+
+.ol-attribution.ol-uncollapsible {
+  right: 100% !important;
+  top: 3px !important;
+  height: 2.35em !important;
+  border-radius: 5px !important;
+}
+
+.ol-attribution button {
+  display: inline-block !important;
+  position: relative !important;
+  left: 3.0em !important;
+  border-radius: 5px;
+}
+
+.ol-attribution ul {
+  line-height: calc(var(--widget-size)*1.1) !important;
+  padding-top: 5px !important;
+  background-color: rgba(255, 255, 255, 0.0) !important;
+  border-radius: 5px !important;
+  text-shadow: none !important;
+}
+
+.ol-attribution ul>li>a {
+  text-decoration: underline;
+}
+
+.ol-attribution:not(.ol-collapsed) ul {
+  margin-right: -490px !important;
+  top: -10px !important;
+  position: relative !important;
+}
+
+/* zooms */
+
+.ol-zoom {
+  top: 3.5em !important;
+}
+
+.ol-zoom-in button,
+.ol-zoom-out button {
+  display: block !important;
+}
+
+.ol-zoom .ol-zoom-in {
+  border-radius: 5px 5px 0 0;
+}
+
+.ol-zoom .ol-zoom-out {
+  border-radius: 0 0 5px 5px;
+}
+
+/* baselayer selector */
+
+div.ol-unselectable.ol-control.layer-switcher,
+div.ol-unselectable.ol-control.layer-switcher.shown,
+div.ol-unselectable.ol-control.layer-switcher.shown.layer-switcher-activation-mode-click {
+  top: 11.5em;
+}
+
+.layer-switcher .panel {
+  margin: 0.4em !important;
+}
+
+div.ol-unselectable.ol-control.layer-switcher>button {
+  background-size: 2em;
+  border-radius: 5px;
+}
+
+
+/* settings widget */
+
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control,
+div.ol-unselectable.ol-control.cinemap-to-map-settings-control.settings-panel-visible {
+  top: 8.9em;
+}
+
+/* editor dropdown items */
+
+.nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget>select {
+  border-radius: 5px;
+}
+
+/*map tools in editor*/
+
+.olControlNavToolbar div,
+.olControlEditingToolbar div {
+  background-repeat: no-repeat;
+  width: 1.65em;
+  height: 1.5em;
+  border-radius: 5px;
+  filter: grayscale(100%);
+}
+
+.olControlEditingToolbar {
+  top: 9px;
+  right: 100px;
+}
+
+/* editor module zooms */
+
+div.olControlZoom a {
+  height: calc(var(--widget-size)*0.65);
+  width: calc(var(--widget-size)*0.7);
+  font-size: 1em;
+}
+
+div.olControlZoom {
+  top: 10px;
+  left: 20px;
+}
+
+.olControlZoom .olButton,
+.olControlZoom .olButton:hover,
+.olControlLayerSwitcher .olButton,
+.olControlLayerSwitcher .olButton:hover {
+  border-radius: 5px;
+}
+
+.olControlLayerSwitcher .maximizeDiv,
+.olControlLayerSwitcher .minimizeDiv a {
+  display: none;
+}
+
+.olControlMousePosition {
+  right: 0 !important;
+  max-width: 136px;
+}
+
+.olControlAttribution {
+  right: 136px;
+}
+
+/* left pane */
+
+.n2WidgetAnnotation_tagGroup_addNewGroupBtn.mdc-button.n2s_attachedMDCButton.mdc-ripple-upgraded {
+  margin-left: 5%;
+  width: 50%;
+}
+
+.n2widget_drawer_container .mdc-button.n2s_attachedMDCButton.mdc-ripple-upgraded:not(.n2WidgetAnnotation_tagGroup_addNewGroupBtn):not(.mdc-button--raised) {
+  position: relative;
+  right: 5%;
+  float: right;
+}
+
+
+/* navbar */
+
+.nunaliit_atlas .nunaliit_header_language {
+  background-position: center
+}
+
+.mdc-button {
+  letter-spacing: 0;
+}
+
+.nunaliit_atlas .nunaliit_header-nav li.n2_nav_currentModule>a {
+  text-decoration: none !important;
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_childModuleCurrent {
+  text-decoration: none;
+}
+
+section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
+  max-width: 23%;
+}
+
+.nunaliit_module_title .n2widget_singleFilterSelection select {
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget>select {
+  border-radius: 5px;
+}
+
+.nunaliit_atlas .nunaliit_module_title {
+  height: 35px;
+}
+
+.nunaliit_atlas .nunaliit_header {
+  top: 0;
+  height: auto;
+}
+
+.mdc-top-app-bar__section {
+  height: 40px;
+}
+
+.nunaliit_atlas .nunaliit_header_container {
+  height: 60px;
+}
+
+.nunaliit_atlas .nunaliit_module_title {
+  top: 60px;
+}
+
+input,
+select,
+textarea {
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.nunaliit_atlas .map_interaction input,
+.nunaliit_atlas .n2_content_map_interaction input {
+  border-radius: 5px;
+  bottom: 20px;
+  position: relative;
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li>a,
+.nunaliit_atlas .nunaliit_header-nav>ul>li>span {
+  top: 30px;
+}
+
+.nunaliit_atlas .nunaliit_content {
+  top: 95px;
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_childModuleCurrent {
+  border-bottom: none;
+  bottom: 7px;
+}
+
+.nunaliit_header-nav>ul>li>ul {
+  top: 100%;
+}
+
+.nunaliit_atlas .nunaliit_header-nav li:hover ul li:first-child {
+  border-left: none;
+}
+
+.nunaliit_atlas .nunaliit_footer {
+  border-top: none;
+}
+
+.nunaliit_atlas .nunaliit_header-nav li.n2_nav_currentModule>a,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule>a:hover,
+.nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule:hover>a {
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+.nunaliit_atlas .nunaliit_header-nav>ul>li:hover>a {
+  transition: ease all 0.0s;
+}
+
+a:focus {
+  outline: none;
+}
+
+.nunaliit_atlas .nunaliit_title {
+  text-shadow: none;
+}
+
+.nunaliit_atlas .nunaliit_header_language {
+  background-size: 1.5em;
+  height: 3em;
+}
+
+.nunaliit_atlas #theme_toggler {
+  font-size: 0.85em;
+}
+
+.nunaliit_header-nav li:hover>ul {
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+li>ul.n2_nav_childModuleCurrent.n2nav_setChildModuleCurrent {
+  top: 47px;
+}
+
+html,
+body {
+  font: 400 calc(1em * var(--font-multiplier)) sans-serif;
+  overflow: hidden;
+}
+
+/* footer */
+
+.nunaliit_atlas .nunaliit_footer_nav ul li a {
+  text-decoration: underline;
+}
+
+.nunaliit_atlas .nunaliit_footer_nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/*resize transcript */
+.n2_content_text {
+  padding: 10px 20px;
+}
+
+.mdc-elevation--z8 {
+  box-shadow: none;
+}
+
+/* media player bar */
+
+.nunaliit_atlas .n2widgetTranscript .mejs__controls {
+  bottom: 17px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0));
+}
+
+/*timeline and legend widget*/
+#n2_filterableLegendWidgetGraphic {
+  border-radius: 0 5px 5px 0;
+}
+
+/* legend */
+#content .n2_filterableLegendWidgetWithGraphic .n2widgetLegend .n2widgetLegend_outer {
+  border-radius: 5px 0 0 5px;
+  box-shadow: none;
+}
+
+.nunaliit_content>.n2widgetLegend .n2widgetLegend_outer {
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.n2widgetLegend_legendEntry.n2widgetLegend_optionSelected>label>.n2widgetLegend_labelColumn {
+  font-weight: 500;
+}
+
+/* theme module legend */
+.nunaliit_content>.n2widgetLegend .n2widgetLegend_outer {
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: none;
+}
+
+/*video*/
+.mejs__container {
+  border-radius: 5px;
+}
+
+
+/* annotations popup */
+
+div.olControlZoom a {
+  font-size: 1em;
+}
+
+.mdc-button {
+  letter-spacing: 0;
+}

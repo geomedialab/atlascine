@@ -116,7 +116,8 @@
 
             this.__DEFAULT_TAGSETTINGS__ = {
                 globalScaleFactor: 1,
-                globalTimeOffset: 0.5
+                globalTimeOffset: 0.5,
+                globalDefaultPlaceZoomLevel: 10
             };
 
             if (this.dispatchService) {
@@ -306,7 +307,7 @@
 
         _recomputeTransforms: function () {
             var _this = this;
-            var tagGroupsProfile, _scaleFactor;
+            var tagGroupsProfile, _scaleFactor, _timeOffset, _defaultPlaceZoomLevel;
 
             if (!this._placeDocIdMap) {
                 var msg = {
@@ -321,6 +322,8 @@
 
             for (var indexId in this.themeIndexByDocId) {
                 var indexDoc = this.themeIndexByDocId[indexId];
+                if (indexDoc?.atlascine_cinemap?.published === false) continue;
+
                 if (colors.length > 0) {
                     indexDoc._color = colors.shift();
                 } else {
@@ -333,9 +336,15 @@
 
                 if (indexDoc.atlascine_cinemap.settings) {
                     _scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
+                    const offsetInSetting = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+                    _timeOffset = offsetInSetting ? offsetInSetting : 0.5;
+                    const defaultPlaceZoom = indexDoc.atlascine_cinemap.settings.globalDefaultPlaceZoomLevel;
+                    _defaultPlaceZoomLevel = defaultPlaceZoom ? defaultPlaceZoom : 10;
                 } else {
                     indexDoc.atlascine_cinemap.settings = _this.__DEFAULT_TAGSETTINGS__;
                     _scaleFactor = indexDoc.atlascine_cinemap.settings.globalScaleFactor;
+                    _timeOffset = indexDoc.atlascine_cinemap.settings.globalTimeOffset;
+                    _defaultPlaceZoomLevel = indexDoc.atlascine_cinemap.settings.globalDefaultPlaceZoomLevel;
                 }
 
                 if (indexDoc && indexDoc.atlascine_cinemap && indexDoc.atlascine_cinemap.timeLinks) {
@@ -356,7 +365,7 @@
                                 var referencedDoc = _this._placeDocIdMap[_name];
 
                                 if (_name) {
-                                    timeLinkTags.placeTag = _name[0].toUpperCase() + _name.substring(1);
+                                    timeLinkTags.placeTag = placeName;
                                 }
 
                                 if (!referencedDoc) return;
@@ -422,6 +431,7 @@
                                     indexInfo.tags = tags
                                     indexInfo.timeLinkTags = timeLinkTags;
                                     indexInfo.scaleFactor = _scaleFactor;
+                                    indexInfo.defaultPlaceZoomLevel = _defaultPlaceZoomLevel;
                                     referencedDocInfo.cineIndex.push(indexInfo);
                                 }
                             });

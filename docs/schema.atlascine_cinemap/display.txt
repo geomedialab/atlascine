@@ -24,6 +24,19 @@
 				{{/if}}
 			{{/atlascine_cinemap}}
 			{{#atlascine_cinemap}}
+				<div class="atlascine_cinemap_published">
+					<div class="label n2s_localize mdc-typography--subtitle2">Published</div>
+					<div class="value">
+						{{#if published}}
+							<span class="n2s_localize">Yes</span>
+						{{else}}
+							<span class="n2s_localize">No</span>
+						{{/if}}
+					</div>
+					<div class="end"></div>
+				</div>
+			{{/atlascine_cinemap}}
+			{{#atlascine_cinemap}}
 				{{#media_doc_ref}}
 					<div class="atlascine_cinemap_media_doc_ref">
 						<div class="label n2s_localize mdc-typography--subtitle2">Media Document</div>

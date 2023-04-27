@@ -7,16 +7,22 @@
         initialize: function (opts_) {
             const opts = { ...opts_ };
             $n2.widgetSelectableFilter.SingleFilterSelectionWidget.prototype.initialize.call(this, opts);
+            this.DH = "SingleFilterSelectionWidgetWithAutoSelectFirst";
+
+            const f = (m, addr, dispatcher) => {
+                this._handle(m, addr, dispatcher);
+            };
+            this.dispatchService.register(this.DH, "setHash", f);
         },
 
-        _handle: function(m, addr, dispatcher){
+        _handle: function (m, addr, dispatcher) {
             const {
                 value,
                 type
             } = m;
 
-            if( this.availableChoicesChangeEventName === type ){
-                if( value ){
+            if (this.availableChoicesChangeEventName === type) {
+                if (value) {
                     this._setAvailableChoices(value);
                     this._throttledAvailableChoicesUpdated();
                     if (nunaliit2.storage.getLocalStorage().getItem(this.sourceModelId) === null) {
@@ -26,6 +32,9 @@
                             if (options[i].value === "__UNKNOWN_CHOICE_SELECTED__") {
                                 continue;
                             }
+                            else if (options[i].style.display === "none") {
+                                continue;
+                            }
                             else {
                                 selectEl.value = options[i].value;
                                 this._selectionChanged();
@@ -33,27 +42,27 @@
                             }
                         }
                     }
-                };
-                
-            } else if( this.selectedChoicesChangeEventName === type ){
-                if( value ){
+                }
+            } else if (this.selectedChoicesChangeEventName === type) {
+                if (value) {
                     this.selectedChoices = value;
-                    
+
                     this.selectedChoiceIdMap = {};
                     this.selectedChoices.forEach((choiceId) => {
                         this.selectedChoiceIdMap[choiceId] = true;
                     });
-                    
                     this._adjustSelectedItem();
-                };
-    
-            } else if( this.allSelectedChangeEventName === type ){
-                if( typeof value === "boolean" ){
+                }
+            } else if (this.allSelectedChangeEventName === type) {
+                if (typeof value === "boolean") {
                     this.allSelected = value;
-                    
+
                     this._adjustSelectedItem();
-                };
-            };
+                }
+            } else if ("setHash" === type) {
+                const dehashedURL = $n2.url.getCurrentLocation().setHash(null).url;
+                window.history.pushState({}, "", dehashedURL);
+            }
         }
 
     });
@@ -122,6 +131,9 @@
                             if (options[i].value === this.unknownChoice) {
                                 continue;
                             }
+                            else if (options[i].style.display === "none") {
+                                continue;
+                            }
                             else {
                                 selectEl.value = options[i].value;
                                 this._selectionChanged();
@@ -188,6 +200,76 @@
                 const optionText = selectEl[selectEl.selectedIndex].text;
                 this._updateURL(val, optionText);
             }
+        },
+
+        _availableChoicesUpdated: function () {
+            var _this = this;
+            var $elem = this._getElem();
+            $elem.empty();
+
+            var $selector = $('<select>')
+                .appendTo($elem)
+                .change(function () {
+                    _this._selectionChanged();
+                });
+
+            if (this.tooltip) {
+                $selector.attr('title', this.tooltip);
+            }
+
+            if (!this.suppressNoChoice) {
+                var noChoiceLabel = _loc('--');
+                if (this.noChoiceLabel) {
+                    noChoiceLabel = _loc(this.noChoiceLabel);
+                }
+                $('<option>')
+                    .addClass('n2widget_singleFilterSelection_optionNoChoice')
+                    .text(noChoiceLabel)
+                    .val(NO_CHOICE)
+                    .appendTo($selector);
+            };
+
+            if (!this.suppressAllChoices) {
+                var allChoicesLabel = _loc('All');
+                if (this.allChoicesLabel) {
+                    allChoicesLabel = _loc(this.allChoicesLabel);
+                }
+                $('<option>')
+                    .addClass('n2widget_singleFilterSelection_optionAllChoices')
+                    .text(allChoicesLabel)
+                    .val(ALL_CHOICES)
+                    .appendTo($selector);
+            };
+
+            for (var i = 0, e = this.availableChoices.length; i < e; ++i) {
+                var choice = this.availableChoices[i];
+                var label = choice.label;
+
+                if (!label) {
+                    label = choice.id;
+                }
+
+                var $option = $('<option>')
+                    .text(label)
+                    .val(choice.id)
+                    .appendTo($selector);
+
+                if (choice.published === false) {
+                    $option.css("display", "none");
+                }
+            }
+
+            if (this.availableChoices.length > 0) {
+                $elem
+                    .removeClass('n2widget_singleFilterSelection_noChoiceAvailable')
+                    .addClass('n2widget_singleFilterSelection_atLeastOneChoiceAvailable');
+            }
+            else {
+                $elem
+                    .removeClass('n2widget_singleFilterSelection_atLeastOneChoiceAvailable')
+                    .addClass('n2widget_singleFilterSelection_noChoiceAvailable');
+            };
+            this._adjustSelectedItem();
         }
 
     });

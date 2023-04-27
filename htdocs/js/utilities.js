@@ -308,7 +308,13 @@
             function findTagsIncluded(tagsProfile, tag) {
                 var rst = [];
                 if (tagsProfile) {
-                    gen_path([], "", tagsProfile, rst, tag);
+                    Object.entries(tagsProfile).forEach(group => {
+                        group[1].forEach(theme => {
+                            if (tag === theme) {
+                                rst.push(group[0])
+                            }
+                        });
+                    });
                 }
                 return rst;
             }

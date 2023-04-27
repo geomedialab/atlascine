@@ -1,5 +1,8 @@
 {
-	"atlascine_subtitle": {"language": ""},
+	"atlascine_subtitle": {
+		"name": "",
+		"language": ""
+	},
 	"nunaliit_attachments": {
 		"nunaliit_type": "attachment_descriptions",
 		"files": {"media": {"data": {}}}

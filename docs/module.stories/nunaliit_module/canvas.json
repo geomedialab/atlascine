@@ -54,6 +54,14 @@
 			"options": {
 				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			}
+		},
+		{
+			"name": "Bing Satellite",
+			"type": "bing",
+			"options": {
+				"key": "your key goes here",
+				"imagerySet": "Aerial"
+			}
 		}
 	],
 	"overlays": [
@@ -65,7 +73,7 @@
 			},
 			"type": "model",
 			"options": {
-				"sourceModelId": "donutFilterByGroupTag"
+				"sourceModelId": "dualFilteredDonuts"
 			},
 			"featurePopupDelayMs": 300,
 			"useHoverSound": true,
@@ -83,13 +91,6 @@
 	"showSRSAttribution": true,
 	"toggleClick": true,
 	"styles": [
-		{
-			"condition": "onLayer('public')",
-			"label": "Public",
-			"normal": {
-				"fill": "#ffff33"
-			}
-		},
 		{
 			"condition": "hasProperty('doc._ldata')",
 			"normal": {

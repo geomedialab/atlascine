@@ -1,5 +1,32 @@
 [
 	{
+		"widgetType": "editorSelectionWidget",
+		"containerId": "module_title_bar",
+		"targetContainerId": "recentSchemaDocuments",
+		"schemaChoices": [
+			{
+				"en": "Cinemap",
+				"value": "atlascine_cinemap",
+				"nunaliit_type": "localized"
+			},
+			{
+				"en": "Place",
+				"value": "atlascine_place",
+				"nunaliit_type": "localized"
+			},
+			{
+				"en": "Media",
+				"value": "atlascine_media",
+				"nunaliit_type": "localized"
+			},
+			{
+				"en": "Subtitle",
+				"value": "atlascine_subtitle",
+				"nunaliit_type": "localized"
+			}
+		]
+	},
+	{
 		"widgetType": "createDocument"
 		,"containerClass": "nunaliit_module_title"
 		,"showAsLink": true

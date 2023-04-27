@@ -4,7 +4,16 @@
         window.nunaliit_custom = {};
     }
 
+    /* Suppress errors thrown by Panzoom due to conflict with Nunaliit */
+    window.onerror = (ev, _, __, ___, ____) => {
+        if (ev === "Uncaught TypeError: Failed to execute 'getComputedStyle' on 'Window': parameter 1 is not of type 'Element'.") {
+            return true;
+        }
+    };
+
     const DH = 'atlascine';
+    let globalAtlasDesign = null;
+    let globalDispatchService = null;
 
     function handleUtilityCreate(m) {
         let options = {};
@@ -40,6 +49,10 @@
             }
             else if (m.utilityType === 'placeUtility') {
                 new $n2.atlascine.PlaceUtility(options);
+                m.created = true;
+            }
+            else if (m.utilityType === 'ownLayerDocCreationUtility') {
+                new $n2.atlascine.OwnLayerDocCreationUtility(options);
                 m.created = true;
             }
         }
@@ -91,6 +104,8 @@
             m.isAvailable = true;
         } else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
             m.isAvailable = true;
+        } else if (m.widgetType === 'editorSelectionWidget') {
+            m.isAvailable = true;
         }
     }
 
@@ -134,6 +149,56 @@
         }
         else if (m.widgetType === 'singleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing') {
             new $n2.atlascine.SingleFilterSelectionWidgetWithAutoSelectFirstAndShareURLParsing(options);
+        }
+        else if (m.widgetType === 'editorSelectionWidget') {
+            new $n2.atlascine.EditorSelectionWidget(options);
+        }
+    }
+
+    function handleDocumentListQuery(m) {
+        if (globalAtlasDesign === null) return;
+        const {
+            listType,
+            listName
+        } = m;
+        if (listType === "custEditor") {
+            if (listName === "DEFAULT_REDIRECT_VALUE") {
+                globalDispatchService.send("custEditor.redirect", {
+                    type: "customEditorModuleListIntercept"
+                });
+            }
+            else {
+                globalAtlasDesign.queryView({
+                    viewName: "nunaliit-schema",
+                    keys: [listName],
+                    include_docs: true,
+                    reduce: false,
+                    onSuccess: (res) => {
+                        const msg = {
+                            type: "documentListResults",
+                            listName,
+                            listType,
+                            docs: null,
+                            docIds: null
+                        };
+                        const resDocs = [];
+                        res.forEach(row => {
+                            resDocs.push(row.doc);
+                        });
+                        resDocs.sort((docA, docB) => {
+                            if (docA.nunaliit_last_updated?.time > docB.nunaliit_last_updated?.time) return -1;
+                            if (docA.nunaliit_last_updated?.time < docB.nunaliit_last_updated?.time) return 1;
+                            return 0;
+                        });
+                        msg.docs = resDocs;
+                        msg.docIds = resDocs.map(doc => doc.id);
+                        globalDispatchService.send("custEditor." + listName, msg);
+                    },
+                    onError: () => {
+                        $n2.reportErrorForced(`Failed to query the atlas for ${listName}`)
+                    }
+                });
+            }
         }
     }
 
@@ -183,12 +248,16 @@
                 new $n2.atlascine.ThemeDonutFilterByGroupTag(options);
                 m.created = true;
             }
+            else if (m.modelType === 'dualFilteredDonutFilter') {
+                new $n2.atlascine.DualFilteredDonutFilter(options);
+                m.created = true;
+            }
         }
     }
 
     //  for an atlas to configure certain components before modules are displayed
     window.nunaliit_custom.configuration = function (config, callback) {
-
+        globalAtlasDesign = config.atlasDesign;
         config.directory.showService.options.preprocessDocument = function (doc) {
             return doc;
         };
@@ -203,6 +272,7 @@
             // Default module
             customService.setOption('defaultModuleIdentifier', 'module.home');
 
+            /* The following disables loading of the right-side display pane unless it's one of the specified modules */
             customService.setOption('moduleDisplayIntroFunction', function (opts_) {
                 const opts = $n2.extend({
                     elem: null
@@ -214,6 +284,7 @@
                 const moduleId = moduleDisplay.getCurrentModuleId();
                 if (moduleId === 'module.about' ||
                     moduleId === 'module.tutorial' ||
+                    moduleId === 'module.editor' ||
                     moduleId === 'module.home') {
                     moduleDisplay.module.displayIntro({
                         elem: $elem
@@ -231,6 +302,7 @@
 
         // Dispatch service
         if (config.directory.dispatchService) {
+            globalDispatchService = config.directory.dispatchService;
             const dispatchService = config.directory.dispatchService;
 
             // Handler called when atlas starts
@@ -249,6 +321,7 @@
             dispatchService.register(DH, 'displayRender', handleDisplayRender);
             dispatchService.register(DH, 'widgetIsTypeAvailable', handleWidgetAvailableRequests);
             dispatchService.register(DH, 'widgetDisplay', handleWidgetDisplayRequests);
+            dispatchService.register(DH, 'documentListQuery', handleDocumentListQuery);
         }
 
         callback();
@@ -282,6 +355,12 @@
             , 'js/cine_multi_stories_display.js'
             , 'js/theme_data_2_donut_transform.js'
             , 'js/cinemap_selection_widget.js'
+        ]);
+    }
+    else if ($n2.url.getParamValue("module") === "module.editor") {
+        $n2.scripts.loadCustomScripts([
+            'js/editor_selection_widget.js'
+            , 'js/OwnLayerDocCreationUtility.js'
         ]);
     }
 

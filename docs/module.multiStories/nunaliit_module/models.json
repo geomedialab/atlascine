@@ -1,19 +1,13 @@
 [
     {
-        "_comment": "Load all documents from layer public"
-        ,"modelType":"couchDb"
+        "modelType":"couchDb"
         ,"modelId": "couchDb"
         ,"selectors": [
             {
-                "type":"couchDbLayer"
+                "type":"couchDbSchema"
                 ,"options": {
-                    "layerId": "public"
+                    "schemaName": "atlascine_place"
                 }
-                ,"name": {
-                    "nunaliit_type": "localized"
-                    ,"en": "Public"
-                }
-                ,"visibility": true
             }
         ]
     },

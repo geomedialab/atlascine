@@ -1,10 +1,5 @@
 [
     {
-        "utilityType": "assignLayerOnDocumentCreation"
-        ,"layerId": "public"
-        ,"onlyWithGeometries": true
-    },
-    {
         "utilityType": "cinemaSelectionRedirector"
         ,"name": "trans1"
     },
