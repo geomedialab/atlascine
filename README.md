@@ -1,4 +1,4 @@
-# Atlas template for deploying Atlascine
+# Template for deploying Atlascine
 
 [Atlascine](https://atlascine.org) is a story mapping research tool developed by the [Geomedia Lab at Concordia University](https://geomedialab.org/) in collaboration with the [GCRC at Carleton University](https://gcrc.carleton.ca/). Development has been funded by the Social Sciences and Humanities Research Council of Canada (SSHRC) and by the [CANARIE Research Software Program](https://www.canarie.ca/software/). You can read more on Atlascine's history and previous versions of the tool on the [project website](https://atlascine.org).
 
