@@ -283,13 +283,13 @@
                 var timeLink;
                 var target_start = convertTimecodeToMs(startTime);
                 var target_end = convertTimecodeToMs(endTime);
-                if (target_start && target_end) {
+                if (target_start >= 0 && target_end) {
                     for (var i = 0, e = timeLinks.length; i < e; i++) {
                         try {
                             timeLink = timeLinks[i];
                             var start_in_ms = convertTimecodeToMs(timeLink.starttime);
                             var end_in_ms = convertTimecodeToMs(timeLink.endtime);
-                            if (start_in_ms &&
+                            if (start_in_ms >= 0 &&
                                 end_in_ms &&
                                 start_in_ms === target_start &&
                                 end_in_ms === target_end) {
