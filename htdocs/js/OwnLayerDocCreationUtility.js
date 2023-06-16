@@ -2,7 +2,7 @@
     "use strict";
     const _loc = function (str, args) { return $n2.loc(str, 'atlascine.own.layer.creation.utility', args); };
 
-    const OwnLayerDocCreationUtility = $n2.Class("DonutFilterByGroupTag", $n2.utilities.AssignLayerOnDocumentCreation, {
+    const OwnLayerDocCreationUtility = $n2.Class("OwnLayerDocCreationUtility", $n2.utilities.AssignLayerOnDocumentCreation, {
         layerId: null,
         onlyWithGeometries: null,
         dispatchService: null,
