@@ -22,30 +22,30 @@
 	"backgrounds": [
 		{
 			"name": "Stamen Terrain",
-			"type": "stamen",
+			"type": "stadia",
 			"options": {
-				"layerName": "terrain"
-			}
-		},
-		{
-			"name": "Stamen TonerLite",
-			"type": "stamen",
-			"options": {
-				"layerName": "toner-lite"
+				"layerName": "stamen_terrain"
 			}
 		},
 		{
 			"name": "Stamen Toner",
-			"type": "stamen",
+			"type": "stadia",
 			"options": {
-				"layerName": "toner"
+				"layerName": "stamen_toner"
 			}
 		},
 		{
-			"name": "Stamen Watercolor",
-			"type": "stamen",
+			"name": "Stamen Watercolour",
+			"type": "stadia",
 			"options": {
-				"layerName": "watercolor"
+				"layerName": "stamen_watercolor"
+			}
+		},
+		{
+			"name": "OSM Bright",
+			"type": "stadia",
+			"options": {
+				"layerName": "osm_bright"
 			}
 		},
 		{
