@@ -11,16 +11,15 @@
         "srsName": "EPSG:4326",
         "autoInitialBounds": false
     },
+    "initialFeatureDisplay": "donut",
+    "initialCinemapToMapSettings": {
+	"fitMap": true,
+	"animateFitMap": true,
+	"displayMedia": true,
+	"zoomThreshold": false
+    },
     "renderOrderBasedOn": "=doc._ldata.start",
     "backgrounds": [
-		{
-			"name": "Stamen Terrain",
-			"type": "stamen",
-			"options": {
-				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}",
-				"layerName": "terrain"
-			}
-		},
 		{
 			"name": "Stamen TonerLite",
 			"type": "stamen",
@@ -38,6 +37,14 @@
 			}
 		},
 		{
+			"name": "Stamen Terrain",
+			"type": "stamen",
+			"options": {
+				"url": "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}",
+				"layerName": "terrain"
+			}
+		},
+		{
 			"name": "Stamen Watercolor",
 			"type": "stamen",
 			"options": {
@@ -51,7 +58,16 @@
 			"options": {
 				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			}
+		},
+		{
+			"name": "Bing Satellite",
+			"type": "bing",
+			"options": {
+				"key": "AvyVLcoQFJ26o6n637tAhWevQeu4GZiwtq7ldGccby46Fao6yq1MyDszdp_8MMsA",
+				"imagerySet": "Aerial"
+			}
 		}
+
     ],
     "overlays": [
         {

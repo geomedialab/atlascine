@@ -19,6 +19,13 @@
     display : none;
 }
 
+.nunaliit_content > .n2widgetLegend .n2widgetLegend_outer {
+    max-height: 50vh;
+    overflow-y: auto;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
 .ol-control.ol-timeline {
     display : none;
 }
