@@ -55,6 +55,10 @@
                 new $n2.atlascine.OwnLayerDocCreationUtility(options);
                 m.created = true;
             }
+            else if (m.utilityType === 'augmentAtlascinePlaceIfGazetteerCreatedUtility') {
+                new $n2.atlascine.AugmentAtlascinePlaceIfGazetteerCreatedUtility(options);
+                m.created = true;
+            }
         }
     }
 
@@ -361,6 +365,7 @@
         $n2.scripts.loadCustomScripts([
             'js/editor_selection_widget.js'
             , 'js/OwnLayerDocCreationUtility.js'
+            , 'js/AugmentAtlascinePlaceIfGazetteerCreatedUtility.js'
         ]);
     }
 

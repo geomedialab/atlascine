@@ -2,6 +2,7 @@
 	"nunaliit_schema": "atlascine_place",
 	"atlascine_place": {
 		"zoomScale": "",
+		"geonameId": "",
 		"name": ""
 	}
 }
