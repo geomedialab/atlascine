@@ -18,7 +18,7 @@
 			{{#atlascine_place}}
 				<div class="atlascine_place_geonameId">
 					<div class="value">
-						{{#:field}}geonameId,id=geonameId,label=GeoName%20ID,placeholder=https%3A%2F%2Fwww.geonames.org%2Fabout.html{{/:field}}
+						{{#:field}}geonameId,id=geonameId,label=GeoNames%20ID,placeholder=https%3A%2F%2Fwww.geonames.org%2Fabout.html{{/:field}}
 					</div>
 				</div>
 			{{/atlascine_place}}

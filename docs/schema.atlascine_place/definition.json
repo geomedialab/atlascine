@@ -22,7 +22,7 @@
 		},
 		{
 			"id": "geonameId",
-			"label": "Geoname ID",
+			"label": "GeoNames ID",
 			"type": "string",
 			"includedInBrief": false,
 			"placeholder": "https://www.geonames.org/about.html"

@@ -22,7 +22,7 @@
 			{{#atlascine_place}}
 				{{#if geonameId}}
 					<div class="atlascine_place_geonameId">
-						<div class="label n2s_localize mdc-typography--subtitle2">GeoName ID</div>
+						<div class="label n2s_localize mdc-typography--subtitle2">GeoNames ID</div>
 						<div class="value">{{geonameId}}</div>
 						<div class="end"></div>
 					</div>
