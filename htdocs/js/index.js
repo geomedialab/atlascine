@@ -148,6 +148,7 @@ function prepareThemeToggle(selector) {
         return;
     }
     let themeCookie = getThemeCookie();
+    if (themeCookie === null) themeCookie = "css.theme.legacy";
     const setExistingTheme = cfg.find(theme => theme.name === themeCookie);
     if (setExistingTheme !== undefined) {
         updateLinkElements(setExistingTheme.files);

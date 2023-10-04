@@ -31,7 +31,7 @@
 			"name": "OSM Bright",
 			"type": "stadia",
 			"options": {
-				"layername": "osm_bright"
+				"layerName": "osm_bright"
 			}
 		},
 		{
