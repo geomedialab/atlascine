@@ -80,7 +80,7 @@
                         "name": "Bing Satellite",
                         "type": "bing",
                         "options": {
-                                "key": "AvyVLcoQFJ26o6n637tAhWevQeu4GZiwtq7ldGccby46Fao6yq1MyDszdp_8MMsA",
+                                "key": "your key goes here",
 				"imagerySet": "Aerial"
                         }
                 }
