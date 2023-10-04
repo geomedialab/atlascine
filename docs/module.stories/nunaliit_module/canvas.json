@@ -21,6 +21,34 @@
 	"renderOrderBasedOn": "=doc._ldata.start",
 	"backgrounds": [
 		{
+			"name": "OSM",
+			"type": "osm",
+			"options": {
+				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+			}
+		},
+		{
+			"name": "OSM Bright",
+			"type": "stadia",
+			"options": {
+				"layername": "osm_bright"
+			}
+		},
+		{
+			"name": "Alidade Smooth",
+			"type": "stadia",
+			"options": {
+				"layerName": "alidade_smooth"
+			}
+		},
+		{
+			"name": "Alidade Smooth Dark",
+			"type": "stadia",
+			"options": {
+				"layerName": "alidade_smooth_dark"
+			}
+		},
+		{	
 			"name": "Stamen Terrain",
 			"type": "stadia",
 			"options": {
@@ -35,24 +63,17 @@
 			}
 		},
 		{
+			"name": "Stamen Toner-Lite",
+			"type": "stadia",
+			"options": {
+				"layerName": "stamen_toner_lite"
+			}
+		},
+		{
 			"name": "Stamen Watercolour",
 			"type": "stadia",
 			"options": {
 				"layerName": "stamen_watercolor"
-			}
-		},
-		{
-			"name": "OSM Bright",
-			"type": "stadia",
-			"options": {
-				"layerName": "osm_bright"
-			}
-		},
-		{
-			"name": "OSM",
-			"type": "osm",
-			"options": {
-				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			}
 		},
 		{

@@ -67,6 +67,23 @@ ul.mdc-list {
     
 .ui-draggable {
   color: var(--primary);
+  background-color: var(--background);
+}
+
+.ui-draggable .ui-dialog-titlebar {
+  color: var(--primary);
+}
+
+.ui-dialog {
+  padding: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+  background-color: var(--background);
+}
+
+.ui-menu .ui-menu-item {
+  background-color: var(--background);
 }
 
 .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
@@ -402,7 +419,7 @@ textarea {
 }
 
 .nunaliit_atlas #theme_toggler {
-  filter: invert(var(--invert1));
+  filter: invert(var(--invert2));
 }
 
 .nunaliit_atlas .nunaliit_header_container .nunaliit_login_link {
@@ -636,6 +653,11 @@ ul.tree li>span.treeKey {
 
 .ui-widget-content {
 	color: var(--primary);
+	background-color: var(--background);
+}
+
+.ui-widget-content a {
+  color: var(--primary);
 }
 
 /* transcript */
@@ -955,7 +977,6 @@ textarea {
 
 .nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule,
 .nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_childModuleCurrent {
-  border-bottom: none;
   bottom: 7px;
 }
 
@@ -991,7 +1012,7 @@ a:focus {
 }
 
 .nunaliit_atlas .nunaliit_header_language {
-  background-size: 1.5em;
+  background-size: 1.3em;
   height: 3em;
 }
 
@@ -1085,4 +1106,8 @@ div.olControlZoom a {
   letter-spacing: 0;
 }
 
+/* mobile drawer nav */
 
+.nunaliit_atlas aside.mdc-drawer {
+  background-color: var(--background);
+}
