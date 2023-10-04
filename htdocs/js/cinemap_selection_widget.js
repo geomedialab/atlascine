@@ -23,6 +23,7 @@
 
             if (this.availableChoicesChangeEventName === type) {
                 if (value) {
+                    value.sort((a,b) => a.label.localeCompare(b.label))
                     this._setAvailableChoices(value);
                     this._throttledAvailableChoicesUpdated();
                     if (nunaliit2.storage.getLocalStorage().getItem(this.sourceModelId) === null) {
@@ -103,6 +104,7 @@
 
             if (this.availableChoicesChangeEventName === type) {
                 if (value) {
+                    value.sort((a,b) => a.label.localeCompare(b.label))
                     this._setAvailableChoices(value);
                     this._throttledAvailableChoicesUpdated();
                     const selectEl = document.querySelector(`#${this.elemId} > select`);

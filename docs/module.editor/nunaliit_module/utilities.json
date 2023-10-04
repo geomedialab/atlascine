@@ -1,7 +1,10 @@
 [
- 	{
-		"utilityType": "ownLayerDocCreationUtility"
-		,"layerId": "thisgetsdeletedanyway"
+	{
+		"utilityType": "augmentAtlascinePlaceIfGazetteerCreatedUtility"
+	},
+	{
+		"utilityType": "ownLayerDocCreationUtility",
+		"layerId": "thisgetsdeletedanyway"
 	},
 	{
 		"utilityType": "mapClusterClickToMultiSelect"

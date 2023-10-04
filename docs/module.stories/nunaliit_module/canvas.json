@@ -21,38 +21,59 @@
 	"renderOrderBasedOn": "=doc._ldata.start",
 	"backgrounds": [
 		{
-			"name": "Stamen Terrain",
-			"type": "stamen",
-			"options": {
-				"layerName": "terrain"
-			}
-		},
-		{
-			"name": "Stamen TonerLite",
-			"type": "stamen",
-			"options": {
-				"layerName": "toner-lite"
-			}
-		},
-		{
-			"name": "Stamen Toner",
-			"type": "stamen",
-			"options": {
-				"layerName": "toner"
-			}
-		},
-		{
-			"name": "Stamen Watercolor",
-			"type": "stamen",
-			"options": {
-				"layerName": "watercolor"
-			}
-		},
-		{
 			"name": "OSM",
 			"type": "osm",
 			"options": {
 				"url": "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+			}
+		},
+		{
+			"name": "OSM Bright",
+			"type": "stadia",
+			"options": {
+				"layerName": "osm_bright"
+			}
+		},
+		{
+			"name": "Alidade Smooth",
+			"type": "stadia",
+			"options": {
+				"layerName": "alidade_smooth"
+			}
+		},
+		{
+			"name": "Alidade Smooth Dark",
+			"type": "stadia",
+			"options": {
+				"layerName": "alidade_smooth_dark"
+			}
+		},
+		{	
+			"name": "Stamen Terrain",
+			"type": "stadia",
+			"options": {
+				"layerName": "stamen_terrain"
+			}
+		},
+		{
+			"name": "Stamen Toner",
+			"type": "stadia",
+			"options": {
+				"layerName": "stamen_toner"
+			}
+		},
+		{
+			"name": "Stamen Toner-Lite",
+			"type": "stadia",
+			"options": {
+				"layerName": "stamen_toner_lite"
+			}
+		},
+		{
+			"name": "Stamen Watercolour",
+			"type": "stadia",
+			"options": {
+				"layerName": "stamen_watercolor"
 			}
 		},
 		{

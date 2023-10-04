@@ -10,6 +10,11 @@
 		"type": "text"
 	},
 	{
+		"select": "atlascine_place.geonameId",
+		"label": "geonameId",
+		"type": "text"
+	},
+	{
 		"select": "nunaliit_geom.wkt",
 		"label": "nunaliit_geom",
 		"type": "text"

@@ -43,14 +43,6 @@
     background-color: var(--background);
 }
 
-#ui-dialog-title-nunaliit2_uniqueId_253 {
-  color: black;
-}
-
-#nunaliit2_uniqueId_236>.mdc-tab-scroller>.mdc-tab-scroller__scroll-area.mdc-tab-scroller__scroll-area--scroll>.mdc-tab-scroller__scroll-content {
-  color: white;
-}
-
 .mdc-tab[aria-selected="false"]>span>span {
   color: var(--primary);
 }
@@ -60,7 +52,7 @@ h3 {
 }
 
 .nunaliit_atlas .nunaliit_side, .nunaliit_atlas .n2_content_text {
-  border-left: 1px dotted var(--primary);
+  border-left: none;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item {
   color: var(--primary);
@@ -75,22 +67,27 @@ ul.mdc-list {
     
 .ui-draggable {
   color: var(--primary);
+  background-color: var(--background);
 }
 
-#nunaliit2_uniqueId_285.mdc-checkbox {
+.ui-draggable .ui-dialog-titlebar {
+  color: var(--primary);
+}
+
+.ui-dialog {
+  padding: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+  background-color: var(--background);
+}
+
+.ui-menu .ui-menu-item {
   background-color: var(--background);
 }
 
 .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
   border-color: var(--primary);    
-}
-
-    
-/* multimap module */
-
-#nunaliit2_uniqueId_285 {
-    background-color: white;
-    color: black;
 }
 
 /* transcript */
@@ -184,6 +181,11 @@ hr {
 }
 
 
+.mdc-text-field__input::placeholder {
+  color: var(--primary);
+}
+
+
 /* map tools top left */
 
 .ol-control button {
@@ -216,6 +218,7 @@ div.olControlZoom a:hover {
 
 .ol-attribution ul {
   color: var(--secondary) !important;
+  white-space: pre;
 }
 
 .ol-attribution ul>li>a {
@@ -235,7 +238,7 @@ div.olControlZoom a:hover {
 
 div.ol-unselectable.ol-control.layer-switcher>button {
   background-size: 1.9em;
-  background-color: var(--secondary);
+  background-color: var(--dark-constant);
   border-radius: 5px;
 }
 
@@ -269,12 +272,25 @@ div.ol-unselectable.ol-control.cinemap-to-map-settings-control .settings-control
   background-color: var(--background);
   color: var(--primary);
 }
+/* editor module */
+
+.n2display_geometries_heading {
+	background-color: var(--background);
+}
+
+
+
+
 
 /* editor dropdown items */
 
 .nunaliit_atlas .nunaliit_module_title .atlascine_editor_selection_widget>select {
   background-color: var(--tertiary);
   color: var(--primary)
+}
+
+.n2schema_referenceDelete {
+  filter: invert(var(--invert2));
 }
 
 /* editor module zooms */
@@ -403,7 +419,7 @@ textarea {
 }
 
 .nunaliit_atlas #theme_toggler {
-  filter: invert(var(--invert1));
+  filter: invert(var(--invert2));
 }
 
 .nunaliit_atlas .nunaliit_header_container .nunaliit_login_link {
@@ -443,6 +459,14 @@ textarea {
   color: var(--secondary);
 }
 
+#n2_filterableLegendWidgetWithGraphicToggle.n2_filterableLegendWidgetWithGraphicMaximize {
+	background-color: var(--background);
+}
+
+#n2_filterableLegendWidgetWithGraphicToggle.n2_filterableLegendWidgetWithGraphicMaximize:before {
+	color: var(--primary);
+}
+
 
 /* legend */
 #content .n2_filterableLegendWidgetWithGraphic .n2widgetLegend .n2widgetLegend_outer {
@@ -460,6 +484,7 @@ textarea {
   border: 1px solid var(--background);
   background-color: var(--background);
   opacity: var(--opacity);
+  white-space: nowrap;
 }
 
 /* search */
@@ -558,6 +583,12 @@ ul.tree li>span.treeKey {
   filter: invert(calc(var(--opacity)*var(--invert2)));
 }
 
+.mejs__time {
+  color:var(--background);
+  font-size:calc(.9rem);
+  font-weight:500;
+}
+
 .mejs__button>button {
   filter: invert(calc(var(--opacity)*var(--invert2)));
 }
@@ -611,11 +642,22 @@ ul.tree li>span.treeKey {
 
 .ui-accordion .ui-accordion-header a {
   border-radius: 5px;
+  color: var(--primary);
 }
 
 .olkitSearchMod2_0,
 .olkitSearchMod2_1 {
   border-radius: 5px;
+  background-color: var(--background);
+}
+
+.ui-widget-content {
+	color: var(--primary);
+	background-color: var(--background);
+}
+
+.ui-widget-content a {
+  color: var(--primary);
 }
 
 /* transcript */
@@ -664,6 +706,11 @@ ul.tree li>span.treeKey {
 .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--textarea) {
   margin: 1em 0 0 0;
 }
+
+.n2-tag-box::placeholder {
+  color: var(--primary);
+}
+
 
 /* theme pane (left) */
 
@@ -760,6 +807,8 @@ div.ol-unselectable.ol-control.layer-switcher.shown.layer-switcher-activation-mo
 
 .layer-switcher .panel {
   margin: 0.4em !important;
+  z-index: 1;
+  position: relative;
 }
 
 div.ol-unselectable.ol-control.layer-switcher>button {
@@ -773,6 +822,7 @@ div.ol-unselectable.ol-control.layer-switcher>button {
 div.ol-unselectable.ol-control.cinemap-to-map-settings-control,
 div.ol-unselectable.ol-control.cinemap-to-map-settings-control.settings-panel-visible {
   top: 8.9em;
+  z-index: 1;
 }
 
 /* editor dropdown items */
@@ -911,6 +961,9 @@ textarea {
   border-radius: 5px;
   bottom: 20px;
   position: relative;
+  color: var(--light-constant);
+  background-color: var(--dark-constant);
+  filter: invert(var(--invert1));
 }
 
 .nunaliit_atlas .nunaliit_header-nav>ul>li>a,
@@ -924,7 +977,6 @@ textarea {
 
 .nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_currentModule,
 .nunaliit_atlas .nunaliit_header-nav>ul>li.n2_nav_childModuleCurrent {
-  border-bottom: none;
   bottom: 7px;
 }
 
@@ -937,7 +989,7 @@ textarea {
 }
 
 .nunaliit_atlas .nunaliit_footer {
-  border-top: none;
+  border-top: 1px dotted var(--primary);
 }
 
 .nunaliit_atlas .nunaliit_header-nav li.n2_nav_currentModule>a,
@@ -960,7 +1012,7 @@ a:focus {
 }
 
 .nunaliit_atlas .nunaliit_header_language {
-  background-size: 1.5em;
+  background-size: 1.3em;
   height: 3em;
 }
 
@@ -1033,6 +1085,9 @@ body {
 .nunaliit_content>.n2widgetLegend .n2widgetLegend_outer {
   border-radius: 5px 5px 5px 5px;
   box-shadow: none;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /*video*/
@@ -1049,4 +1104,10 @@ div.olControlZoom a {
 
 .mdc-button {
   letter-spacing: 0;
+}
+
+/* mobile drawer nav */
+
+.nunaliit_atlas aside.mdc-drawer {
+  background-color: var(--background);
 }

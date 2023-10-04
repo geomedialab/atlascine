@@ -3,7 +3,8 @@
     --secondary: #e9ecef; 
     --tertiary: #868e96;
     --shader: #868e96;
-    --dark-constant: #212529;
+    --dark-constant: #000;
+    --light-constant: #fff;
     --background: #212529;
     --link: #339af0;
     --delete: #fa5252;

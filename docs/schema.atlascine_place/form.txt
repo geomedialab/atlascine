@@ -15,6 +15,13 @@
 					</div>
 				</div>
 			{{/atlascine_place}}
+			{{#atlascine_place}}
+				<div class="atlascine_place_geonameId">
+					<div class="value">
+						{{#:field}}geonameId,id=geonameId,label=GeoNames%20ID,placeholder=https%3A%2F%2Fwww.geonames.org%2Fabout.html{{/:field}}
+					</div>
+				</div>
+			{{/atlascine_place}}
 			<div class="nunaliit_geom">
 				<div class="value">{{#:field}}nunaliit_geom,geometry,label=WKT%20Geometry{{/:field}}</div>
 			</div>

@@ -13,7 +13,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="atlascine_icon.svg">
+   sodipodi:docname="atlascine_icon3.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -30,10 +30,10 @@
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-width="2400"
+     inkscape:window-height="1321"
+     inkscape:window-x="2391"
+     inkscape:window-y="-6"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="true" />
   <metadata
@@ -63,21 +63,10 @@
          x="82.209824"
          y="85.233627"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.5778px;font-family:Arial;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:3.165;stroke-miterlimit:4;stroke-dasharray:none" /></text>
-    <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:5.32;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+    <path
        id="path904"
-       cx="75.607071"
-       cy="75.237885"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"
-       r="72.101288" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.86656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path904-4"
-       cx="76.171822"
-       cy="74.83548"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300"
-       r="38.850243" />
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:7.63464577;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 285.25 11.855469 A 272.50881 272.50881 0 0 0 13.25 284.36328 A 272.50881 272.50881 0 0 0 285.75977 556.87305 A 272.50881 272.50881 0 0 0 558.26758 284.36328 A 272.50881 272.50881 0 0 0 285.75977 11.855469 A 272.50881 272.50881 0 0 0 285.25 11.855469 z M 287.5293 136.00781 A 146.83556 146.83556 0 0 1 287.89258 136.00781 A 146.83556 146.83556 0 0 1 434.72852 282.8418 A 146.83556 146.83556 0 0 1 287.89258 429.67773 A 146.83556 146.83556 0 0 1 141.05859 282.8418 A 146.83556 146.83556 0 0 1 287.5293 136.00781 z "
+       transform="scale(0.26458333)" />
   </g>
 </svg>

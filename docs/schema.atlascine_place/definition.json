@@ -21,6 +21,13 @@
 			"placeholder": "Accepted Values: 0 - 22, defaults to 10"
 		},
 		{
+			"id": "geonameId",
+			"label": "GeoNames ID",
+			"type": "string",
+			"includedInBrief": false,
+			"placeholder": "https://www.geonames.org/about.html"
+		},
+		{
 			"label": "WKT Geometry",
 			"type": "geometry"
 		}
