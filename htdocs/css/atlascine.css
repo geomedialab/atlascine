@@ -89,6 +89,12 @@ ul.mdc-list {
 .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate) ~ .mdc-checkbox__background {
   border-color: var(--primary);    
 }
+.mdc-select:not(.mdc-select--disabled) .mdc-floating-label {
+  color: var(--primary);
+}
+.mdc-select__dropdown-icon {
+  filter: invert(var(--invert2))
+}
 
 /* transcript */
 
