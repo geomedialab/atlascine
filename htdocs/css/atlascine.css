@@ -428,6 +428,10 @@ textarea {
   opacity: 1;
 }
 
+#login3 > div > div > button {
+  color: var(--primary);
+}
+
 .nunaliit_module_title .n2widget_singleFilterSelection select {
   color: var(--primary)
 }
