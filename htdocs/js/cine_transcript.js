@@ -539,6 +539,11 @@
                 subSelect.onchange = function() {
                     _this._handleSrtSelectionChanged(this.value)
                 }
+                const localeCode = $n2.l10n.getLocale()?.lang
+                if (localeCode) {
+                    const selectedIndex = [...subSelect.options].map(option => option.text).indexOf(localeCode)
+                    if (selectedIndex > -1) subSelect.selectedIndex = selectedIndex
+                }
                 this.srtSelector = subSelect;
                 $elem.append(this.srtSelector);
             }
