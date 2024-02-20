@@ -443,3 +443,15 @@ section.mdc-top-app-bar__section.mdc-top-app-bar__section--align-end {
 .mdc-chip__text {
 	white-space: normal;
 }
+
+/* Hide Stories Module editing buttons when not logged in */
+.nunaliit_logged_out .n2AnnotationEditorView .n2widget_drawer_container > div > button,
+.nunaliit_logged_out .n2AnnotationEditorView .n2widget_drawer_container > div > div > div.n2WidgetAnnotation_formfieldSection > button, 
+.nunaliit_logged_out .n2AnnotationEditorView .n2widget_drawer_container > div > div > div.n2WidgetAnnotation_formfieldSection > div.n2WidgetAnnotationEditorTaggingImages > div > button, /* Annotations */
+.nunaliit_logged_out .n2AnnotationEditorView .n2widget_drawer_container > div > div > div.n2WidgetAnnotation_tagGroup_formfieldSection > div.formfieldSection_footer,
+.nunaliit_logged_out .n2AnnotationEditorView .n2widget_drawer_container > div > div > button.n2WidgetAnnotation_tagGroup_addNewGroupBtn, /* Themes */
+.nunaliit_logged_out div#notesButtonContainer,
+.nunaliit_logged_out div#exportGeoJSONButtonContainer /* Settings */
+{
+    display: none;
+}
