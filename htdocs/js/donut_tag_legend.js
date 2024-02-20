@@ -136,9 +136,6 @@
                     buttonWidths += buttonWidth;
                     control.style.width = buttonWidth + "px";
                 }
-                else if (classList.includes("mejs__time")) {
-                    control.style.width = legendOffsetWidth - buttonWidths - 2 + "px";
-                }
             });
         }
 
