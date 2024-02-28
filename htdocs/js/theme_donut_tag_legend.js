@@ -332,13 +332,14 @@
         },
 
         _alignVideoPlayerControls() {
-            const legendOffsetWidth = this._getElem()[0].offsetWidth || 0;
+            const legendOffsetWidth = this.legend.offsetWidth;
+            const timeDisplay = document.querySelector(".mejs__time")
             let buttonWidths = 0;
             [...document.querySelectorAll(".mejs__controls > div")].forEach(control => {
                 const classList = [...control.classList];
                 if (classList.includes("mejs__time-rail")) return;
                 if (classList.includes("mejs__button")) {
-                    let buttonWidth = Math.floor(legendOffsetWidth / 4) - 2;
+                    let buttonWidth = Math.floor((legendOffsetWidth - timeDisplay.offsetWidth) / 2);
                     buttonWidths += buttonWidth;
                     control.style.width = buttonWidth + "px";
                 }
