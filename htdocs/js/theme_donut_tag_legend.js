@@ -332,7 +332,7 @@
         },
 
         _alignVideoPlayerControls() {
-            const legendOffsetWidth = this.legend.offsetWidth;
+            const legendOffsetWidth = this._getElem()[0].offsetWidth || 0;
             const timeDisplay = document.querySelector(".mejs__time")
             let buttonWidths = 0;
             [...document.querySelectorAll(".mejs__controls > div")].forEach(control => {
