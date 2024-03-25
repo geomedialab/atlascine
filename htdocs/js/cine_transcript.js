@@ -512,7 +512,7 @@
                     poster: thumbnailUrl
                     ,alwaysShowControls : true
                     ,pauseOtherPlayers : false
-                    ,markerWidth: 3
+                    ,markerWidth: 5
                     ,features: ['volume', 'playpause', 'current', 'duration', 'progress', 'abrepeat']
                 }); 
     
@@ -544,6 +544,7 @@
                         if (!detail) return
                         if (detail.marker === 0) {
                             this.minMarkerTime = detail.position
+                            this._updateCurrentTime(this.minMarkerTime, 'text');
                         }
                         else if (detail.marker === 1) {
                             this.maxMarkerTime = detail.position
