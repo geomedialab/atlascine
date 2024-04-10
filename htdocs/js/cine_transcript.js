@@ -215,6 +215,7 @@
             
             this.minMarkerTime = 0
             this.maxMarkerTime = 0
+            this.video = null
 
             const containerClass = opts.containerClass;
             if( !containerClass ){
@@ -488,6 +489,7 @@
                     .attr('height', '240px')
                     .attr('preload', 'metadata')
                     .appendTo($mediaDiv);
+                this.video = $video
                 
                 if (mediaType === "video") {
                     $video
@@ -963,6 +965,16 @@
                     }
                 }
             });
+
+            if (origin !== 'startEditing') {
+                if (this.video) {
+                    if (this.minMarkerTime < this.maxMarkerTime) {
+                        if ((numCurrentTime < this.minMarkerTime) || (numCurrentTime > this.maxMarkerTime)) {
+                            this.video[0].player.resetmarkers()
+                        }
+                    }
+                }
+            }
 
             
             if ('video' === origin) {
