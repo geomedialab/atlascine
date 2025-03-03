@@ -6,6 +6,32 @@
 				<div class="end"></div>
 			</div>
 			{{#atlascine_media}}
+				<div class="atlascine_media_mediaType">
+					<div class="value">
+						<div class="mdc-select mdc-select--outlined n2s_attachMDCSelect">
+							<div class="mdc-select__anchor">
+								<i class="mdc-select__dropdown-icon"></i>
+								<div class="mdc-select__selected-text"></div>
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch">
+										<label class="mdc-floating-label  n2s_localize">Type</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+							<div class="{{#:input}}mediaType,select{{/:input}} mdc-select__menu mdc-menu mdc-menu-surface">
+								<ul class="mdc-list">
+									<li class="n2s_localize mdc-list-item" role="option" data-value="image">Image</li>
+									<li class="n2s_localize mdc-list-item" role="option" data-value="video">Video</li>
+									<li class="n2s_localize mdc-list-item" role="option" data-value="audio">Audio</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			{{/atlascine_media}}
+			{{#atlascine_media}}
 				<div class="atlascine_media_name">
 					<div class="value">
 						{{#:field}}name,id=name,label=Name{{/:field}}

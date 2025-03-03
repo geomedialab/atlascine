@@ -213,6 +213,10 @@
             this.annotationEditor = undefined;
             this._lastCtxTime = undefined;
             
+            this.minMarkerTime = 0
+            this.maxMarkerTime = 0
+            this.video = null
+
             const containerClass = opts.containerClass;
             if( !containerClass ){
                 throw new Error('containerClass must be specified');
@@ -410,6 +414,402 @@
             this._refresh();
         },
 
+        _refresh: function(){
+            var _this = this;
+            var $elem = this._getMediaDiv();
+            $elem.empty();
+            $elem = this._getSubtitleDiv();
+            $elem.empty();
+    
+            this.minMarkerTime = 0
+            this.maxMarkerTime = 0
+
+            if( !this.doc || this.docId !== this.doc._id ){
+                return;
+            }
+    
+            if ( !this.transcript || !this.transcript.mediaAttName ){
+                return;
+            }
+    
+            var attMediaName = undefined;
+            if( this.transcript ){
+                attMediaName = this.transcript.mediaAttName;
+            }
+    
+            var attMediaDesc = null;
+            var data = this.doc;
+            let mediaType = "none";
+            if( data 
+                && data.nunaliit_attachments
+                && data.nunaliit_attachments.files
+                && attMediaName ) {
+                attMediaDesc = data.nunaliit_attachments.files[attMediaName];
+    
+                if( attMediaDesc
+                    && (attMediaDesc.fileClass !== 'video' && attMediaDesc.fileClass !== 'audio')){
+                    attMediaDesc = undefined;
+                }
+                else if (attMediaDesc && attMediaDesc.fileClass) {
+                    mediaType = attMediaDesc.fileClass;
+                }
+            }
+    
+            var thumbnailUrl = null;
+            if( attMediaDesc
+                && attMediaDesc.thumbnail ){
+                var attThumb = this.attachmentService.getAttachment(this.doc, attMediaDesc.thumbnail);
+    
+                if( attThumb ){
+                    thumbnailUrl = attThumb.computeUrl();
+                }
+            }
+    
+            var attVideoUrl = undefined;
+            if( attMediaDesc 
+                && attMediaDesc.status === 'attached' ) {
+                var attVideo = this.attachmentService.getAttachment(this.doc, attMediaName);
+    
+                if( attVideo ){
+                    attVideoUrl = attVideo.computeUrl();
+                }
+            }
+    
+            if( attVideoUrl ) {
+                this.videoId = $n2.getUniqueId();
+                this.transcriptId = this.subtitleDivId;
+    
+                var $mediaDiv = this._getMediaDiv();
+                $mediaDiv.empty();
+                
+                var $video = $('<video>')
+                    .attr('id', this.videoId)
+                    .attr('controls', 'controls')
+                    .attr('width', '100%')
+                    .attr('height', '240px')
+                    .attr('preload', 'metadata')
+                    .appendTo($mediaDiv);
+                this.video = $video
+                
+                if (mediaType === "video") {
+                    $video
+                    .attr('width', '100%')
+                    .attr('height', '240px');
+                }
+                else if (mediaType === "audio") {
+                    $video
+                    .attr('width', '0px')
+                    .attr('height', '0px');
+                }
+    
+                var $videoSource = $('<source>')
+                    .attr('src', attVideoUrl)
+                    .appendTo($video);
+    
+                if( attMediaDesc.mimeType ){
+                    $videoSource.attr('type', attMediaDesc.mimeType);
+                }
+        
+                $video.mediaelementplayer({
+                    poster: thumbnailUrl
+                    ,alwaysShowControls : true
+                    ,pauseOtherPlayers : false
+                    ,markerWidth: 5
+                    ,features: ['volume', 'playpause', 'current', 'duration', 'progress', 'abrepeat']
+                }); 
+    
+                $video
+                    .bind('timeupdate', function() {
+                        var currentTime = this.currentTime;
+                        _this._updateCurrentTime(currentTime, 'video');
+                    })
+                    .bind('durationchange', function(e) {
+                        _this.loadingDiv.style.display = "none";
+                        _this.dispatchService.send(DH, {
+                            type: "transcriptVideoDurationChange",
+                            value: this.duration
+                        });
+                        _this.dispatchService.send(DH, {
+                            type: _this.intervalSetEventName
+                            , value: new $n2.date.DateInterval({
+                                min: 0
+                                , max: this.duration
+                                , ongoing: false
+                            })
+                        });
+                    });
+
+                const slider = $('.mejs__time-slider')
+                if (slider) {
+                    slider.bind('setmarker', (ev) => {
+                        const detail = ev?.originalEvent?.detail
+                        if (!detail) return
+                        if (detail.marker === 0) {
+                            this.minMarkerTime = detail.position
+                            this._updateCurrentTime(this.minMarkerTime, 'text');
+                        }
+                        else if (detail.marker === 1) {
+                            this.maxMarkerTime = detail.position
+                            this.dispatchService.send(DH, {
+                                type: this.intervalSetEventName
+                                , value: new $n2.date.DateInterval({
+                                    min: this.minMarkerTime
+                                    , max: this.maxMarkerTime
+                                    , ongoing: false
+                                })
+                            })
+                        }
+                    })
+                    slider.bind('resetmarkers', () => {
+                        this.minMarkerTime = 0
+                        this.maxMarkerTime = 0
+                    })
+                }
+                
+                if ( this.transcript.fromMediaDoc ){
+                    this._getSubtitleSelectionDiv().empty();
+                }
+                
+                if ( this.transcript && this.transcript.srtAttName ){
+                    var $transcript = this._getSubtitleDiv();
+                    $transcript.empty();
+                    prep_transcript($transcript, this.transcript_array);
+    
+                } else {
+                }
+                if (this.currentTime !== 0) {
+                    this.dispatchService.send(DH, {
+                        type: "mediaTimeChanged",
+                        name: this.name,
+                        currentTime: this.currentTime,
+                        origin: "text"
+                    });
+                }
+    
+            } else {
+                _this._renderError('Can not compute URL for video');
+            }
+    
+            function _rightClickCallback (e, $this, contextMenu, selections){
+                var hoveredElem = e.target;
+    
+                var isEditorAvailable = _this._isAnnotationEditorAvailable();
+                
+                if( isEditorAvailable ){
+                    for(var i =0;i<_this.transcript_array.length;i++) {
+                        var transcriptElem = _this.transcript_array[i];
+                        var $transcriptElem = $('#'+transcriptElem.id);
+                        $transcriptElem.removeClass('sentence-highlight-pending');
+                    }
+    
+                    if (! selections || selections.size() === 0) {
+                        return;
+                    }
+                    
+                    var ctxdata = [];
+                    var idxOfHoverEl = selections.index(
+                        $('div#'+ $(hoveredElem).attr('id'))
+                    );
+    
+                    if (idxOfHoverEl >= 0){
+                        selections.each(function(){
+                            var $elmnt = $(this);
+                            var curStart =$elmnt.attr('data-start');
+                            var curFin = $elmnt.attr('data-fin');
+                            var startTimeCode = $elmnt.attr('data-startcode');
+                            var finTimeCode = $elmnt.attr('data-fincode');
+                            var curTxt = $elmnt.text();
+                            
+                            var _d = {
+                                start: curStart,
+                                startTimeCode: startTimeCode,
+                                finTimeCode: finTimeCode,
+                                end: curFin,
+                                text: curTxt
+                            };
+                            ctxdata.push(_d);
+                            $elmnt.addClass('sentence-highlight-pending');
+                        })		
+    
+                    } else {
+                        $(hoveredElem)
+                            .parent()
+                            .children().each(function(){
+                                if ($(this).hasClass('selected')){
+                                    $(this).removeClass('selected');
+                                }
+                            });
+                        $(hoveredElem).addClass('selected');
+                        
+                        var $elmnt = $(hoveredElem);
+                        var curStart =$elmnt.attr('data-start');
+                        var curFin = $elmnt.attr('data-fin');
+                        var startTimeCode = $elmnt.attr('data-startcode');
+                        var finTimeCode = $elmnt.attr('data-fincode');
+                        var curTxt = $elmnt.text();
+                        
+                        var _d = {
+                            start: curStart,
+                            startTimeCode: startTimeCode,
+                            finTimeCode: finTimeCode,
+                            end: curFin,
+                            text: curTxt
+                        };
+                        ctxdata.push(_d);
+                    }
+                    
+                    contextMenu.data({value: ctxdata});
+                    contextMenu[0].style.left = e.pageX + 'px';
+                    contextMenu[0].style.top = e.pageY + 'px';
+                    contextMenu.removeClass('transcript-context-menu-hide');
+                }
+            }
+    
+            function prep_transcript($transcript, transcript_array){
+                var currentSelectSentences = undefined;
+                
+                var contextMenu = $('div.' + _this._contextMenuClass);
+                if (contextMenu.length > 0){
+                    contextMenu.remove();
+                }
+    
+                var transcript_context_menu_list = $('<ul>');
+                var context_menu_text = [
+                    'widget.annotationEditor.contextMenu.timeLink',
+                    'widget.annotationEditor.contextMenu.mapThemes',
+                    'widget.annotationEditor.contextMenu.settings'
+                ];
+                $.each(context_menu_text, function(i){
+                    $('<li/>')
+                        .text(_loc(context_menu_text[i]))
+                        .click(function(){
+                            var senDataArr = contextMenu.data().value;
+                            if (senDataArr && senDataArr.length == 1 ){
+                                var currentTime = senDataArr[0].start;
+                                if (typeof currentTime !== "undefined"){
+                                    _this._updateCurrentTime(currentTime, 'startEditing');
+                                }
+                            }
+    
+                            if (senDataArr && senDataArr.length > 0){
+                                _this._renderDrawer(context_menu_text[i], senDataArr);
+                            }
+    
+                            $('div.' + _this._contextMenuClass).addClass("transcript-context-menu-hide");
+                        })
+                        .appendTo(transcript_context_menu_list);
+                });
+    
+                contextMenu = $('<div>')
+                    .addClass( _this._contextMenuClass)
+                    .addClass("transcript-context-menu-hide")
+                    .append(transcript_context_menu_list)
+                    .appendTo(document.body);
+    
+                const tagsBySentenceSpanIds = {};
+                for (var i = 0,e = transcript_array.length; i < e; i++) {
+                    var transcriptElem = transcript_array[i];
+                    var DELAY = 300, clicks = 0, timer = null;
+                    var id = $n2.getUniqueId();
+                    transcriptElem.id = id;
+                    tagsBySentenceSpanIds[id] = {
+                        start:transcriptElem.startTimeCode
+                        ,end : transcriptElem.finTimeCode
+                    }
+    
+                    $('<div>')
+                        .attr('id', id)
+                        .attr('data-start', transcriptElem.start)
+                        .attr('data-fin', transcriptElem.fin)
+                        .attr('data-startcode', transcriptElem.startTimeCode)
+                        .attr('data-fincode', transcriptElem.finTimeCode)
+                        .addClass('n2-transcriptWidget-sentence')
+                        .addClass('n2transcript_sentence_' + $n2.utils.stringToHtmlId(id))
+                        .html(transcriptElem.text+ " ")
+                        .appendTo($transcript)
+                }
+    
+                $('div#'+ _this.transcriptId).multiSelect({
+                    unselectOn: 'head',
+                    keepSelection: false,
+                    stop: function($sel, $elem) {
+                        currentSelectSentences = undefined;
+                        currentSelectSentences = $sel;
+                    }
+                });
+                
+                $('div.n2widgetTranscript_transcript div').on('mouseup', function(e){
+                    e.preventDefault();
+                    var _that = this;
+                    if (e.ctrlKey){
+                        e.preventDefault();
+                        return false;
+                    }
+    
+                    clicks++;
+                    if(clicks === 1) {
+                        timer = setTimeout(function() {
+                            switch(e.which){
+                            case 1:
+                                contextMenu.addClass('transcript-context-menu-hide');
+                                if (e.ctrlKey || e.metaKey || e.shiftKey){
+                                    
+                                } else {
+                                    $(_that).removeClass('sentence-highlight-pending')
+                                    var $span = $(_that);
+                                    var currentTime = $span.attr('data-start');
+                                    _this._updateCurrentTime(currentTime, 'text-oneclick');
+                                }
+                                
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                _rightClickCallback(e, $(this), contextMenu, currentSelectSentences);
+    
+                            }  
+                            clicks = 0;
+                        }, DELAY);
+    
+                    } else {
+                        clearTimeout(timer);
+                        switch(e.which){
+                        case 1:
+                            contextMenu.addClass('transcript-context-menu-hide');
+                            $(_that).removeClass('sentence-highlight-pending')
+                            var $span = $(_that);
+                            var currentTime = $span.attr('data-start');
+                            _this._updateCurrentTime(currentTime, 'text');
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        }
+                        clicks = 0;
+                    }
+                })
+                .on('dblclick', function(e){
+                    e.preventDefault();
+                })
+                .on ('contextmenu', function(e){
+                    e.preventDefault();
+                    return true;
+                });
+                
+                _this.dispatchService.send(DH, {
+                    type: 'resetDisplayedSentences'
+                    ,data: tagsBySentenceSpanIds
+                })
+                
+                $transcript.on('scroll', function(e){
+                    e.stopPropagation();
+                    contextMenu.addClass('transcript-context-menu-hide');
+                    _this._closeDrawer();
+                })
+            }
+        },
+
         _handle: function (m, addr, dispatcher) {
             const {
                 type,
@@ -539,6 +939,11 @@
                 subSelect.onchange = function() {
                     _this._handleSrtSelectionChanged(this.value)
                 }
+                const localeCode = $n2.l10n.getLocale()?.lang
+                if (localeCode) {
+                    const selectedIndex = [...subSelect.options].map(option => option.text).indexOf(localeCode)
+                    if (selectedIndex > -1) subSelect.selectedIndex = selectedIndex
+                }
                 this.srtSelector = subSelect;
                 $elem.append(this.srtSelector);
             }
@@ -560,6 +965,16 @@
                     }
                 }
             });
+
+            if (origin !== 'startEditing') {
+                if (this.video) {
+                    if (this.minMarkerTime < this.maxMarkerTime) {
+                        if ((numCurrentTime < this.minMarkerTime) || (numCurrentTime > this.maxMarkerTime)) {
+                            this.video[0].player.resetmarkers()
+                        }
+                    }
+                }
+            }
 
             
             if ('video' === origin) {
@@ -637,6 +1052,7 @@
             if (!this.intervalSetEventName) return;
             if (typeof currentTime === 'number') {
                 if (!this.transcriptEventControl.shouldEventEmit(currentTime)) return;
+                if (this.minMarkerTime >= 0 && (this.maxMarkerTime > this.minMarkerTime)) return
                 this.dispatchService.send(this.DH, {
                     type: this.intervalSetEventName
                     , value: new $n2.date.DateInterval({

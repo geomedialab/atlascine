@@ -1,13 +1,17 @@
 <span class="atlascine_media_brief">
 	<span class="n2s_localize atlascine_media_brief_decoration">Media (</span>
 	{{#atlascine_media}}
-		{{#if name}}
-			<span class="atlascine_media_name">{{name}}</span>
+		{{#if mediaType}}
+			<span class="n2s_select atlascine_media_mediaType" n2-choice="{{mediaType}}">
+				<span class="n2s_choice n2s_localize" n2-choice="image">Image</span>
+				<span class="n2s_choice n2s_localize" n2-choice="video">Video</span>
+				<span class="n2s_choice n2s_localize" n2-choice="audio">Audio</span>
+			</span>
 		{{/if}}
 	{{/atlascine_media}}
 	{{#atlascine_media}}
-		{{#if credit}}
-			<span class="atlascine_media_credit"> {{credit}}</span>
+		{{#if name}}
+			<span class="atlascine_media_name"> {{name}}</span>
 		{{/if}}
 	{{/atlascine_media}}
 	<span class="atlascine_media_brief_decoration">)</span>

@@ -6,6 +6,20 @@
 				<div class="end"></div>
 			</div>
 			{{#atlascine_media}}
+				{{#if mediaType}}
+					<div class="atlascine_media_mediaType">
+						<div class="label n2s_localize mdc-typography--subtitle2">Type</div>
+						<div class="value n2s_select" n2-choice="{{mediaType}}">
+							<span class="n2s_choice n2s_localize" n2-choice="image">Image</span>
+							<span class="n2s_choice n2s_localize" n2-choice="video">Video</span>
+							<span class="n2s_choice n2s_localize" n2-choice="audio">Audio</span>
+							<span class="n2s_choiceDefault">{{mediaType}}</span>
+						</div>
+						<div class="end"></div>
+					</div>
+				{{/if}}
+			{{/atlascine_media}}
+			{{#atlascine_media}}
 				{{#if name}}
 					<div class="atlascine_media_name">
 						<div class="label n2s_localize mdc-typography--subtitle2">Name</div>
